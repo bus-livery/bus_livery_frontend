@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:livery/features/authentication/view/login_screen.dart';
 
 void main() async {
@@ -21,15 +22,17 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           return MaterialApp(
               title: 'Flutter Demo',
+              themeMode: ThemeMode.light,
               darkTheme: ThemeData(
+                fontFamily: GoogleFonts.openSans().fontFamily,
                 colorScheme: ColorScheme.fromSeed(
-                    brightness: Brightness.dark, seedColor: Colors.purple),
+                    brightness: Brightness.dark,
+                    seedColor: const Color.fromARGB(255, 7, 120, 33)),
                 useMaterial3: true,
               ),
-              themeMode: ThemeMode.light,
               theme: ThemeData(
                 colorScheme: ColorScheme.fromSeed(
-                    // surface: Colors.white,
+                    surface: Colors.white,
                     // background: Colors.white,
                     brightness: Brightness.light,
                     seedColor: const Color.fromARGB(255, 40, 26, 119)),

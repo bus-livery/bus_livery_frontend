@@ -11,4 +11,6 @@ final class AppSize {
   static final sizedBox2h = SizedBox(height: 10.h);
   static final sizedBox3h = SizedBox(height: 15.h);
   static final sizedBox4h = SizedBox(height: 20.h);
+  static final sizedBox5h = SizedBox(height: 25.h);
+  static final sizedBox6h = SizedBox(height: 30.h);
 }
