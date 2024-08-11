@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:livery/features/authentication/view/login_screen.dart';
 
 void main() async {
-  await WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
   runApp(const MyApp());
 }
@@ -32,10 +32,10 @@ class MyApp extends StatelessWidget {
                     // surface: Colors.white,
                     // background: Colors.white,
                     brightness: Brightness.light,
-                    seedColor: Colors.purple),
+                    seedColor: const Color.fromARGB(255, 40, 26, 119)),
                 useMaterial3: true,
               ),
-              home: LoginScreen());
+              home: const LoginScreen());
         });
   }
 }

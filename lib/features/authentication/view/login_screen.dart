@@ -4,6 +4,7 @@ import 'package:livery/common_widgets/ww_text.dart';
 import 'package:livery/common_widgets/ww_textfield.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/app_theme.dart';
+import 'package:svg_flutter/svg.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -26,7 +27,6 @@ class LoginScreen extends StatelessWidget {
               WWButton(
                 text: 'Get OTP',
                 onPressed: () {},
-                color: appColors.cPrimary,
               ),
               AppSize.sizedBox4h,
               Row(
@@ -34,17 +34,19 @@ class LoginScreen extends StatelessWidget {
                   Flexible(child: Divider(color: appColors.cGrey)),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: WwText(text: 'Or Connect with'),
+                    child: WwText(text: 'Or connect with'),
                   ),
                   Flexible(child: Divider(color: appColors.cGrey)),
                 ],
               ),
               AppSize.sizedBox4h,
               WWButton(
-                text: 'Google Sign In',
-                // icon: Icons.stop_circle_sharp,
+                text: 'Continue with Google',
+                preffixIcon: SvgPicture.asset(
+                  'assets/svg/google.svg',
+                  color: Theme.of(context).primaryColor,
+                ),
                 onPressed: () {},
-                color: appColors.cPrimary,
               ),
             ],
           ),

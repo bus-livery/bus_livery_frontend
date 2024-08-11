@@ -6,7 +6,8 @@ class WWButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Color? color;
   final double fontSize;
-  final IconData? icon; // Add an optional icon parameter
+  final Widget? suffixIcon;
+  final Widget? preffixIcon;
 
   const WWButton({
     super.key,
@@ -14,7 +15,8 @@ class WWButton extends StatelessWidget {
     required this.onPressed,
     this.color,
     this.fontSize = 16.0,
-    this.icon,
+    this.suffixIcon,
+    this.preffixIcon,
   });
 
   @override
@@ -26,13 +28,17 @@ class WWButton extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          if (preffixIcon != null) ...[
+            preffixIcon!,
+            const SizedBox(width: 8), // Add some space between text and icon
+          ],
           WwText(
             text: text,
             style: TextStyle(fontSize: fontSize),
           ),
-          if (icon != null) ...[
+          if (suffixIcon != null) ...[
             const SizedBox(width: 8), // Add some space between text and icon
-            Icon(icon),
+            suffixIcon!,
           ],
         ],
       ),
