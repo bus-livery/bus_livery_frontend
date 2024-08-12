@@ -4,7 +4,6 @@ import 'package:livery/common_widgets/ww_text.dart';
 import 'package:livery/common_widgets/ww_textfield.dart';
 import 'package:livery/features/authentication/view/otp_screen.dart';
 import 'package:livery/utils/app_size.dart';
-import 'package:livery/utils/app_theme.dart';
 import 'package:svg_flutter/svg.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -19,8 +18,7 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/images/logo.png', height: 50),
-              AppSize.sizedBox4h,
+              Image.asset('assets/images/buss_logo.png', height: 150),
               WWTextField(
                   controller: TextEditingController(),
                   hintText: 'Enter your email'),

@@ -3,7 +3,6 @@ import 'package:livery/common_widgets/ww_buttons.dart';
 import 'package:livery/common_widgets/ww_pin_code_text_field.dart';
 import 'package:livery/common_widgets/ww_text.dart';
 import 'package:livery/utils/app_size.dart';
-import 'package:svg_flutter/svg.dart';
 
 class OtpScreen extends StatelessWidget {
   const OtpScreen({super.key});

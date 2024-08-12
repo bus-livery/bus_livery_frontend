@@ -22,12 +22,12 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           return MaterialApp(
               title: 'Flutter Demo',
-              themeMode: ThemeMode.light,
+              themeMode: ThemeMode.dark,
               darkTheme: ThemeData(
                 fontFamily: GoogleFonts.openSans().fontFamily,
                 colorScheme: ColorScheme.fromSeed(
                     brightness: Brightness.dark,
-                    seedColor: const Color.fromARGB(255, 7, 120, 33)),
+                    seedColor: const Color.fromARGB(255, 40, 26, 119)),
                 useMaterial3: true,
               ),
               theme: ThemeData(
