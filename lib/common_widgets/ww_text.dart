@@ -4,16 +4,16 @@ class WwText extends StatelessWidget {
   final String text;
   final TextStyle? style;
   final TextAlign textAlign;
-  final int maxLines;
-  final TextOverflow overflow;
+  final int? maxLines;
+  final TextOverflow? overflow;
 
   const WwText({
     super.key,
     required this.text,
     this.style,
     this.textAlign = TextAlign.start,
-    this.maxLines = 1,
-    this.overflow = TextOverflow.ellipsis,
+    this.maxLines,
+    this.overflow,
   });
 
   @override

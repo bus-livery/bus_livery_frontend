@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:livery/common_widgets/ww_buttons.dart';
 import 'package:livery/common_widgets/ww_pin_code_text_field.dart';
 import 'package:livery/common_widgets/ww_text.dart';
+import 'package:livery/main_screen.dart';
 import 'package:livery/utils/app_size.dart';
 
 class OtpScreen extends StatelessWidget {
@@ -47,7 +48,13 @@ class OtpScreen extends StatelessWidget {
               AppSize.sizedBox2h,
               WWButton(
                 text: 'Continue',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => const MainScreen(),
+                      ),
+                      (Route<dynamic> route) => false);
+                },
               ),
               AppSize.sizedBox6h,
               const WwText(text: 'Didn\'t receive code?'),
