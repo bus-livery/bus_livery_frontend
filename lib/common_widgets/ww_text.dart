@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class WwText extends StatelessWidget {
+  final BuildContext? context;
   final String text;
   final TextStyle? style;
   final TextAlign textAlign;
+  final TextStyle? test;
   final int? maxLines;
   final TextOverflow? overflow;
 
@@ -14,6 +16,8 @@ class WwText extends StatelessWidget {
     this.textAlign = TextAlign.start,
     this.maxLines,
     this.overflow,
+    this.test,
+    this.context,
   });
 
   @override
@@ -28,7 +32,24 @@ class WwText extends StatelessWidget {
   }
 }
 
+// TextStyle textStyle(BuildContext context, TextStyles styles) => switch (styles) {
+//       TextStyles.heading => Theme.of(context).textTheme.displayLarge!,
+//       TextStyles.subheading => Theme.of(context).textTheme.displayLarge!,
+//       TextStyles.body => Theme.of(context).textTheme.displayLarge!,
+//       _ => Theme.of(context).textTheme.displayLarge!,
+//     };
+
+// enum TextStyles { heading, subheading, body }
+
 class TextStyles {
+  final BuildContext context;
+
+  TextStyles(this.context);
+
+  TextStyle get heading1 {
+    return Theme.of(context).textTheme.displayLarge!;
+  }
+
   static const TextStyle heading = TextStyle(
     fontSize: 24.0,
     fontWeight: FontWeight.bold,

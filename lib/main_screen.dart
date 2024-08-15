@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:livery/features/feed/view/feed_screen.dart';
+import 'package:livery/features/profile/view/profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -14,7 +15,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _tabs = [
     const Center(child: FeedScreen()),
-    const Center(child: Text('Profile'))
+    const Center(child: ProfileScreen())
   ];
 
   @override
@@ -31,6 +32,8 @@ class _MainScreenState extends State<MainScreen> {
       },
       child: Scaffold(
         body: PageTransitionAnimation(currentIndex: _currentIndex, tabs: _tabs),
+        floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.add), onPressed: () {}),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) {
