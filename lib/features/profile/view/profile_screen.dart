@@ -1,6 +1,7 @@
-import 'dart:developer';
+import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,9 +35,17 @@ class ProfileScreen extends StatelessWidget {
 
     const platform = MethodChannel('com.example/file_opener');
 
-    Future<void> openPdf(String filePath) async {
+    Future<void> openPdf() async {
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
+      File? file;
+
+      if (result != null) {
+        file = File(result.files.single.path!);
+      } else {
+        // User canceled the picker
+      }
       try {
-        await platform.invokeMethod('openPdf', {'filePath': filePath});
+        await platform.invokeMethod('openPdf', {'filePath': file?.path});
       } on PlatformException catch (e) {
         print("Failed to open PDF: '${e.message}'.");
       }
@@ -105,11 +114,7 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   Expanded(
                       child: WWButton(
-                          text: message ?? 'Edit Profile',
-                          onPressed: () {
-                            openPdf('');
-                            // showToast();
-                          })),
+                          text: message ?? 'Edit Profile', onPressed: () {})),
                   AppSize.sizedBox2w,
                   Expanded(
                       child: WWButton(
