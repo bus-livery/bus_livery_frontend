@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livery/common_widgets/ww_buttons.dart';
 import 'package:livery/common_widgets/ww_text.dart';
 import 'package:livery/common_widgets/ww_textfield.dart';
+import 'package:livery/features/authentication/controller/bloc/auth_bloc.dart';
 import 'package:livery/features/authentication/view/otp_screen.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:svg_flutter/svg.dart';
@@ -23,13 +25,20 @@ class LoginScreen extends StatelessWidget {
                   controller: TextEditingController(),
                   hintText: 'Enter your email'),
               AppSize.sizedBox2h,
-              WWButton(
-                text: 'Get OTP',
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const OtpScreen(),
-                    ),
+              BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) {
+                  return WWButton(
+                    text: state.showPassword ? 'Get OTP' : 'Get OTPs',
+                    onPressed: () {
+                      context
+                          .read<AuthBloc>()
+                          .add(const AuthEvent.passwordVisible());
+                      // Navigator.of(context).push(
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const OtpScreen(),
+                      //   ),
+                      // );
+                    },
                   );
                 },
               ),
