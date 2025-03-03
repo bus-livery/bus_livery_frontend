@@ -1,8 +1,20 @@
 part of 'auth_bloc.dart';
 
-@freezed
-class AuthState with _$AuthState {
-  const factory AuthState.initial({
-    @Default(false) bool showPassword,
-  }) = _Initial;
+abstract class AuthState {
+  final bool showPassword;
+
+  AuthState({required this.showPassword});
+
+  AuthState copyWith({bool? showPassword});
+}
+
+class AuthInitial extends AuthState {
+  AuthInitial({super.showPassword = false});
+
+  @override
+  AuthInitial copyWith({bool? showPassword}) {
+    return AuthInitial(
+      showPassword: showPassword ?? this.showPassword,
+    );
+  }
 }

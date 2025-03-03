@@ -1,7 +1,11 @@
 part of 'auth_bloc.dart';
 
-@freezed
-class AuthEvent with _$AuthEvent {
-  const factory AuthEvent.started() = _Started;
-  const factory AuthEvent.passwordVisible() = _PasswordVisible;
+abstract class AuthEvent {}
+
+class AuthStarted extends AuthEvent {}
+
+class PasswordVisibleToggled extends AuthEvent {
+  final bool isVisible;
+
+  PasswordVisibleToggled({required this.isVisible});
 }

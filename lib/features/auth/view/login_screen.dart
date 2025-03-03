@@ -30,14 +30,14 @@ class LoginScreen extends StatelessWidget {
                   return WWButton(
                     text: state.showPassword ? 'Get OTP' : 'Get OTPs',
                     onPressed: () {
-                      // context
-                      //     .read<AuthBloc>()
-                      //     .add(const AuthEvent.passwordVisible());
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const OtpScreen(),
-                        ),
-                      );
+                      context
+                          .read<AuthBloc>()
+                          .add(PasswordVisibleToggled(isVisible: true));
+                      // Navigator.of(context).push(
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const OtpScreen(),
+                      //   ),
+                      // );
                     },
                   );
                 },
