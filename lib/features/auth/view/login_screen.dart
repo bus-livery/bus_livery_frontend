@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livery/common_widgets/ww_buttons.dart';
 import 'package:livery/common_widgets/ww_text.dart';
 import 'package:livery/common_widgets/ww_textfield.dart';
-import 'package:livery/features/authentication/controller/bloc/auth_bloc.dart';
-import 'package:livery/features/authentication/view/otp_screen.dart';
+import 'package:livery/features/auth/controller/bloc/auth_bloc.dart';
+import 'package:livery/features/auth/view/otp_screen.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:svg_flutter/svg.dart';
 
@@ -30,14 +30,14 @@ class LoginScreen extends StatelessWidget {
                   return WWButton(
                     text: state.showPassword ? 'Get OTP' : 'Get OTPs',
                     onPressed: () {
-                      context
-                          .read<AuthBloc>()
-                          .add(const AuthEvent.passwordVisible());
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => const OtpScreen(),
-                      //   ),
-                      // );
+                      // context
+                      //     .read<AuthBloc>()
+                      //     .add(const AuthEvent.passwordVisible());
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const OtpScreen(),
+                        ),
+                      );
                     },
                   );
                 },

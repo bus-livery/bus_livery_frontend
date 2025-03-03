@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:livery/features/authentication/controller/bloc/auth_bloc.dart';
-import 'package:livery/features/authentication/view/login_screen.dart';
+import 'package:livery/features/auth/controller/bloc/auth_bloc.dart';
+import 'package:livery/features/auth/view/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           builder: (context, snapshot) {
             return MaterialApp(
                 title: 'Flutter Demo',
-                themeMode: ThemeMode.light,
+                themeMode: ThemeMode.dark,
                 darkTheme: ThemeData(
                   fontFamily: GoogleFonts.openSans().fontFamily,
                   colorScheme: ColorScheme.fromSeed(
