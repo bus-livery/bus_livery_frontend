@@ -6,7 +6,7 @@ part 'auth_state.dart';
 part 'auth_bloc.freezed.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc() : super(_Initial()) {
+  AuthBloc() : super(const _Initial()) {
     on<AuthEvent>((event, emit) {});
 
     on<_PasswordVisible>(

@@ -152,18 +152,24 @@ abstract class AppColors {
 
 /// Class containing app colors for a primary theme.
 class AppColorsLight extends AppColors {
+  @override
   Color get cPrimary => Colors.blue;
   // Black
+  @override
   Color get cBlack => const Color(0XFF000000);
 
+  @override
   Color get cGrey => Colors.grey;
 }
 
 class AppColorsDark extends AppColors {
+  @override
   Color get cPrimary => Colors.blue;
   // Black
+  @override
   Color get cBlack => const Color(0XFF000000);
 
+  @override
   Color get cGrey => Colors.grey;
 }
 

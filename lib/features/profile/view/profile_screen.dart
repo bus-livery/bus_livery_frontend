@@ -129,26 +129,26 @@ class ProfileScreen extends StatelessWidget {
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       AppSize.sizedBox3h,
-                                      ListTile(
+                                      const ListTile(
                                         leading: Icon(Icons.security),
                                         title: WwText(text: 'Privacy'),
                                         trailing: Icon(
                                             Icons.arrow_forward_ios_rounded),
                                       ),
-                                      ListTile(
+                                      const ListTile(
                                         leading: Icon(Icons.privacy_tip),
                                         title:
                                             WwText(text: 'Terms & Condition'),
                                         trailing: Icon(
                                             Icons.arrow_forward_ios_rounded),
                                       ),
-                                      ListTile(
+                                      const ListTile(
                                         leading: Icon(Icons
                                             .remove_circle_outline_outlined),
                                         title:
                                             WwText(text: 'Deactivate Account'),
                                       ),
-                                      ListTile(
+                                      const ListTile(
                                         leading: Icon(Icons.logout),
                                         title: WwText(text: 'Sign out'),
                                       ),
