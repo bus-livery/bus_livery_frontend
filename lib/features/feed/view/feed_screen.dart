@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:livery/common_widgets/ww_text.dart';
+import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/utils/app_size.dart';
 
 class FeedScreen extends StatelessWidget {
@@ -16,20 +16,19 @@ class FeedScreen extends StatelessWidget {
       body: Padding(
         padding: AppSize.swPadding,
         child: ListView.separated(
-            separatorBuilder: (context, index) => AppSize.sizedBox1h,
-            itemCount: 5,
-            itemBuilder: (BuildContext context, index) {
-              return const PostWidget();
-            }),
+          separatorBuilder: (context, index) => AppSize.sizedBox1h,
+          itemCount: 5,
+          itemBuilder: (BuildContext context, index) {
+            return const PostWidget();
+          },
+        ),
       ),
     );
   }
 }
 
 class PostWidget extends StatelessWidget {
-  const PostWidget({
-    super.key,
-  });
+  const PostWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +43,7 @@ class PostWidget extends StatelessWidget {
                 //
                 postOwnerDetail(context),
                 //
-                postUpdate(context)
+                postUpdate(context),
               ],
             ),
           ),
@@ -125,8 +124,8 @@ class PostWidget extends StatelessWidget {
         imageUrl:
             'https://buslivery.s3.eu-north-1.amazonaws.com/livery/livery_200/2024-07-07+15%3A22%3A17.396364+%2B0530+IST+m%3D%2B6.934072668', //   "https://i.pinimg.com/736x/09/a6/d6/09a6d6ff2a65445a72fbf91c746e6dfd.jpg",
         fit: BoxFit.cover,
-        placeholder: (context, url) =>
-            const Center(child: CircularProgressIndicator()),
+        placeholder:
+            (context, url) => const Center(child: CircularProgressIndicator()),
         errorWidget: (context, url, error) => const Icon(Icons.error),
       ),
     );
@@ -137,7 +136,8 @@ class PostWidget extends StatelessWidget {
       children: [
         const CircleAvatar(
           backgroundImage: NetworkImage(
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz68b1g8MSxSUqvFtuo44MvagkdFGoG7Z7DQ&s'),
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz68b1g8MSxSUqvFtuo44MvagkdFGoG7Z7DQ&s',
+          ),
         ),
         AppSize.sizedBox2w,
         Column(
@@ -145,8 +145,9 @@ class PostWidget extends StatelessWidget {
           children: [
             const WwText(text: 'Jithin'),
             WwText(
-                text: '20 Aug 2020',
-                style: Theme.of(context).textTheme.bodySmall),
+              text: '20 Aug 2020',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
           ],
         ),
       ],
