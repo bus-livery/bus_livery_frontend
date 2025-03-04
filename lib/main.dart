@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:livery/features/auth/controller/bloc/auth_bloc.dart';
+import 'package:livery/features/auth/application/auth_bloc.dart';
 import 'package:livery/features/auth/view/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +29,7 @@ class MyApp extends StatelessWidget {
           builder: (context, snapshot) {
             return MaterialApp(
                 title: 'Flutter Demo',
+                scaffoldMessengerKey: scaffoldMessengerKey,
                 themeMode: ThemeMode.dark,
                 darkTheme: ThemeData(
                   fontFamily: GoogleFonts.openSans().fontFamily,

@@ -22,7 +22,7 @@ class WwText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var s = Theme.of(context).textTheme.displayLarge!;
+    // var s = Theme.of(context).textTheme.displayLarge!;
     return Text(
       text,
       style: style,

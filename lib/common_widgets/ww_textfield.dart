@@ -58,3 +58,9 @@ class WWTextField extends StatelessWidget {
     );
   }
 }
+
+class WWTextFieldEmail extends WWTextField {
+  const WWTextFieldEmail(
+      {super.key, required super.controller, super.hintText, super.onChanged})
+      : super(keyboardType: TextInputType.emailAddress);
+}

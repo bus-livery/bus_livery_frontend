@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:livery/common_widgets/ww_buttons.dart';
 import 'package:livery/common_widgets/ww_text.dart';
 import 'package:livery/common_widgets/ww_textfield.dart';
-import 'package:livery/features/auth/controller/bloc/auth_bloc.dart';
+import 'package:livery/features/auth/application/auth_bloc.dart';
 import 'package:livery/features/auth/view/otp_screen.dart';
 import 'package:livery/utils/app_size.dart';
-import 'package:svg_flutter/svg.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -18,13 +18,13 @@ class LoginScreen extends StatelessWidget {
         padding: AppSize.swPadding,
         child: Center(
           child: Column(
+            spacing: 15.h,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset('assets/images/buss_logo.png', height: 150),
-              WWTextField(
+              WWTextFieldEmail(
                   controller: TextEditingController(),
                   hintText: 'Enter your email'),
-              AppSize.sizedBox2h,
               BlocBuilder<AuthBloc, AuthState>(
                 builder: (context, state) {
                   return WWButton(
@@ -33,16 +33,15 @@ class LoginScreen extends StatelessWidget {
                       context
                           .read<AuthBloc>()
                           .add(PasswordVisibleToggled(isVisible: true));
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => const OtpScreen(),
-                      //   ),
-                      // );
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const OtpScreen(),
+                        ),
+                      );
                     },
                   );
                 },
               ),
-              AppSize.sizedBox4h,
               Row(
                 children: [
                   Flexible(
@@ -61,14 +60,9 @@ class LoginScreen extends StatelessWidget {
                               .surfaceContainerHighest)),
                 ],
               ),
-              AppSize.sizedBox4h,
-              WWButton(
+              WWButtonPrefixSvg(
                 text: 'Continue with Google',
-                preffixIcon: SvgPicture.asset(
-                  'assets/svg/google.svg',
-                  colorFilter: ColorFilter.mode(
-                      Theme.of(context).colorScheme.primary, BlendMode.srcIn),
-                ),
+                icon: 'assets/svg/google.svg',
                 onPressed: () {},
               ),
             ],
