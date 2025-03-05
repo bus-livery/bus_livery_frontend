@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
-import 'package:livery/main.dart';
 import 'package:livery/utils/app_images.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:svg_flutter/svg.dart';
@@ -11,14 +10,14 @@ successResponsePop() {
   // return kIsWeb ? showSuccessNotification() : showSuccessNotificationMobile();
 }
 
-errorResponsePop(BuildContext context, errorMessage) {
+errorResponsePop(BuildContext context, String errorMessage) {
   if (isTestMode) return;
   return showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
         content: WWerrorResponse(
-          onTap: () {}, //Navigator.pop(context),
+          onTap: () => Navigator.pop(context),
           errorMessage: errorMessage,
           isFromPopUp: true,
           context: context,

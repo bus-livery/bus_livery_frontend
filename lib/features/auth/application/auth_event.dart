@@ -1,7 +1,6 @@
 part of 'auth_bloc.dart';
 
 // Define Auth Status Enum
-enum AuthStatus { initial, loading, success, failure }
 
 abstract class AuthEvent {}
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:livery/CModel/api_response.dart';
+import 'package:livery/Cmodel/enum.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/Cwidgets/ww_popup_error_success.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
@@ -9,6 +11,7 @@ import 'package:livery/features/auth/application/auth_bloc.dart';
 import 'package:livery/features/auth/view/otp_screen.dart';
 import 'package:livery/utils/app_images.dart';
 import 'package:livery/utils/app_size.dart';
+import 'package:livery/utils/toast.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -29,37 +32,7 @@ class LoginScreen extends StatelessWidget {
                 controller: bloc.state.emailCtr,
                 hintText: 'Enter your email',
               ),
-              BlocBuilder<AuthBloc, AuthState>(
-                builder: (context, state) {
-                  return BlocListener<AuthBloc, AuthState>(
-                    listener: (context, state) {
-                      if (state.status == AuthStatus.failure) {
-                        errorResponsePop(context, state.errorMessage);
-                      }
-                      if (state.status == AuthStatus.success) {}
-                    },
-                    child: WWButton(
-                      loader: state.status == AuthStatus.loading,
-                      text: state.showPassword ? 'Get OTP' : 'Get OTPs',
-                      onPressed: () {
-                        context.read<AuthBloc>().add(
-                          PasswordVisibleToggled(isVisible: true),
-                        );
-
-                        context.read<AuthBloc>().add(
-                          OtpGenerateEvent(email: bloc.state.emailCtr.text),
-                        );
-
-                        // Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //     builder: (context) => const OtpScreen(),
-                        //   ),
-                        // );
-                      },
-                    ),
-                  );
-                },
-              ),
+              _ButtonGenerateOtp(bloc: bloc),
               Row(
                 children: [
                   Flexible(
@@ -89,6 +62,44 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _ButtonGenerateOtp extends StatelessWidget {
+  const _ButtonGenerateOtp({required this.bloc});
+
+  final AuthBloc bloc;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        return BlocListener<AuthBloc, AuthState>(
+          listenWhen: (p, c) => p.otpResponse.status != c.otpResponse.status,
+          listener: (context, state) {
+            if (state.otpResponse.status == ApiStatus.failure) {
+              errorResponsePop(context, state.otpResponse.errorMessage ?? '');
+            }
+            if (state.otpResponse.status == ApiStatus.success) {
+              successToast(state.otpResponse.apiData ?? '');
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const OtpScreen()),
+              );
+            }
+          },
+          child: WWButton(
+            widthFull: true,
+            loader: state.otpResponse.status == ApiStatus.loading,
+            text: 'Get OTP',
+            onPressed: () {
+              context.read<AuthBloc>().add(
+                OtpGenerateEvent(email: bloc.state.emailCtr.text),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

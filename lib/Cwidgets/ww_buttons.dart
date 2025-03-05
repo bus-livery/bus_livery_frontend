@@ -7,6 +7,8 @@ abstract class WWButtonBase extends StatelessWidget {
   final VoidCallback onPressed;
   final Color? buttonColor;
   final bool? loader;
+  final bool widthFull; // Makes the button full width if true
+  final int expandFlex; // Allows expansion in a flexible layout
 
   final List<Widget> widgets;
 
@@ -16,21 +18,29 @@ abstract class WWButtonBase extends StatelessWidget {
     this.buttonColor,
     required this.widgets,
     this.loader,
+    this.expandFlex = 0,
+    this.widthFull = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(surfaceTintColor: buttonColor),
-      child:
-          loader == true
-              ? CircularProgressIndicator()
-              : Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: widgets,
-              ),
+    return Expanded(
+      flex: expandFlex,
+      child: SizedBox(
+        width: widthFull ? double.infinity : null, // Full width if enabled
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(surfaceTintColor: buttonColor),
+          child:
+              loader == true
+                  ? CircularProgressIndicator()
+                  : Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: widgets,
+                  ),
+        ),
+      ),
     );
   }
 }
@@ -43,6 +53,8 @@ class WWButton extends WWButtonBase {
     this.fontSize,
     super.key,
     super.loader,
+    super.widthFull,
+    super.expandFlex,
     required super.onPressed,
   }) : super(
          widgets: [

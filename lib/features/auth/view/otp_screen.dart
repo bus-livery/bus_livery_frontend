@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/Cwidgets/ww_pin_code_text_field.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
+import 'package:livery/features/auth/application/auth_bloc.dart';
 import 'package:livery/main_screen.dart';
 import 'package:livery/utils/app_size.dart';
 
@@ -29,11 +31,16 @@ class OtpScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               AppSize.sizedBox2h,
-              WwText(
-                text: 'iamjithinjohnson@gmail.com',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+              BlocSelector<AuthBloc, AuthState, String>(
+                selector: (state) => state.emailCtr.text,
+                builder: (context, email) {
+                  return WwText(
+                    text: email,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                },
               ),
               AppSize.sizedBox6h,
               WWPinCodeTextField(

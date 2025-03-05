@@ -21,11 +21,12 @@ class AuthService implements IAuthService {
       final res = await _dioServices.request(
         EndPoints.auth.otpRegister,
         method: Method.post,
-        data: {"emaill": email},
+        data: {"email": email},
       );
-      return res.fold((l) => Left(l.message), (response) async {
-        return Right('success');
-      });
+      return res.fold(
+        (l) => Left(l.message),
+        (r) async => Right(r.data['otp']),
+      );
     } catch (e) {
       return Left("$e");
     }
