@@ -14,17 +14,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this.iAuthService) : super(AuthState.initial()) {
     on<AuthEvent>((event, emit) {});
 
-    on<PasswordVisibleToggled>((event, emit) {
-      emit(state.copyWith(showPassword: !state.showPassword));
-
-      // Handle other events here
-
-      customPrint('print2');
-    });
+    on<AuthPassVisible>(_authPassVisible);
 
     on<AuthOtpGenerateApi>(_authOtpGenerateApi);
 
     on<AuthLoginApi>(_authLoginApi);
+  }
+
+  _authPassVisible(AuthPassVisible event, emit) {
+    emit(state.copyWith(showPassword: !state.showPassword));
+
+    // Handle other events here
+
+    customPrint('print2');
   }
 
   _authOtpGenerateApi(AuthOtpGenerateApi event, emit) async {

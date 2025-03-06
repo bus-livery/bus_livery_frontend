@@ -6,9 +6,9 @@ abstract class AuthEvent {}
 
 class AuthStarted extends AuthEvent {}
 
-class PasswordVisibleToggled extends AuthEvent {
+class AuthPassVisible extends AuthEvent {
   final bool isVisible;
-  PasswordVisibleToggled({required this.isVisible});
+  AuthPassVisible({required this.isVisible});
 }
 
 class AuthOtpGenerateApi extends AuthEvent {
