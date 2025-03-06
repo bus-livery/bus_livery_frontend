@@ -94,7 +94,7 @@ class _ButtonGenerateOtp extends StatelessWidget {
             text: 'Get OTP',
             onPressed: () {
               context.read<AuthBloc>().add(
-                OtpGenerateEvent(email: bloc.state.emailCtr.text),
+                AuthOtpGenerateApi(email: bloc.state.emailCtr.text),
               );
             },
           ),

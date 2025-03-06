@@ -22,35 +22,73 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       customPrint('print2');
     });
 
-    on<OtpGenerateEvent>((event, emit) async {
-      emit(state.copyWith(otpResponse: ApiResponse(status: ApiStatus.loading)));
+    on<AuthOtpGenerateApi>(_authOtpGenerateApi);
 
-      final response = await iAuthService.otpGenerate(email: event.email);
+    on<AuthLoginApi>(_authLoginApi);
+  }
 
-      return response.fold(
-        //
-        (failure) {
-          emit(
-            state.copyWith(
-              otpResponse: ApiResponse(
-                status: ApiStatus.failure,
-                errorMessage: failure,
-              ),
+  _authOtpGenerateApi(AuthOtpGenerateApi event, emit) async {
+    emit(state.copyWith(otpResponse: ApiResponse(status: ApiStatus.loading)));
+
+    final response = await iAuthService.otpGenerate(email: event.email);
+
+    return response.fold(
+      //
+      (failure) {
+        emit(
+          state.copyWith(
+            otpResponse: ApiResponse(
+              status: ApiStatus.failure,
+              errorMessage: failure,
             ),
-          );
-        },
-        //
-        (success) {
-          emit(
-            state.copyWith(
-              otpResponse: ApiResponse(
-                status: ApiStatus.success,
-                apiData: success,
-              ),
+          ),
+        );
+      },
+      //
+      (success) {
+        emit(
+          state.copyWith(
+            otpResponse: ApiResponse(
+              status: ApiStatus.success,
+              apiData: success,
             ),
-          );
-        },
-      );
-    });
+          ),
+        );
+      },
+    );
+  }
+
+  _authLoginApi(AuthLoginApi event, emit) async {
+    emit(state.copyWith(loginResponse: ApiResponse(status: ApiStatus.loading)));
+
+    final response = await iAuthService.loginApi(
+      email: event.email,
+      otp: event.otp,
+    );
+
+    return response.fold(
+      //
+      (failure) {
+        emit(
+          state.copyWith(
+            loginResponse: ApiResponse(
+              status: ApiStatus.failure,
+              errorMessage: failure,
+            ),
+          ),
+        );
+      },
+      //
+      (success) {
+        emit(
+          state.copyWith(
+            loginResponse: ApiResponse(
+              status: ApiStatus.success,
+              apiData: success,
+            ),
+          ),
+        );
+      },
+    );
   }
 }

@@ -11,7 +11,13 @@ class PasswordVisibleToggled extends AuthEvent {
   PasswordVisibleToggled({required this.isVisible});
 }
 
-class OtpGenerateEvent extends AuthEvent {
+class AuthOtpGenerateApi extends AuthEvent {
   final String email;
-  OtpGenerateEvent({required this.email});
+  AuthOtpGenerateApi({required this.email});
+}
+
+class AuthLoginApi extends AuthEvent {
+  final String email;
+  final String otp;
+  AuthLoginApi({required this.email, required this.otp});
 }
