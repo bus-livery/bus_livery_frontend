@@ -3,8 +3,8 @@
 import 'package:livery/utils/custom_print.dart';
 
 bool jwtTokenChecker(Map<String, dynamic>? token) {
-  if (token != null && token.containsKey('exp')) {
-    int expiryTimeInSeconds = token['exp'];
+  if (token != null && token.containsKey('expires_at')) {
+    int expiryTimeInSeconds = token['expires_at'];
     DateTime expiryDateTime = DateTime.fromMillisecondsSinceEpoch(
       expiryTimeInSeconds * 1000,
     );

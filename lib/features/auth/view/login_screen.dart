@@ -33,7 +33,7 @@ class LoginScreen extends StatelessWidget {
                 controller: bloc.emailCtr,
                 hintText: 'Enter your email',
               ),
-              // BUTTON GENERATE OTP
+              // BUTTON GENERATE OTP-------------------------------
               _ButtonGenerateOtp(bloc: bloc),
               Row(
                 children: [
@@ -90,6 +90,7 @@ class _ButtonGenerateOtp extends StatelessWidget {
         }
         if (state.otpResponse.status == ApiStatus.success) {
           successToast(state.otpResponse.apiData ?? '');
+          // navigation to otp screen
           context.router.pushPath(RouterNames.otpScreen);
         }
       },

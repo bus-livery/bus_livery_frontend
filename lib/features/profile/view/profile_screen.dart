@@ -1,56 +1,19 @@
-import 'dart:io';
-
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
+import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/utils/app_size.dart';
+import 'package:livery/utils/di/injection.dart';
+import 'package:livery/utils/router/router.gr.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const channel = MethodChannel("livery_channel");
-
-    String? message;
-
-    void showToast() async {
-      // try {
-      //   print("Method Triggered");
-      //   message =
-      //       await channel.invokeMethod("livery", {"message": "hello flutter"});
-      //   print(message);
-      // } on PlatformException catch (_) {
-      //   print(_);
-      // } on MissingPluginException catch (_) {
-      //   print("plugin error : $_");
-      // } catch (e) {
-      //   // print(e);
-      // }
-    }
-
-    const platform = MethodChannel('com.example/file_opener');
-
-    Future<void> openPdf() async {
-      FilePickerResult? result = await FilePicker.platform.pickFiles();
-      File? file;
-
-      if (result != null) {
-        file = File(result.files.single.path!);
-      } else {
-        // User canceled the picker
-      }
-      try {
-        await platform.invokeMethod('openPdf', {'filePath': file?.path});
-      } on PlatformException catch (e) {
-        print("Failed to open PDF: '${e.message}'.");
-      }
-    }
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -114,57 +77,59 @@ class ProfileScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: WWButton(
-                      text: message ?? 'Edit Profile',
-                      onPressed: () {},
-                    ),
+                  WWButton(
+                    expandFlex: 1,
+                    text: 'Edit Profile',
+                    onPressed: () {},
                   ),
                   AppSize.sizedBox2w,
-                  Expanded(
-                    child: WWButton(
-                      text: 'More',
-                      onPressed: () {
-                        showModalBottomSheet<void>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return SafeArea(
-                              child: Column(
-                                // mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  AppSize.sizedBox3h,
-                                  const ListTile(
-                                    leading: Icon(Icons.security),
-                                    title: WwText(text: 'Privacy'),
-                                    trailing: Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                    ),
+                  WWButton(
+                    expandFlex: 1,
+                    text: 'More',
+                    onPressed: () {
+                      showModalBottomSheet<void>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SafeArea(
+                            child: Column(
+                              // mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                AppSize.sizedBox3h,
+                                const ListTile(
+                                  leading: Icon(Icons.security),
+                                  title: WwText(text: 'Privacy'),
+                                  trailing: Icon(
+                                    Icons.arrow_forward_ios_rounded,
                                   ),
-                                  const ListTile(
-                                    leading: Icon(Icons.privacy_tip),
-                                    title: WwText(text: 'Terms & Condition'),
-                                    trailing: Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                    ),
+                                ),
+                                const ListTile(
+                                  leading: Icon(Icons.privacy_tip),
+                                  title: WwText(text: 'Terms & Condition'),
+                                  trailing: Icon(
+                                    Icons.arrow_forward_ios_rounded,
                                   ),
-                                  const ListTile(
-                                    leading: Icon(
-                                      Icons.remove_circle_outline_outlined,
-                                    ),
-                                    title: WwText(text: 'Deactivate Account'),
+                                ),
+                                const ListTile(
+                                  leading: Icon(
+                                    Icons.remove_circle_outline_outlined,
                                   ),
-                                  const ListTile(
-                                    leading: Icon(Icons.logout),
-                                    title: WwText(text: 'Sign out'),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
+                                  title: WwText(text: 'Deactivate Account'),
+                                ),
+                                ListTile(
+                                  leading: Icon(Icons.logout),
+                                  title: WwText(text: 'Sign out'),
+                                  onTap: () {
+                                    getIt<SharedPrefService>().clear();
+                                    context.router.replaceAll([LoginRoute()]);
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
                 ],
               ),

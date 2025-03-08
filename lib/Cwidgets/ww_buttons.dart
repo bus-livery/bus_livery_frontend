@@ -62,10 +62,7 @@ class WWButton extends WWButtonBase {
              text: text,
              style: TextStyle(
                fontSize: fontSize,
-               color:
-                   Theme.of(
-                     scaffoldMessengerKey.currentState!.context,
-                   ).colorScheme.primary,
+               color: Theme.of(smKey.currentState!.context).colorScheme.primary,
              ),
            ),
          ],
@@ -87,7 +84,13 @@ class WWButtonPrefixSvg extends WWButtonBase {
          widgets: [
            _ButtonSvg(icon: icon),
            const SizedBox(width: 8),
-           WwText(text: text, style: TextStyle(fontSize: fontSize)),
+           WwText(
+             text: text,
+             style: TextStyle(
+               fontSize: fontSize,
+               color: Theme.of(smKey.currentState!.context).colorScheme.primary,
+             ),
+           ),
          ],
        );
 }
@@ -121,9 +124,7 @@ class _ButtonSvg extends StatelessWidget {
     return SvgPicture.asset(
       icon,
       colorFilter: ColorFilter.mode(
-        Theme.of(
-          scaffoldMessengerKey.currentState!.context,
-        ).colorScheme.primary,
+        Theme.of(smKey.currentState!.context).colorScheme.primary,
         BlendMode.srcIn,
       ),
     );

@@ -8,6 +8,7 @@ import 'package:livery/Cwidgets/ww_popup_error_success.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/features/auth/application/auth_bloc.dart';
 import 'package:livery/utils/app_size.dart';
+import 'package:livery/utils/router/router_names.dart';
 import 'package:livery/utils/toast.dart';
 
 @RoutePage()
@@ -155,6 +156,7 @@ class _LoginButton extends StatelessWidget {
             return;
           }
           successToast(logRes.apiData?.message ?? '');
+          context.router.pushPath(RouterNames.mainScreen);
         }
       },
       builder:

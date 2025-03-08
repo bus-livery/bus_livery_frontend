@@ -7,7 +7,7 @@ import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/router/router.dart';
 
-final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+final GlobalKey<ScaffoldMessengerState> smKey =
     GlobalKey<ScaffoldMessengerState>();
 
 void main() async {
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp.router(
             title: 'Flutter Demo',
             routerConfig: _appRouter.config(),
-            scaffoldMessengerKey: scaffoldMessengerKey,
+            scaffoldMessengerKey: smKey,
             themeMode: ThemeMode.dark,
             darkTheme: ThemeData(
               fontFamily: GoogleFonts.openSans().fontFamily,

@@ -1,8 +1,10 @@
 import 'package:animations/animations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:livery/features/feed/view/feed_screen.dart';
 import 'package:livery/features/profile/view/profile_screen.dart';
 
+@RoutePage()
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -15,7 +17,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _tabs = [
     const Center(child: FeedScreen()),
-    const Center(child: ProfileScreen())
+    const Center(child: ProfileScreen()),
   ];
 
   @override
@@ -33,7 +35,9 @@ class _MainScreenState extends State<MainScreen> {
       child: Scaffold(
         body: PageTransitionAnimation(currentIndex: _currentIndex, tabs: _tabs),
         floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add), onPressed: () {}),
+          child: const Icon(Icons.add),
+          onPressed: () {},
+        ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) {
@@ -50,14 +54,8 @@ class _MainScreenState extends State<MainScreen> {
             });
           },
           items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Feed',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Feed'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
           ],
         ),
       ),
@@ -70,8 +68,8 @@ class PageTransitionAnimation extends StatelessWidget {
     super.key,
     required int currentIndex,
     required List<Widget> tabs,
-  })  : _currentIndex = currentIndex,
-        _tabs = tabs;
+  }) : _currentIndex = currentIndex,
+       _tabs = tabs;
 
   final int _currentIndex;
   final List<Widget> _tabs;
