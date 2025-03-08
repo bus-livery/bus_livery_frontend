@@ -85,7 +85,7 @@ class _ResendButton extends StatelessWidget {
       listenWhen: (p, c) => p.otpResponse.status != c.otpResponse.status,
       listener: (context, state) {
         if (state.otpResponse.status == ApiStatus.failure) {
-          errorResponsePop(context, state.otpResponse.errorMessage ?? '');
+          wwDialogueBox(context, textSub: state.otpResponse.errorMessage ?? '');
         }
         if (state.otpResponse.status == ApiStatus.success) {
           successToast(state.otpResponse.apiData ?? '');
@@ -143,16 +143,21 @@ class _LoginButton extends StatelessWidget {
       listener: (context, state) {
         var logRes = state.loginResponse;
         if (logRes.status == ApiStatus.failure) {
-          errorResponsePop(context, logRes.errorMessage ?? '');
+          wwDialogueBox(context, textSub: logRes.errorMessage ?? '');
         }
 
         if (logRes.status == ApiStatus.success) {
           // ACCOUNT IS NOT REGISTERED
           if (logRes.apiData?.statusCode == 202) {
-            wwAccountCreationPop(context, logRes.apiData?.message ?? '', () {
-              bloc.add(AuthCreateUserApi(email: bloc.emailCtr.text));
-              // context.router.maybePop();
-            });
+            wwDialogueBox2Button(
+              context,
+              textSub: logRes.apiData?.message ?? '',
+              firstTap: () => context.router.back(),
+              secondTap: () {
+                bloc.add(AuthCreateUserApi(email: bloc.emailCtr.text));
+                context.router.maybePop();
+              },
+            );
             return;
           }
           successToast(logRes.apiData?.message ?? '');

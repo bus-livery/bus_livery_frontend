@@ -6,33 +6,18 @@ import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/router/router.dart';
 import 'package:svg_flutter/svg.dart';
 
-errorResponsePop(BuildContext context, String errorMessage) {
-  return showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        content: WWerrorResponse(
-          onTap: () => Navigator.pop(context),
-          errorMessage: errorMessage,
-          isFromPopUp: true,
-          context: context,
-        ),
-      );
-    },
-  );
-}
+abstract class WWDialogueBoxBase extends StatelessWidget {
+  final Widget? icon;
+  final String? title;
+  final String? subTitle;
+  final List<Widget>? buttons;
 
-class WWerrorResponse extends StatelessWidget {
-  final bool? isFromPopUp;
-  final BuildContext? context;
-  final Function() onTap;
-  final String errorMessage;
-  const WWerrorResponse({
+  const WWDialogueBoxBase({
     super.key,
-    this.isFromPopUp,
-    this.context,
-    required this.onTap,
-    required this.errorMessage,
+    this.icon,
+    this.title,
+    this.subTitle,
+    this.buttons,
   });
 
   @override
@@ -41,104 +26,179 @@ class WWerrorResponse extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SvgPicture.asset(AppImages.google),
-        AppSize.sizedBox2h,
-        Text(
-          'Oops',
-          // AppLocalizations.of(context).key_oops,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        AppSize.sizedBox1h,
-        Text(
-          errorMessage,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.labelSmall,
-        ),
-        AppSize.sizedBox4h,
-        WWButton(
-          // width: double.infinity,
-          text: 'Dismiss',
+        if (icon != null) ...[icon!, AppSize.sizedBox2h],
 
-          // isFromPopUp == true
-          //     ? AppLocalizations.of(context).key_dismiss
-          //     : AppLocalizations.of(context).key_try_again,
-          onPressed: onTap,
-        ),
+        if (title != null) ...[
+          Text(
+            title ?? '',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          AppSize.sizedBox1h,
+        ],
+
+        if (subTitle != null) ...[
+          Text(
+            subTitle ?? '',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.labelSmall,
+          ),
+          AppSize.sizedBox4h,
+        ],
+
+        if (buttons != null) Row(children: buttons!),
       ],
     );
   }
 }
 
-wwAccountCreationPop(
-  BuildContext context,
-  String errorMessage,
-  Function() onTap,
-) {
+wwDialogueBox(
+  BuildContext context, {
+  final String? text,
+  final String? textSub,
+  final String? svgIcon,
+}) {
   return showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        content: WWAccountCreation(
-          onTap: onTap,
-          errorMessage: errorMessage,
-          isFromPopUp: true,
-          context: context,
+        content: WWDialogueBox(svgIcon: svgIcon, text: text, textSub: textSub),
+      );
+    },
+  );
+}
+
+class WWDialogueBox extends WWDialogueBoxBase {
+  final String? text;
+  final String? textSub;
+  final String? svgIcon;
+  WWDialogueBox({super.key, this.svgIcon, this.text, this.textSub})
+    : super(
+        icon: SvgPicture.asset(svgIcon ?? AppImages.google),
+        title: text ?? 'Oops',
+        subTitle: textSub,
+        buttons: [
+          WWButton(
+            expandFlex: 1,
+            text: 'Dismiss',
+            onPressed: getIt<AppRouter>().maybePop,
+          ),
+        ],
+      );
+}
+
+wwDialogueBox2Button(
+  BuildContext context, {
+  String? text,
+  String? textSub,
+  String? svgIcon,
+  Function? firstTap,
+  required Function() secondTap,
+  String? buttonName,
+}) {
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: WWDialogueBox2Button(
+          firstTap: firstTap,
+          secondTap: secondTap,
+          buttonName: buttonName,
+          svgIcon: svgIcon,
+          text: text,
+          textSub: textSub,
         ),
       );
     },
   );
 }
 
-class WWAccountCreation extends StatelessWidget {
-  final bool? isFromPopUp;
-  final BuildContext? context;
-  final Function() onTap;
-  final String errorMessage;
-  const WWAccountCreation({
+class WWDialogueBox2Button extends WWDialogueBoxBase {
+  final String? text;
+  final String? textSub;
+  final String? svgIcon;
+  final Function? firstTap;
+  final Function() secondTap;
+  final String? buttonName;
+  WWDialogueBox2Button({
     super.key,
-    this.isFromPopUp,
-    this.context,
-    required this.onTap,
-    required this.errorMessage,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SvgPicture.asset(AppImages.google),
-        AppSize.sizedBox2h,
-        Text(
-          'Oops',
-          // AppLocalizations.of(context).key_oops,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        AppSize.sizedBox1h,
-        Text(
-          errorMessage,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.labelSmall,
-        ),
-        AppSize.sizedBox4h,
-        Row(
-          children: [
-            WWButton(
-              expandFlex: 1,
-              text: 'Cancel',
-              onPressed: getIt<AppRouter>().maybePop,
-            ),
-            AppSize.sizedBox2w,
-            WWButton(expandFlex: 1, text: 'Create', onPressed: onTap),
-          ],
-        ),
-      ],
-    );
-  }
+    this.text,
+    this.textSub,
+    this.svgIcon,
+    this.buttonName,
+    required this.secondTap,
+    this.firstTap,
+  }) : super(
+         icon: SvgPicture.asset(svgIcon ?? AppImages.google),
+         title: text ?? 'Oops',
+         subTitle: textSub,
+         buttons: [
+           WWButton(
+             expandFlex: 1,
+             text: 'Close',
+             onPressed: () {
+               firstTap != null ? firstTap() : getIt<AppRouter>().back;
+             },
+           ),
+           AppSize.sizedBox2w,
+           WWButton(
+             expandFlex: 1,
+             text: buttonName ?? 'Continue',
+             onPressed: secondTap,
+           ),
+         ],
+       );
 }
+
+// class WWAccountCreation extends StatelessWidget {
+//   final bool? isFromPopUp;
+//   final BuildContext? context;
+//   final Function() onTap;
+//   final String errorMessage;
+//   const WWAccountCreation({
+//     super.key,
+//     this.isFromPopUp,
+//     this.context,
+//     required this.onTap,
+//     required this.errorMessage,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       mainAxisSize: MainAxisSize.min,
+//       mainAxisAlignment: MainAxisAlignment.center,
+//       children: [
+//         SvgPicture.asset(AppImages.google),
+//         AppSize.sizedBox2h,
+//         Text(
+//           'Oops',
+//           // AppLocalizations.of(context).key_oops,
+//           textAlign: TextAlign.center,
+//           style: Theme.of(context).textTheme.bodyMedium,
+//         ),
+//         AppSize.sizedBox1h,
+//         Text(
+//           errorMessage,
+//           textAlign: TextAlign.center,
+//           style: Theme.of(context).textTheme.labelSmall,
+//         ),
+//         AppSize.sizedBox4h,
+//         Row(
+//           children: [
+//             WWButton(
+//               expandFlex: 1,
+//               text: 'Cancel',
+//               onPressed: getIt<AppRouter>().maybePop,
+//             ),
+//             AppSize.sizedBox2w,
+//             WWButton(expandFlex: 1, text: 'Create', onPressed: onTap),
+//           ],
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 class ImageConstant {}
 

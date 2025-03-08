@@ -25,7 +25,7 @@ class WwText extends StatelessWidget {
     // var s = Theme.of(context).textTheme.displayLarge!;
     return Text(
       text,
-      style: style,
+      style: style?.copyWith(color: Theme.of(context).colorScheme.primary),
       textAlign: textAlign,
       maxLines: maxLines,
       overflow: overflow,

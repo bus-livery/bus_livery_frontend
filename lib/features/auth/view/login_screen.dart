@@ -86,7 +86,7 @@ class _ButtonGenerateOtp extends StatelessWidget {
               c.isFromLoginScreen,
       listener: (context, state) {
         if (state.otpResponse.status == ApiStatus.failure) {
-          errorResponsePop(context, state.otpResponse.errorMessage ?? '');
+          wwDialogueBox(context, textSub: state.otpResponse.errorMessage ?? '');
         }
         if (state.otpResponse.status == ApiStatus.success) {
           successToast(state.otpResponse.apiData ?? '');
