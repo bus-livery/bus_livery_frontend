@@ -49,7 +49,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   _authOtpGenerateApi(AuthOtpGenerateApi event, emit) async {
-    emit(state.copyWith(otpResponse: ApiResponse(status: ApiStatus.loading)));
+    emit(
+      state.copyWith(
+        isFromLoginScreen: event.isFromLoginScreen,
+        otpResponse: ApiResponse(status: ApiStatus.loading),
+      ),
+    );
 
     final response = await iAuthService.otpGenerate(email: event.email);
 

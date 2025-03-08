@@ -76,8 +76,14 @@ class _ButtonGenerateOtp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
-      buildWhen: (p, c) => p.otpResponse.status != c.otpResponse.status,
-      listenWhen: (p, c) => p.otpResponse.status != c.otpResponse.status,
+      buildWhen:
+          (p, c) =>
+              p.otpResponse.status != c.otpResponse.status &&
+              c.isFromLoginScreen,
+      listenWhen:
+          (p, c) =>
+              p.otpResponse.status != c.otpResponse.status &&
+              c.isFromLoginScreen,
       listener: (context, state) {
         if (state.otpResponse.status == ApiStatus.failure) {
           errorResponsePop(context, state.otpResponse.errorMessage ?? '');
@@ -94,7 +100,10 @@ class _ButtonGenerateOtp extends StatelessWidget {
             text: 'Get OTP',
             onPressed: () {
               context.read<AuthBloc>().add(
-                AuthOtpGenerateApi(email: bloc.emailCtr.text),
+                AuthOtpGenerateApi(
+                  isFromLoginScreen: true,
+                  email: bloc.emailCtr.text,
+                ),
               );
             },
           ),

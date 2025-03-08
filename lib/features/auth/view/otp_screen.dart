@@ -44,7 +44,7 @@ class OtpScreen extends StatelessWidget {
                 ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
               AppSize.sizedBox6h,
-              // OTP FIELD
+              // OTP FIELD-----------------------------
               WWPinCodeTextField(
                 context: context,
 
@@ -58,21 +58,73 @@ class OtpScreen extends StatelessWidget {
                 onChanged: (x) {},
               ),
               AppSize.sizedBox2h,
-              // LOGIN BUTTON
+              // LOGIN BUTTON----------------------------
               _LoginButton(bloc: bloc),
               AppSize.sizedBox6h,
               const WwText(text: 'Didn\'t receive code?'),
               AppSize.sizedBox1h,
-              WwText(
-                text: 'Resend',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
-              ),
+              // RESEND BUTTON----------------------------
+              _ResendButton(),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _ResendButton extends StatelessWidget {
+  const _ResendButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<AuthBloc, AuthState>(
+      key: UniqueKey(),
+      buildWhen: (p, c) => p.otpResponse.status != c.otpResponse.status,
+      listenWhen: (p, c) => p.otpResponse.status != c.otpResponse.status,
+      listener: (context, state) {
+        if (state.otpResponse.status == ApiStatus.failure) {
+          errorResponsePop(context, state.otpResponse.errorMessage ?? '');
+        }
+        if (state.otpResponse.status == ApiStatus.success) {
+          successToast(state.otpResponse.apiData ?? '');
+        }
+      },
+      builder: (context, state) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Flexible(
+              child: TextButton(
+                onPressed: () {
+                  final bloc = context.read<AuthBloc>();
+                  bloc.add(
+                    AuthOtpGenerateApi(
+                      isFromLoginScreen: false,
+                      email: bloc.emailCtr.text,
+                    ),
+                  );
+                },
+                child: WwText(
+                  text: 'Resend',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+                ),
+              ),
+            ),
+
+            AppSize.sizedBox1w,
+            state.otpResponse.status != ApiStatus.loading
+                ? SizedBox()
+                : SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(),
+                ),
+          ],
+        );
+      },
     );
   }
 }

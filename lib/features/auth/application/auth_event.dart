@@ -13,7 +13,8 @@ class AuthPassVisible extends AuthEvent {
 
 class AuthOtpGenerateApi extends AuthEvent {
   final String email;
-  AuthOtpGenerateApi({required this.email});
+  final bool isFromLoginScreen;
+  AuthOtpGenerateApi({required this.email, required this.isFromLoginScreen});
 }
 
 class AuthLoginApi extends AuthEvent {
