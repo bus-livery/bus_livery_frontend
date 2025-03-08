@@ -21,3 +21,8 @@ class AuthLoginApi extends AuthEvent {
   final String otp;
   AuthLoginApi({required this.email, required this.otp});
 }
+
+class AuthCreateUserApi extends AuthEvent {
+  final String email;
+  AuthCreateUserApi({required this.email});
+}

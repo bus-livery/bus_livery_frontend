@@ -2,16 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/utils/app_images.dart';
 import 'package:livery/utils/app_size.dart';
+import 'package:livery/utils/di/injection.dart';
+import 'package:livery/utils/router/router.dart';
 import 'package:svg_flutter/svg.dart';
 
-bool isTestMode = false;
-
-successResponsePop() {
-  // return kIsWeb ? showSuccessNotification() : showSuccessNotificationMobile();
-}
-
 errorResponsePop(BuildContext context, String errorMessage) {
-  if (isTestMode) return;
   return showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -69,6 +64,76 @@ class WWerrorResponse extends StatelessWidget {
           //     ? AppLocalizations.of(context).key_dismiss
           //     : AppLocalizations.of(context).key_try_again,
           onPressed: onTap,
+        ),
+      ],
+    );
+  }
+}
+
+wwAccountCreationPop(
+  BuildContext context,
+  String errorMessage,
+  Function() onTap,
+) {
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: WWAccountCreation(
+          onTap: onTap,
+          errorMessage: errorMessage,
+          isFromPopUp: true,
+          context: context,
+        ),
+      );
+    },
+  );
+}
+
+class WWAccountCreation extends StatelessWidget {
+  final bool? isFromPopUp;
+  final BuildContext? context;
+  final Function() onTap;
+  final String errorMessage;
+  const WWAccountCreation({
+    super.key,
+    this.isFromPopUp,
+    this.context,
+    required this.onTap,
+    required this.errorMessage,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SvgPicture.asset(AppImages.google),
+        AppSize.sizedBox2h,
+        Text(
+          'Oops',
+          // AppLocalizations.of(context).key_oops,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        AppSize.sizedBox1h,
+        Text(
+          errorMessage,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.labelSmall,
+        ),
+        AppSize.sizedBox4h,
+        Row(
+          children: [
+            WWButton(
+              expandFlex: 1,
+              text: 'Cancel',
+              onPressed: getIt<AppRouter>().maybePop,
+            ),
+            AppSize.sizedBox2w,
+            WWButton(expandFlex: 1, text: 'Create', onPressed: onTap),
+          ],
         ),
       ],
     );

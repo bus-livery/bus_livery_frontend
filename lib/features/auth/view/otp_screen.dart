@@ -88,30 +88,32 @@ class _LoginButton extends StatelessWidget {
       buildWhen: (p, c) => p.loginResponse.status != c.loginResponse.status,
       listenWhen: (p, c) => p.loginResponse.status != c.loginResponse.status,
       listener: (context, state) {
-        if (state.loginResponse.status == ApiStatus.failure) {
-          errorResponsePop(context, state.loginResponse.errorMessage ?? '');
+        var logRes = state.loginResponse;
+        if (logRes.status == ApiStatus.failure) {
+          errorResponsePop(context, logRes.errorMessage ?? '');
         }
 
-        if (state.loginResponse.status == ApiStatus.success) {
-          successToast('Account created');
+        if (logRes.status == ApiStatus.success) {
+          // ACCOUNT IS NOT REGISTERED
+          if (logRes.apiData?.statusCode == 202) {
+            wwAccountCreationPop(context, logRes.apiData?.message ?? '', () {
+              bloc.add(AuthCreateUserApi(email: bloc.emailCtr.text));
+              // context.router.maybePop();
+            });
+            return;
+          }
+          successToast(logRes.apiData?.message ?? '');
         }
       },
       builder:
           (context, state) => WWButton(
             text: 'Continue',
             widthFull: true,
-            loader: bloc.state.loginResponse.status == ApiStatus.loading,
+            loader: state.loginResponse.status == ApiStatus.loading,
             onPressed: () {
-              context.read<AuthBloc>().add(
+              bloc.add(
                 AuthLoginApi(email: bloc.emailCtr.text, otp: bloc.otpCtr.text),
               );
-
-              // Navigator.of(context).pushAndRemoveUntil(
-              //   MaterialPageRoute(
-              //     builder: (context) => const MainScreen(),
-              //   ),
-              //   (Route<dynamic> route) => false,
-              // );
             },
           ),
     );

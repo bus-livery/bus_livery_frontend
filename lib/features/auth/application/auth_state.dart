@@ -5,7 +5,7 @@ class AuthState {
   final bool showPassword;
 
   final ApiResponse<String> otpResponse;
-  final ApiResponse<String> loginResponse;
+  final ApiResponse<LoginResModel> loginResponse;
 
   AuthState({
     required this.showPassword,
@@ -19,7 +19,7 @@ class AuthState {
       showPassword: false,
 
       otpResponse: ApiResponse<String>(),
-      loginResponse: ApiResponse<String>(),
+      loginResponse: ApiResponse<LoginResModel>(),
     );
   }
 
@@ -28,7 +28,7 @@ class AuthState {
     TextEditingController? emailCtr,
     TextEditingController? otpCtr,
     ApiResponse<String>? otpResponse,
-    ApiResponse<String>? loginResponse,
+    ApiResponse<LoginResModel>? loginResponse,
   }) {
     return AuthState(
       showPassword: showPassword ?? this.showPassword,

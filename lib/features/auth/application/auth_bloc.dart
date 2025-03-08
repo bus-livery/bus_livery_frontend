@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:livery/Cmodel/api_response.dart';
 import 'package:livery/Cmodel/enum.dart';
+import 'package:livery/Cwidgets/ww_popup_error_success.dart';
 import 'package:livery/features/auth/service/auth_service.dart';
 import 'package:livery/utils/custom_print.dart';
 part 'auth_event.dart';
@@ -20,6 +21,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthOtpGenerateApi>(_authOtpGenerateApi);
 
     on<AuthLoginApi>(_authLoginApi);
+
+    on<AuthCreateUserApi>(_authCreateUserApi);
   }
 
   final TextEditingController emailCtr = TextEditingController();
@@ -103,6 +106,37 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             loginResponse: ApiResponse(
               status: ApiStatus.success,
               apiData: success,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  _authCreateUserApi(AuthCreateUserApi event, emit) async {
+    emit(state.copyWith(loginResponse: ApiResponse(status: ApiStatus.loading)));
+
+    final response = await iAuthService.userRegisterApi(email: event.email);
+
+    return response.fold(
+      //
+      (failure) {
+        emit(
+          state.copyWith(
+            loginResponse: ApiResponse(
+              status: ApiStatus.failure,
+              errorMessage: failure,
+            ),
+          ),
+        );
+      },
+      //
+      (success) {
+        emit(
+          state.copyWith(
+            loginResponse: ApiResponse(
+              status: ApiStatus.success,
+              apiData: null,
             ),
           ),
         );
