@@ -12,6 +12,7 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final IAuthService iAuthService;
   AuthBloc(this.iAuthService) : super(AuthState.initial()) {
+    //
     on<AuthEvent>((event, emit) {});
 
     on<AuthPassVisible>(_authPassVisible);
@@ -19,6 +20,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthOtpGenerateApi>(_authOtpGenerateApi);
 
     on<AuthLoginApi>(_authLoginApi);
+  }
+
+  final TextEditingController emailCtr = TextEditingController();
+  final TextEditingController otpCtr = TextEditingController();
+
+  //  +-+ +-+ +-+ +-+ +-+
+  //  |C| |L| |O| |S| |E|
+  //  +-+ +-+ +-+ +-+ +-+
+  @override
+  Future<void> close() async {
+    // dispose();
+    customPrint('AUTH BLOC CLOSED');
+    emailCtr.dispose();
+    otpCtr.dispose();
+    super.close();
   }
 
   _authPassVisible(AuthPassVisible event, emit) {

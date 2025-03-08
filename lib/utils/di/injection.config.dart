@@ -15,6 +15,7 @@ import 'package:livery/features/auth/application/auth_bloc.dart' as _i632;
 import 'package:livery/features/auth/service/auth_service.dart' as _i148;
 import 'package:livery/service/dio_service.dart' as _i833;
 import 'package:livery/service/shared_pref_service.dart' as _i552;
+import 'package:livery/utils/router/router.dart' as _i14;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -23,6 +24,7 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.lazySingleton<_i14.AppRouter>(() => _i14.AppRouter());
     gh.lazySingleton<_i833.DioService>(() => _i833.DioService());
     gh.lazySingleton<_i552.SharedPrefService>(() => _i552.SharedPrefService());
     gh.lazySingleton<_i148.IAuthService>(

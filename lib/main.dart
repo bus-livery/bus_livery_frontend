@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:livery/features/auth/application/auth_bloc.dart';
-import 'package:livery/features/auth/view/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/utils/di/injection.dart';
+import 'package:livery/utils/router/router.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
@@ -15,11 +15,13 @@ void main() async {
   await configureDependencies();
   await getIt<SharedPrefService>().init();
   await ScreenUtil.ensureScreenSize();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final _appRouter = getIt<AppRouter>();
 
   // This widget is the root of your application.
   @override
@@ -31,8 +33,9 @@ class MyApp extends StatelessWidget {
         splitScreenMode: false,
         designSize: const Size(376, 814),
         builder: (context, snapshot) {
-          return MaterialApp(
+          return MaterialApp.router(
             title: 'Flutter Demo',
+            routerConfig: _appRouter.config(),
             scaffoldMessengerKey: scaffoldMessengerKey,
             themeMode: ThemeMode.dark,
             darkTheme: ThemeData(
@@ -52,7 +55,6 @@ class MyApp extends StatelessWidget {
               ),
               useMaterial3: true,
             ),
-            home: const LoginScreen(),
           );
         },
       ),

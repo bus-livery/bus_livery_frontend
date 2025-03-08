@@ -1,18 +1,19 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:livery/CModel/api_response.dart';
 import 'package:livery/Cmodel/enum.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/Cwidgets/ww_popup_error_success.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/Cwidgets/ww_textfield.dart';
 import 'package:livery/features/auth/application/auth_bloc.dart';
-import 'package:livery/features/auth/view/otp_screen.dart';
 import 'package:livery/utils/app_images.dart';
 import 'package:livery/utils/app_size.dart';
+import 'package:livery/utils/router/router_names.dart';
 import 'package:livery/utils/toast.dart';
 
+@RoutePage()
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
@@ -29,7 +30,7 @@ class LoginScreen extends StatelessWidget {
             children: [
               Image.asset('assets/images/buss_logo.png', height: 150),
               WWTextFieldEmail(
-                controller: bloc.state.emailCtr,
+                controller: bloc.emailCtr,
                 hintText: 'Enter your email',
               ),
               _ButtonGenerateOtp(bloc: bloc),
@@ -83,9 +84,7 @@ class _ButtonGenerateOtp extends StatelessWidget {
             }
             if (state.otpResponse.status == ApiStatus.success) {
               successToast(state.otpResponse.apiData ?? '');
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const OtpScreen()),
-              );
+              context.router.pushPath(RouterNames.otpScreen);
             }
           },
           child: WWButton(
@@ -94,7 +93,7 @@ class _ButtonGenerateOtp extends StatelessWidget {
             text: 'Get OTP',
             onPressed: () {
               context.read<AuthBloc>().add(
-                AuthOtpGenerateApi(email: bloc.state.emailCtr.text),
+                AuthOtpGenerateApi(email: bloc.emailCtr.text),
               );
             },
           ),
