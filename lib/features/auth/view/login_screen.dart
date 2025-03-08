@@ -33,6 +33,7 @@ class LoginScreen extends StatelessWidget {
                 controller: bloc.emailCtr,
                 hintText: 'Enter your email',
               ),
+              // BUTTON GENERATE OTP
               _ButtonGenerateOtp(bloc: bloc),
               Row(
                 children: [
@@ -74,20 +75,20 @@ class _ButtonGenerateOtp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) {
-        return BlocListener<AuthBloc, AuthState>(
-          listenWhen: (p, c) => p.otpResponse.status != c.otpResponse.status,
-          listener: (context, state) {
-            if (state.otpResponse.status == ApiStatus.failure) {
-              errorResponsePop(context, state.otpResponse.errorMessage ?? '');
-            }
-            if (state.otpResponse.status == ApiStatus.success) {
-              successToast(state.otpResponse.apiData ?? '');
-              context.router.pushPath(RouterNames.otpScreen);
-            }
-          },
-          child: WWButton(
+    return BlocConsumer<AuthBloc, AuthState>(
+      buildWhen: (p, c) => p.otpResponse.status != c.otpResponse.status,
+      listenWhen: (p, c) => p.otpResponse.status != c.otpResponse.status,
+      listener: (context, state) {
+        if (state.otpResponse.status == ApiStatus.failure) {
+          errorResponsePop(context, state.otpResponse.errorMessage ?? '');
+        }
+        if (state.otpResponse.status == ApiStatus.success) {
+          successToast(state.otpResponse.apiData ?? '');
+          context.router.pushPath(RouterNames.otpScreen);
+        }
+      },
+      builder:
+          (context, state) => WWButton(
             widthFull: true,
             loader: state.otpResponse.status == ApiStatus.loading,
             text: 'Get OTP',
@@ -97,8 +98,6 @@ class _ButtonGenerateOtp extends StatelessWidget {
               );
             },
           ),
-        );
-      },
     );
   }
 }

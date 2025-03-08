@@ -44,8 +44,10 @@ class OtpScreen extends StatelessWidget {
                 ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
               AppSize.sizedBox6h,
+              // OTP FIELD
               WWPinCodeTextField(
                 context: context,
+
                 controller: bloc.otpCtr,
                 validator: (v) {
                   if (v?.isEmpty ?? true) {
@@ -56,6 +58,7 @@ class OtpScreen extends StatelessWidget {
                 onChanged: (x) {},
               ),
               AppSize.sizedBox2h,
+              // LOGIN BUTTON
               _LoginButton(bloc: bloc),
               AppSize.sizedBox6h,
               const WwText(text: 'Didn\'t receive code?'),
