@@ -31,14 +31,13 @@ abstract class WWButtonBase extends StatelessWidget {
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(surfaceTintColor: buttonColor),
-          child:
-              loader == true
-                  ? CircularProgressIndicator()
-                  : Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: widgets,
-                  ),
+          child: loader == true
+              ? CircularProgressIndicator()
+              : Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: widgets,
+                ),
         ),
       ),
     );
@@ -57,16 +56,17 @@ class WWButton extends WWButtonBase {
     super.expandFlex,
     required super.onPressed,
   }) : super(
-         widgets: [
-           WwText(
-             text: text,
-             style: TextStyle(
-               fontSize: fontSize,
-               color: Theme.of(smKey.currentState!.context).colorScheme.primary,
-             ),
-           ),
-         ],
-       );
+          widgets: [
+            WwText(
+              text: text,
+              style: TextStyle(
+                fontSize: fontSize,
+                color:
+                    Theme.of(smKey.currentState!.context).colorScheme.primary,
+              ),
+            ),
+          ],
+        );
 }
 
 class WWButtonPrefixSvg extends WWButtonBase {
@@ -81,18 +81,19 @@ class WWButtonPrefixSvg extends WWButtonBase {
     super.loader,
     required super.onPressed,
   }) : super(
-         widgets: [
-           _ButtonSvg(icon: icon),
-           const SizedBox(width: 8),
-           WwText(
-             text: text,
-             style: TextStyle(
-               fontSize: fontSize,
-               color: Theme.of(smKey.currentState!.context).colorScheme.primary,
-             ),
-           ),
-         ],
-       );
+          widgets: [
+            _ButtonSvg(icon: icon),
+            const SizedBox(width: 8),
+            WwText(
+              text: text,
+              style: TextStyle(
+                fontSize: fontSize,
+                color:
+                    Theme.of(smKey.currentState!.context).colorScheme.primary,
+              ),
+            ),
+          ],
+        );
 }
 
 class WWButtonSuffixSvg extends WWButtonBase {
@@ -107,12 +108,12 @@ class WWButtonSuffixSvg extends WWButtonBase {
     super.loader,
     required super.onPressed,
   }) : super(
-         widgets: [
-           WwText(text: text, style: TextStyle(fontSize: fontSize)),
-           const SizedBox(width: 8),
-           _ButtonSvg(icon: icon),
-         ],
-       );
+          widgets: [
+            WwText(text: text, style: TextStyle(fontSize: fontSize)),
+            const SizedBox(width: 8),
+            _ButtonSvg(icon: icon),
+          ],
+        );
 }
 
 class _ButtonSvg extends StatelessWidget {

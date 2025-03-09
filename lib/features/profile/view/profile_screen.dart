@@ -67,7 +67,7 @@ class ProfileScreen extends StatelessWidget {
                           text: '1000',
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
-                        const WwText(text: 'Downloads'),
+                        const WwText(text: 'Likes'),
                       ],
                     ),
                   ),
@@ -157,11 +157,10 @@ class ProfileScreen extends StatelessWidget {
                       imageUrl:
                           "https://i.pinimg.com/736x/09/a6/d6/09a6d6ff2a65445a72fbf91c746e6dfd.jpg",
                       fit: BoxFit.cover,
-                      placeholder:
-                          (context, url) =>
-                              const Center(child: CircularProgressIndicator()),
-                      errorWidget:
-                          (context, url, error) => const Icon(Icons.error),
+                      placeholder: (context, url) =>
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     );
                   },
                 ),

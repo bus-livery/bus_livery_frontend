@@ -48,7 +48,6 @@ class OtpScreen extends StatelessWidget {
               // OTP FIELD-----------------------------
               WWPinCodeTextField(
                 context: context,
-
                 controller: bloc.otpCtr,
                 validator: (v) {
                   if (v?.isEmpty ?? true) {
@@ -114,15 +113,14 @@ class _ResendButton extends StatelessWidget {
                 ),
               ),
             ),
-
             AppSize.sizedBox1w,
             state.otpResponse.status != ApiStatus.loading
                 ? SizedBox()
                 : SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(),
-                ),
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(),
+                  ),
           ],
         );
       },
@@ -164,17 +162,16 @@ class _LoginButton extends StatelessWidget {
           context.router.pushPath(RouterNames.mainScreen);
         }
       },
-      builder:
-          (context, state) => WWButton(
-            text: 'Continue',
-            widthFull: true,
-            loader: state.loginResponse.status == ApiStatus.loading,
-            onPressed: () {
-              bloc.add(
-                AuthLoginApi(email: bloc.emailCtr.text, otp: bloc.otpCtr.text),
-              );
-            },
-          ),
+      builder: (context, state) => WWButton(
+        text: 'Continue',
+        widthFull: true,
+        loader: state.loginResponse.status == ApiStatus.loading,
+        onPressed: () {
+          bloc.add(
+            AuthLoginApi(email: bloc.emailCtr.text, otp: bloc.otpCtr.text),
+          );
+        },
+      ),
     );
   }
 }

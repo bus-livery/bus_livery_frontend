@@ -68,8 +68,8 @@ class PageTransitionAnimation extends StatelessWidget {
     super.key,
     required int currentIndex,
     required List<Widget> tabs,
-  }) : _currentIndex = currentIndex,
-       _tabs = tabs;
+  })  : _currentIndex = currentIndex,
+        _tabs = tabs;
 
   final int _currentIndex;
   final List<Widget> _tabs;

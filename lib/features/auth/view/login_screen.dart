@@ -76,14 +76,10 @@ class _ButtonGenerateOtp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
-      buildWhen:
-          (p, c) =>
-              p.otpResponse.status != c.otpResponse.status &&
-              c.isFromLoginScreen,
-      listenWhen:
-          (p, c) =>
-              p.otpResponse.status != c.otpResponse.status &&
-              c.isFromLoginScreen,
+      buildWhen: (p, c) =>
+          p.otpResponse.status != c.otpResponse.status && c.isFromLoginScreen,
+      listenWhen: (p, c) =>
+          p.otpResponse.status != c.otpResponse.status && c.isFromLoginScreen,
       listener: (context, state) {
         if (state.otpResponse.status == ApiStatus.failure) {
           wwDialogueBox(context, textSub: state.otpResponse.errorMessage ?? '');
@@ -94,20 +90,19 @@ class _ButtonGenerateOtp extends StatelessWidget {
           context.router.pushPath(RouterNames.otpScreen);
         }
       },
-      builder:
-          (context, state) => WWButton(
-            widthFull: true,
-            loader: state.otpResponse.status == ApiStatus.loading,
-            text: 'Get OTP',
-            onPressed: () {
-              context.read<AuthBloc>().add(
+      builder: (context, state) => WWButton(
+        widthFull: true,
+        loader: state.otpResponse.status == ApiStatus.loading,
+        text: 'Get OTP',
+        onPressed: () {
+          context.read<AuthBloc>().add(
                 AuthOtpGenerateApi(
                   isFromLoginScreen: true,
                   email: bloc.emailCtr.text,
                 ),
               );
-            },
-          ),
+        },
+      ),
     );
   }
 }

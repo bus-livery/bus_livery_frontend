@@ -72,38 +72,31 @@ class _$ApiResponseCopyWithImpl<T, $Res, $Val extends ApiResponse<T>>
   }) {
     return _then(
       _value.copyWith(
-            apiData:
-                freezed == apiData
-                    ? _value.apiData
-                    : apiData // ignore: cast_nullable_to_non_nullable
-                        as T?,
-            errorMessage:
-                freezed == errorMessage
-                    ? _value.errorMessage
-                    : errorMessage // ignore: cast_nullable_to_non_nullable
-                        as String?,
-            successMessage:
-                freezed == successMessage
-                    ? _value.successMessage
-                    : successMessage // ignore: cast_nullable_to_non_nullable
-                        as String?,
-            status:
-                null == status
-                    ? _value.status
-                    : status // ignore: cast_nullable_to_non_nullable
-                        as ApiStatus,
-            loading:
-                null == loading
-                    ? _value.loading
-                    : loading // ignore: cast_nullable_to_non_nullable
-                        as bool,
-            paginationLoading:
-                null == paginationLoading
-                    ? _value.paginationLoading
-                    : paginationLoading // ignore: cast_nullable_to_non_nullable
-                        as bool,
-          )
-          as $Val,
+        apiData: freezed == apiData
+            ? _value.apiData
+            : apiData // ignore: cast_nullable_to_non_nullable
+                as T?,
+        errorMessage: freezed == errorMessage
+            ? _value.errorMessage
+            : errorMessage // ignore: cast_nullable_to_non_nullable
+                as String?,
+        successMessage: freezed == successMessage
+            ? _value.successMessage
+            : successMessage // ignore: cast_nullable_to_non_nullable
+                as String?,
+        status: null == status
+            ? _value.status
+            : status // ignore: cast_nullable_to_non_nullable
+                as ApiStatus,
+        loading: null == loading
+            ? _value.loading
+            : loading // ignore: cast_nullable_to_non_nullable
+                as bool,
+        paginationLoading: null == paginationLoading
+            ? _value.paginationLoading
+            : paginationLoading // ignore: cast_nullable_to_non_nullable
+                as bool,
+      ) as $Val,
     );
   }
 }
@@ -150,36 +143,30 @@ class __$$ApiResponseImplCopyWithImpl<T, $Res>
   }) {
     return _then(
       _$ApiResponseImpl<T>(
-        apiData:
-            freezed == apiData
-                ? _value.apiData
-                : apiData // ignore: cast_nullable_to_non_nullable
-                    as T?,
-        errorMessage:
-            freezed == errorMessage
-                ? _value.errorMessage
-                : errorMessage // ignore: cast_nullable_to_non_nullable
-                    as String?,
-        successMessage:
-            freezed == successMessage
-                ? _value.successMessage
-                : successMessage // ignore: cast_nullable_to_non_nullable
-                    as String?,
-        status:
-            null == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                    as ApiStatus,
-        loading:
-            null == loading
-                ? _value.loading
-                : loading // ignore: cast_nullable_to_non_nullable
-                    as bool,
-        paginationLoading:
-            null == paginationLoading
-                ? _value.paginationLoading
-                : paginationLoading // ignore: cast_nullable_to_non_nullable
-                    as bool,
+        apiData: freezed == apiData
+            ? _value.apiData
+            : apiData // ignore: cast_nullable_to_non_nullable
+                as T?,
+        errorMessage: freezed == errorMessage
+            ? _value.errorMessage
+            : errorMessage // ignore: cast_nullable_to_non_nullable
+                as String?,
+        successMessage: freezed == successMessage
+            ? _value.successMessage
+            : successMessage // ignore: cast_nullable_to_non_nullable
+                as String?,
+        status: null == status
+            ? _value.status
+            : status // ignore: cast_nullable_to_non_nullable
+                as ApiStatus,
+        loading: null == loading
+            ? _value.loading
+            : loading // ignore: cast_nullable_to_non_nullable
+                as bool,
+        paginationLoading: null == paginationLoading
+            ? _value.paginationLoading
+            : paginationLoading // ignore: cast_nullable_to_non_nullable
+                as bool,
       ),
     );
   }
@@ -236,14 +223,14 @@ class _$ApiResponseImpl<T> implements _ApiResponse<T> {
 
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(apiData),
-    errorMessage,
-    successMessage,
-    status,
-    loading,
-    paginationLoading,
-  );
+        runtimeType,
+        const DeepCollectionEquality().hash(apiData),
+        errorMessage,
+        successMessage,
+        status,
+        loading,
+        paginationLoading,
+      );
 
   /// Create a copy of ApiResponse
   /// with the given fields replaced by the non-null parameter values.

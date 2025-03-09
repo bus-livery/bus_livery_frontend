@@ -124,8 +124,8 @@ class PostWidget extends StatelessWidget {
         imageUrl:
             'https://buslivery.s3.eu-north-1.amazonaws.com/livery/livery_200/2024-07-07+15%3A22%3A17.396364+%2B0530+IST+m%3D%2B6.934072668', //   "https://i.pinimg.com/736x/09/a6/d6/09a6d6ff2a65445a72fbf91c746e6dfd.jpg",
         fit: BoxFit.cover,
-        placeholder:
-            (context, url) => const Center(child: CircularProgressIndicator()),
+        placeholder: (context, url) =>
+            const Center(child: CircularProgressIndicator()),
         errorWidget: (context, url, error) => const Icon(Icons.error),
       ),
     );
