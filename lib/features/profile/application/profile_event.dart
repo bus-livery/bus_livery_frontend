@@ -2,4 +2,4 @@ part of 'profile_bloc.dart';
 
 abstract class ProfileEvent {}
 
-class ProfileGetMyApi extends ProfileEvent {}
+class ProfileGetMyApiEvent extends ProfileEvent {}

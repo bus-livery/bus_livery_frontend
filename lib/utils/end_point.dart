@@ -10,5 +10,5 @@ final class AuthEndPoint {
 }
 
 final class ProfileEndPoints {
-  final getMy = '/vq/profile/fetch-my';
+  final getMy = '/v1/profile/fetch-my';
 }

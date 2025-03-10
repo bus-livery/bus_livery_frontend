@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
+import 'package:livery/features/profile/application/profile_bloc.dart';
 import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/di/injection.dart';
@@ -27,10 +29,16 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
               AppSize.sizedBox2h,
-              WwText(
-                text: 'Jithin Johnson',
-                test: TextStyles.heading,
-                style: Theme.of(context).textTheme.titleLarge,
+              BlocSelector<ProfileBloc, ProfileState, String>(
+                selector:
+                    (state) => state.profileResponse.apiData?.username ?? '',
+                builder: (context, username) {
+                  return WwText(
+                    text: username,
+                    test: TextStyles.heading,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  );
+                },
               ),
               AppSize.sizedBox2h,
               Row(
@@ -63,9 +71,16 @@ class ProfileScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        WwText(
-                          text: '1000',
-                          style: Theme.of(context).textTheme.bodyLarge,
+                        BlocSelector<ProfileBloc, ProfileState, int>(
+                          selector:
+                              (state) =>
+                                  state.profileResponse.apiData?.likeCount ?? 0,
+                          builder: (context, likeCount) {
+                            return WwText(
+                              text: likeCount.toString(),
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            );
+                          },
                         ),
                         const WwText(text: 'Likes'),
                       ],
@@ -157,10 +172,11 @@ class ProfileScreen extends StatelessWidget {
                       imageUrl:
                           "https://i.pinimg.com/736x/09/a6/d6/09a6d6ff2a65445a72fbf91c746e6dfd.jpg",
                       fit: BoxFit.cover,
-                      placeholder: (context, url) =>
-                          const Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                      placeholder:
+                          (context, url) =>
+                              const Center(child: CircularProgressIndicator()),
+                      errorWidget:
+                          (context, url, error) => const Icon(Icons.error),
                     );
                   },
                 ),

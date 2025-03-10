@@ -1,0 +1,3 @@
+mixin BlocLifeCycle {
+  void initstate();
+}

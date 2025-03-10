@@ -23,7 +23,8 @@ class ProfileService implements IProfileService {
       );
       return res.fold(
         (l) => Left(l.message),
-        (r) async => Right(ProfileModel.fromJson(r as Map<String, dynamic>)),
+        (r) async =>
+            Right(ProfileModel.fromJson(r.data as Map<String, dynamic>)),
       );
     } catch (e) {
       return Left("$e");

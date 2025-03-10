@@ -33,7 +33,7 @@ mixin _$ProfileModel {
   String? get dp => throw _privateConstructorUsedError;
   String? get phone => throw _privateConstructorUsedError;
   @JsonKey(name: 'county_code')
-  int? get countyCode => throw _privateConstructorUsedError;
+  int? get countryCode => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: 'profile_completed')
@@ -43,7 +43,19 @@ mixin _$ProfileModel {
   @JsonKey(name: 'violation_count')
   int? get violationCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'like_count')
-  int? get likeCount => throw _privateConstructorUsedError;
+  int? get likeCount => throw _privateConstructorUsedError; // Username Controller
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  TextEditingController? get usernameCtr => throw _privateConstructorUsedError; // Country code Controller
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  TextEditingController? get countryCodeCtr =>
+      throw _privateConstructorUsedError; // Phone Number Controller
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  TextEditingController? get phoneNoCtr => throw _privateConstructorUsedError; // Email Controller
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  TextEditingController? get emailCtr => throw _privateConstructorUsedError; // Description Controller
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  TextEditingController? get descriptionCtr =>
+      throw _privateConstructorUsedError;
 
   /// Serializes this ProfileModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -70,13 +82,23 @@ abstract class $ProfileModelCopyWith<$Res> {
     String? username,
     String? dp,
     String? phone,
-    @JsonKey(name: 'county_code') int? countyCode,
+    @JsonKey(name: 'county_code') int? countryCode,
     String? email,
     String? description,
     @JsonKey(name: 'profile_completed') bool? profileCompleted,
     @JsonKey(name: 'active_status') bool? activeStatus,
     @JsonKey(name: 'violation_count') int? violationCount,
     @JsonKey(name: 'like_count') int? likeCount,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    TextEditingController? usernameCtr,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    TextEditingController? countryCodeCtr,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    TextEditingController? phoneNoCtr,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    TextEditingController? emailCtr,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    TextEditingController? descriptionCtr,
   });
 }
 
@@ -102,13 +124,18 @@ class _$ProfileModelCopyWithImpl<$Res, $Val extends ProfileModel>
     Object? username = freezed,
     Object? dp = freezed,
     Object? phone = freezed,
-    Object? countyCode = freezed,
+    Object? countryCode = freezed,
     Object? email = freezed,
     Object? description = freezed,
     Object? profileCompleted = freezed,
     Object? activeStatus = freezed,
     Object? violationCount = freezed,
     Object? likeCount = freezed,
+    Object? usernameCtr = freezed,
+    Object? countryCodeCtr = freezed,
+    Object? phoneNoCtr = freezed,
+    Object? emailCtr = freezed,
+    Object? descriptionCtr = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -147,10 +174,10 @@ class _$ProfileModelCopyWithImpl<$Res, $Val extends ProfileModel>
                     ? _value.phone
                     : phone // ignore: cast_nullable_to_non_nullable
                         as String?,
-            countyCode:
-                freezed == countyCode
-                    ? _value.countyCode
-                    : countyCode // ignore: cast_nullable_to_non_nullable
+            countryCode:
+                freezed == countryCode
+                    ? _value.countryCode
+                    : countryCode // ignore: cast_nullable_to_non_nullable
                         as int?,
             email:
                 freezed == email
@@ -182,6 +209,31 @@ class _$ProfileModelCopyWithImpl<$Res, $Val extends ProfileModel>
                     ? _value.likeCount
                     : likeCount // ignore: cast_nullable_to_non_nullable
                         as int?,
+            usernameCtr:
+                freezed == usernameCtr
+                    ? _value.usernameCtr
+                    : usernameCtr // ignore: cast_nullable_to_non_nullable
+                        as TextEditingController?,
+            countryCodeCtr:
+                freezed == countryCodeCtr
+                    ? _value.countryCodeCtr
+                    : countryCodeCtr // ignore: cast_nullable_to_non_nullable
+                        as TextEditingController?,
+            phoneNoCtr:
+                freezed == phoneNoCtr
+                    ? _value.phoneNoCtr
+                    : phoneNoCtr // ignore: cast_nullable_to_non_nullable
+                        as TextEditingController?,
+            emailCtr:
+                freezed == emailCtr
+                    ? _value.emailCtr
+                    : emailCtr // ignore: cast_nullable_to_non_nullable
+                        as TextEditingController?,
+            descriptionCtr:
+                freezed == descriptionCtr
+                    ? _value.descriptionCtr
+                    : descriptionCtr // ignore: cast_nullable_to_non_nullable
+                        as TextEditingController?,
           )
           as $Val,
     );
@@ -205,13 +257,23 @@ abstract class _$$ProfileModelImplCopyWith<$Res>
     String? username,
     String? dp,
     String? phone,
-    @JsonKey(name: 'county_code') int? countyCode,
+    @JsonKey(name: 'county_code') int? countryCode,
     String? email,
     String? description,
     @JsonKey(name: 'profile_completed') bool? profileCompleted,
     @JsonKey(name: 'active_status') bool? activeStatus,
     @JsonKey(name: 'violation_count') int? violationCount,
     @JsonKey(name: 'like_count') int? likeCount,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    TextEditingController? usernameCtr,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    TextEditingController? countryCodeCtr,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    TextEditingController? phoneNoCtr,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    TextEditingController? emailCtr,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    TextEditingController? descriptionCtr,
   });
 }
 
@@ -236,13 +298,18 @@ class __$$ProfileModelImplCopyWithImpl<$Res>
     Object? username = freezed,
     Object? dp = freezed,
     Object? phone = freezed,
-    Object? countyCode = freezed,
+    Object? countryCode = freezed,
     Object? email = freezed,
     Object? description = freezed,
     Object? profileCompleted = freezed,
     Object? activeStatus = freezed,
     Object? violationCount = freezed,
     Object? likeCount = freezed,
+    Object? usernameCtr = freezed,
+    Object? countryCodeCtr = freezed,
+    Object? phoneNoCtr = freezed,
+    Object? emailCtr = freezed,
+    Object? descriptionCtr = freezed,
   }) {
     return _then(
       _$ProfileModelImpl(
@@ -281,10 +348,10 @@ class __$$ProfileModelImplCopyWithImpl<$Res>
                 ? _value.phone
                 : phone // ignore: cast_nullable_to_non_nullable
                     as String?,
-        countyCode:
-            freezed == countyCode
-                ? _value.countyCode
-                : countyCode // ignore: cast_nullable_to_non_nullable
+        countryCode:
+            freezed == countryCode
+                ? _value.countryCode
+                : countryCode // ignore: cast_nullable_to_non_nullable
                     as int?,
         email:
             freezed == email
@@ -316,6 +383,31 @@ class __$$ProfileModelImplCopyWithImpl<$Res>
                 ? _value.likeCount
                 : likeCount // ignore: cast_nullable_to_non_nullable
                     as int?,
+        usernameCtr:
+            freezed == usernameCtr
+                ? _value.usernameCtr
+                : usernameCtr // ignore: cast_nullable_to_non_nullable
+                    as TextEditingController?,
+        countryCodeCtr:
+            freezed == countryCodeCtr
+                ? _value.countryCodeCtr
+                : countryCodeCtr // ignore: cast_nullable_to_non_nullable
+                    as TextEditingController?,
+        phoneNoCtr:
+            freezed == phoneNoCtr
+                ? _value.phoneNoCtr
+                : phoneNoCtr // ignore: cast_nullable_to_non_nullable
+                    as TextEditingController?,
+        emailCtr:
+            freezed == emailCtr
+                ? _value.emailCtr
+                : emailCtr // ignore: cast_nullable_to_non_nullable
+                    as TextEditingController?,
+        descriptionCtr:
+            freezed == descriptionCtr
+                ? _value.descriptionCtr
+                : descriptionCtr // ignore: cast_nullable_to_non_nullable
+                    as TextEditingController?,
       ),
     );
   }
@@ -332,13 +424,18 @@ class _$ProfileModelImpl implements _ProfileModel {
     this.username,
     this.dp,
     this.phone,
-    @JsonKey(name: 'county_code') this.countyCode,
+    @JsonKey(name: 'county_code') this.countryCode,
     this.email,
     this.description,
     @JsonKey(name: 'profile_completed') this.profileCompleted,
     @JsonKey(name: 'active_status') this.activeStatus,
     @JsonKey(name: 'violation_count') this.violationCount,
     @JsonKey(name: 'like_count') this.likeCount,
+    @JsonKey(includeFromJson: false, includeToJson: false) this.usernameCtr,
+    @JsonKey(includeFromJson: false, includeToJson: false) this.countryCodeCtr,
+    @JsonKey(includeFromJson: false, includeToJson: false) this.phoneNoCtr,
+    @JsonKey(includeFromJson: false, includeToJson: false) this.emailCtr,
+    @JsonKey(includeFromJson: false, includeToJson: false) this.descriptionCtr,
   });
 
   factory _$ProfileModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -364,7 +461,7 @@ class _$ProfileModelImpl implements _ProfileModel {
   final String? phone;
   @override
   @JsonKey(name: 'county_code')
-  final int? countyCode;
+  final int? countryCode;
   @override
   final String? email;
   @override
@@ -381,10 +478,30 @@ class _$ProfileModelImpl implements _ProfileModel {
   @override
   @JsonKey(name: 'like_count')
   final int? likeCount;
+  // Username Controller
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final TextEditingController? usernameCtr;
+  // Country code Controller
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final TextEditingController? countryCodeCtr;
+  // Phone Number Controller
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final TextEditingController? phoneNoCtr;
+  // Email Controller
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final TextEditingController? emailCtr;
+  // Description Controller
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final TextEditingController? descriptionCtr;
 
   @override
   String toString() {
-    return 'ProfileModel(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, username: $username, dp: $dp, phone: $phone, countyCode: $countyCode, email: $email, description: $description, profileCompleted: $profileCompleted, activeStatus: $activeStatus, violationCount: $violationCount, likeCount: $likeCount)';
+    return 'ProfileModel(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, username: $username, dp: $dp, phone: $phone, countryCode: $countryCode, email: $email, description: $description, profileCompleted: $profileCompleted, activeStatus: $activeStatus, violationCount: $violationCount, likeCount: $likeCount, usernameCtr: $usernameCtr, countryCodeCtr: $countryCodeCtr, phoneNoCtr: $phoneNoCtr, emailCtr: $emailCtr, descriptionCtr: $descriptionCtr)';
   }
 
   @override
@@ -402,8 +519,8 @@ class _$ProfileModelImpl implements _ProfileModel {
                 other.username == username) &&
             (identical(other.dp, dp) || other.dp == dp) &&
             (identical(other.phone, phone) || other.phone == phone) &&
-            (identical(other.countyCode, countyCode) ||
-                other.countyCode == countyCode) &&
+            (identical(other.countryCode, countryCode) ||
+                other.countryCode == countryCode) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.description, description) ||
                 other.description == description) &&
@@ -414,12 +531,22 @@ class _$ProfileModelImpl implements _ProfileModel {
             (identical(other.violationCount, violationCount) ||
                 other.violationCount == violationCount) &&
             (identical(other.likeCount, likeCount) ||
-                other.likeCount == likeCount));
+                other.likeCount == likeCount) &&
+            (identical(other.usernameCtr, usernameCtr) ||
+                other.usernameCtr == usernameCtr) &&
+            (identical(other.countryCodeCtr, countryCodeCtr) ||
+                other.countryCodeCtr == countryCodeCtr) &&
+            (identical(other.phoneNoCtr, phoneNoCtr) ||
+                other.phoneNoCtr == phoneNoCtr) &&
+            (identical(other.emailCtr, emailCtr) ||
+                other.emailCtr == emailCtr) &&
+            (identical(other.descriptionCtr, descriptionCtr) ||
+                other.descriptionCtr == descriptionCtr));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     runtimeType,
     id,
     createdAt,
@@ -428,14 +555,19 @@ class _$ProfileModelImpl implements _ProfileModel {
     username,
     dp,
     phone,
-    countyCode,
+    countryCode,
     email,
     description,
     profileCompleted,
     activeStatus,
     violationCount,
     likeCount,
-  );
+    usernameCtr,
+    countryCodeCtr,
+    phoneNoCtr,
+    emailCtr,
+    descriptionCtr,
+  ]);
 
   /// Create a copy of ProfileModel
   /// with the given fields replaced by the non-null parameter values.
@@ -460,13 +592,23 @@ abstract class _ProfileModel implements ProfileModel {
     final String? username,
     final String? dp,
     final String? phone,
-    @JsonKey(name: 'county_code') final int? countyCode,
+    @JsonKey(name: 'county_code') final int? countryCode,
     final String? email,
     final String? description,
     @JsonKey(name: 'profile_completed') final bool? profileCompleted,
     @JsonKey(name: 'active_status') final bool? activeStatus,
     @JsonKey(name: 'violation_count') final int? violationCount,
     @JsonKey(name: 'like_count') final int? likeCount,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    final TextEditingController? usernameCtr,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    final TextEditingController? countryCodeCtr,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    final TextEditingController? phoneNoCtr,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    final TextEditingController? emailCtr,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    final TextEditingController? descriptionCtr,
   }) = _$ProfileModelImpl;
 
   factory _ProfileModel.fromJson(Map<String, dynamic> json) =
@@ -492,7 +634,7 @@ abstract class _ProfileModel implements ProfileModel {
   String? get phone;
   @override
   @JsonKey(name: 'county_code')
-  int? get countyCode;
+  int? get countryCode;
   @override
   String? get email;
   @override
@@ -508,7 +650,22 @@ abstract class _ProfileModel implements ProfileModel {
   int? get violationCount;
   @override
   @JsonKey(name: 'like_count')
-  int? get likeCount;
+  int? get likeCount; // Username Controller
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  TextEditingController? get usernameCtr; // Country code Controller
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  TextEditingController? get countryCodeCtr; // Phone Number Controller
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  TextEditingController? get phoneNoCtr; // Email Controller
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  TextEditingController? get emailCtr; // Description Controller
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  TextEditingController? get descriptionCtr;
 
   /// Create a copy of ProfileModel
   /// with the given fields replaced by the non-null parameter values.
