@@ -10,6 +10,7 @@ import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/router/router.gr.dart';
+import 'package:livery/utils/router/router_names.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -31,7 +32,7 @@ class ProfileScreen extends StatelessWidget {
               AppSize.sizedBox2h,
               BlocSelector<ProfileBloc, ProfileState, String>(
                 selector:
-                    (state) => state.profileResponse.apiData?.username ?? '',
+                    (state) => state.getProfileRes.apiData?.username ?? '',
                 builder: (context, username) {
                   return WwText(
                     text: username,
@@ -74,7 +75,7 @@ class ProfileScreen extends StatelessWidget {
                         BlocSelector<ProfileBloc, ProfileState, int>(
                           selector:
                               (state) =>
-                                  state.profileResponse.apiData?.likeCount ?? 0,
+                                  state.getProfileRes.apiData?.likeCount ?? 0,
                           builder: (context, likeCount) {
                             return WwText(
                               text: likeCount.toString(),
@@ -95,7 +96,9 @@ class ProfileScreen extends StatelessWidget {
                   WWButton(
                     expandFlex: 1,
                     text: 'Edit Profile',
-                    onPressed: () {},
+                    onPressed: () {
+                      context.router.pushPath(RouterNames.editProfileScreen);
+                    },
                   ),
                   AppSize.sizedBox2w,
                   WWButton(

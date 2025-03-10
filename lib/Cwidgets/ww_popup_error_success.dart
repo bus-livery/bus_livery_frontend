@@ -1,5 +1,7 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
+import 'package:livery/main.dart';
 import 'package:livery/utils/app_images.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/di/injection.dart';
@@ -70,18 +72,18 @@ class WWDialogueBox extends WWDialogueBoxBase {
   final String? textSub;
   final String? svgIcon;
   WWDialogueBox({super.key, this.svgIcon, this.text, this.textSub})
-      : super(
-          icon: SvgPicture.asset(svgIcon ?? AppImages.google),
-          title: text ?? 'Oops',
-          subTitle: textSub,
-          buttons: [
-            WWButton(
-              expandFlex: 1,
-              text: 'Dismiss',
-              onPressed: getIt<AppRouter>().maybePop,
-            ),
-          ],
-        );
+    : super(
+        icon: SvgPicture.asset(svgIcon ?? AppImages.google),
+        title: text ?? 'Oops',
+        subTitle: textSub,
+        buttons: [
+          WWButton(
+            expandFlex: 1,
+            text: 'Dismiss',
+            onPressed: getIt<AppRouter>().maybePop,
+          ),
+        ],
+      );
 }
 
 wwDialogueBox2Button(
@@ -126,25 +128,25 @@ class WWDialogueBox2Button extends WWDialogueBoxBase {
     required this.secondTap,
     this.firstTap,
   }) : super(
-          icon: SvgPicture.asset(svgIcon ?? AppImages.google),
-          title: text ?? 'Oops',
-          subTitle: textSub,
-          buttons: [
-            WWButton(
-              expandFlex: 1,
-              text: 'Close',
-              onPressed: () {
-                firstTap != null ? firstTap() : getIt<AppRouter>().back;
-              },
-            ),
-            AppSize.sizedBox2w,
-            WWButton(
-              expandFlex: 1,
-              text: buttonName ?? 'Continue',
-              onPressed: secondTap,
-            ),
-          ],
-        );
+         icon: SvgPicture.asset(svgIcon ?? AppImages.google),
+         title: text ?? 'Oops',
+         subTitle: textSub,
+         buttons: [
+           WWButton(
+             expandFlex: 1,
+             text: 'Close',
+             onPressed: () {
+               firstTap != null ? firstTap() : getIt<AppRouter>().back;
+             },
+           ),
+           AppSize.sizedBox2w,
+           WWButton(
+             expandFlex: 1,
+             text: buttonName ?? 'Continue',
+             onPressed: secondTap,
+           ),
+         ],
+       );
 }
 
 // class WWAccountCreation extends StatelessWidget {
@@ -235,79 +237,86 @@ class ImageConstant {}
 //   );
 // }
 
-// void showSuccessNotification() {
-//   BotToast.showCustomNotification(
-//     duration: const Duration(seconds: 3),
-//     toastBuilder: (cancelFunc) {
-//       return Container(
-//         padding: const EdgeInsets.all(16.0),
-//         margin: const EdgeInsets.all(10.0),
-//         decoration: BoxDecoration(
-//           color: Colors.green,
-//           borderRadius: BorderRadius.circular(8.0),
-//           boxShadow: [
-//             BoxShadow(color: Colors.black.withOpacity(0.3), blurRadius: 8.0),
-//           ],
-//         ),
-//         child: Row(
-//           mainAxisSize: MainAxisSize.min,
-//           children: [
-//             const Icon(Icons.check_circle, color: Colors.white),
-//             const SizedBox(width: 10),
-//             const Text(
-//               'Success! Your action was successful.',
-//               style: TextStyle(color: Colors.white),
-//             ),
-//             IconButton(
-//               icon: const Icon(Icons.close, color: Colors.white),
-//               onPressed: cancelFunc,
-//             ),
-//           ],
-//         ),
-//       );
-//     },
-//     animationDuration: const Duration(milliseconds: 300),
-//     align: Alignment.topRight,
-//   );
-// }
+void showSuccessNotification() {
+  BotToast.showCustomNotification(
+    duration: const Duration(seconds: 3),
+    toastBuilder: (cancelFunc) {
+      return Container(
+        padding: const EdgeInsets.all(16.0),
+        margin: const EdgeInsets.all(10.0),
+        decoration: BoxDecoration(
+          color: Colors.green,
+          borderRadius: BorderRadius.circular(8.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.3),
+              blurRadius: 8.0,
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.check_circle, color: Colors.white),
+            const SizedBox(width: 10),
+            const Text(
+              'Success! Your action was successful.',
+              style: TextStyle(color: Colors.white),
+            ),
+            IconButton(
+              icon: const Icon(Icons.close, color: Colors.white),
+              onPressed: cancelFunc,
+            ),
+          ],
+        ),
+      );
+    },
+    animationDuration: const Duration(milliseconds: 300),
+    align: Alignment.topRight,
+  );
+}
 
-// void showSuccessNotificationMobile() {
-//   BotToast.showCustomNotification(
-//     duration: const Duration(seconds: 3),
-//     toastBuilder: (cancelFunc) {
-//       return Container(
-//         padding: const EdgeInsets.symmetric(vertical: 05.0, horizontal: 24.0),
-//         margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-//         decoration: BoxDecoration(
-//           color: Colors.green,
-//           borderRadius: BorderRadius.circular(12.0),
-//           boxShadow: [
-//             BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 6.0),
-//           ],
-//         ),
-//         child: Row(
-//           mainAxisSize: MainAxisSize.min,
-//           children: [
-//             const Icon(Icons.check_circle, color: Colors.white, size: 28),
-//             const SizedBox(width: 12),
-//             const Expanded(
-//               child: Text(
-//                 'Your action was successful.',
-//                 style: TextStyle(color: Colors.white, fontSize: 16),
-//               ),
-//             ),
-//             IconButton(
-//               icon: const Icon(Icons.close, color: Colors.white),
-//               onPressed: cancelFunc,
-//             ),
-//           ],
-//         ),
-//       );
-//     },
-//     animationDuration: const Duration(milliseconds: 300),
-//     align: Alignment.bottomCenter, // Usually better for mobile notifications
-//   );
-// }
+void showSuccessToast() {
+  BotToast.showCustomNotification(
+    duration: const Duration(seconds: 3),
+    toastBuilder: (cancelFunc) {
+      final context = smKey.currentState!.context;
+      return Container(
+        padding: const EdgeInsets.symmetric(vertical: 05.0, horizontal: 24.0),
+        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.onPrimary, //Colors.green,
+          borderRadius: BorderRadius.circular(12.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.2),
+              blurRadius: 6.0,
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.check_circle, color: Colors.white, size: 28),
+            const SizedBox(width: 12),
+            const Expanded(
+              child: Text(
+                'Your action was successful.',
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.close, color: Colors.white),
+              onPressed: cancelFunc,
+            ),
+          ],
+        ),
+      );
+    },
+    animationDuration: const Duration(milliseconds: 300),
+    align: Alignment.bottomCenter, // Usually better for mobile notifications
+  );
+}
 
 // void showCustomNotification(BuildContext context, String message) {
 //   if (kIsWeb) {

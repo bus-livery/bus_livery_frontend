@@ -9,7 +9,7 @@ import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/di/injection.dart';
 
-enum Method { get, post, put, delete }
+enum Method { get, post, put, patch, delete }
 
 @LazySingleton()
 class DioService {
@@ -54,13 +54,13 @@ class DioService {
           );
           break;
         case Method.get:
-          response = await dio.get(
-            endpoint,
-            queryParameters: data ?? queryParam,
-          );
+          response = await dio.get(endpoint, queryParameters: queryParam);
           break;
         case Method.put:
           response = await dio.put(endpoint, data: data ?? formData);
+          break;
+        case Method.patch:
+          response = await dio.patch(endpoint, data: data ?? formData);
           break;
         case Method.delete:
           response = await dio.delete(

@@ -22,6 +22,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> with BlocLifeCycle {
     on<ProfileEvent>((event, emit) {});
 
     on<ProfileGetMyApiEvent>(_profileGetMyApi);
+
+    on<ProfileUpdateMyApiEvent>(_profileUpdateMyApiEvent);
   }
 
   @override
@@ -39,9 +41,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> with BlocLifeCycle {
   }
 
   _profileGetMyApi(ProfileGetMyApiEvent event, emit) async {
-    emit(
-      state.copyWith(profileResponse: ApiResponse(status: ApiStatus.loading)),
-    );
+    emit(state.copyWith(getProfileRes: ApiResponse(status: ApiStatus.loading)));
 
     final response = await iProfileService.getMyProfileApi();
 
@@ -50,7 +50,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> with BlocLifeCycle {
       (failure) {
         emit(
           state.copyWith(
-            profileResponse: ApiResponse(
+            getProfileRes: ApiResponse(
               status: ApiStatus.failure,
               errorMessage: failure,
             ),
@@ -61,7 +61,40 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> with BlocLifeCycle {
       (success) {
         emit(
           state.copyWith(
-            profileResponse: ApiResponse(
+            getProfileRes: ApiResponse(
+              status: ApiStatus.success,
+              apiData: success.assignToControllers(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  _profileUpdateMyApiEvent(ProfileUpdateMyApiEvent event, emit) async {
+    emit(
+      state.copyWith(updateProfileRes: ApiResponse(status: ApiStatus.loading)),
+    );
+
+    final response = await iProfileService.updateMyProfileApi(event.data);
+
+    return response.fold(
+      //
+      (failure) {
+        emit(
+          state.copyWith(
+            updateProfileRes: ApiResponse(
+              status: ApiStatus.failure,
+              errorMessage: failure,
+            ),
+          ),
+        );
+      },
+      //
+      (success) {
+        emit(
+          state.copyWith(
+            updateProfileRes: ApiResponse(
               status: ApiStatus.success,
               apiData: success,
             ),

@@ -1,17 +1,25 @@
 part of 'profile_bloc.dart';
 
 class ProfileState {
-  final ApiResponse<ProfileModel> profileResponse;
+  final ApiResponse<ProfileModel> getProfileRes;
+  final ApiResponse<String> updateProfileRes;
 
-  ProfileState({required this.profileResponse});
+  ProfileState({required this.getProfileRes, required this.updateProfileRes});
 
   factory ProfileState.initail() {
-    return ProfileState(profileResponse: ApiResponse<ProfileModel>());
+    return ProfileState(
+      getProfileRes: ApiResponse<ProfileModel>(),
+      updateProfileRes: ApiResponse<String>(),
+    );
   }
 
-  ProfileState copyWith({ApiResponse<ProfileModel>? profileResponse}) {
+  ProfileState copyWith({
+    ApiResponse<ProfileModel>? getProfileRes,
+    ApiResponse<String>? updateProfileRes,
+  }) {
     return ProfileState(
-      profileResponse: profileResponse ?? this.profileResponse,
+      getProfileRes: getProfileRes ?? this.getProfileRes,
+      updateProfileRes: updateProfileRes ?? this.updateProfileRes,
     );
   }
 }

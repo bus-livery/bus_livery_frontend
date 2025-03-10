@@ -47,25 +47,43 @@ class ProfileModel with _$ProfileModel {
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>
       _$ProfileModelFromJson(json);
 
-  factory ProfileModel.initail() {
-    return ProfileModel(
-      usernameCtr: TextEditingController(),
-      countryCodeCtr: TextEditingController(),
-      phoneNoCtr: TextEditingController(),
-      emailCtr: TextEditingController(),
-      descriptionCtr: TextEditingController(),
-    );
-  }
+  // factory ProfileModel.initail() {
+  //   return ProfileModel(
+  //     usernameCtr: TextEditingController(text: 'asd'),
+  //     countryCodeCtr: TextEditingController(),
+  //     phoneNoCtr: TextEditingController(),
+  //     emailCtr: TextEditingController(),
+  //     descriptionCtr: TextEditingController(),
+  //   );
+  // }
 }
 
 extension ProfileModelUpdates on ProfileModel {
-  ProfileModel profileModelUpdates() {
+  ProfileModel assignToControllers() {
     return copyWith(
-      usernameCtr: usernameCtr?..text = username ?? '',
-      countryCodeCtr: countryCodeCtr?..text = countryCode.toString(),
-      phoneNoCtr: phoneNoCtr?..text = phone ?? '',
-      emailCtr: emailCtr?..text = email ?? '',
-      descriptionCtr: descriptionCtr?..text = description ?? '',
+      usernameCtr: TextEditingController(text: username),
+      countryCodeCtr: TextEditingController(text: countryCode.toString()),
+      phoneNoCtr: TextEditingController(text: phone),
+      emailCtr: TextEditingController(text: email),
+      descriptionCtr: TextEditingController(text: description),
     );
+  }
+
+  ProfileModel profileToApi() {
+    return ProfileModel(
+      username: usernameCtr?.text,
+      countryCode: int.tryParse(countryCodeCtr?.text ?? ''),
+      phone: phoneNoCtr?.text,
+      email: emailCtr?.text,
+      description: descriptionCtr?.text,
+    );
+  }
+
+  void dispose() {
+    usernameCtr?.dispose();
+    countryCodeCtr?.dispose();
+    phoneNoCtr?.dispose();
+    emailCtr?.dispose();
+    descriptionCtr?.dispose();
   }
 }

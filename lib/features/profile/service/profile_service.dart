@@ -6,6 +6,8 @@ import 'package:livery/utils/end_point.dart';
 
 abstract class IProfileService {
   Future<Either<String, ProfileModel>> getMyProfileApi();
+
+  Future<Either<String, String>> updateMyProfileApi(ProfileModel data);
 }
 
 @LazySingleton(as: IProfileService)
@@ -26,6 +28,20 @@ class ProfileService implements IProfileService {
         (r) async =>
             Right(ProfileModel.fromJson(r.data as Map<String, dynamic>)),
       );
+    } catch (e) {
+      return Left("$e");
+    }
+  }
+
+  @override
+  Future<Either<String, String>> updateMyProfileApi(ProfileModel data) async {
+    try {
+      final res = await _dioServices.request(
+        EndPoints.profile.updateMy,
+        method: Method.patch,
+        data: data.toJson(),
+      );
+      return res.fold((l) => Left(l.message), (r) async => Right('Success'));
     } catch (e) {
       return Left("$e");
     }

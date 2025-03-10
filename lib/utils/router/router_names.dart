@@ -5,5 +5,5 @@ abstract class RouterNames {
   static const mainScreen = '/main_screen';
 
   // PROFILE SCREENS
-  static const editProfileScreen = '/profile_screen';
+  static const editProfileScreen = '/edit_profile_screen';
 }

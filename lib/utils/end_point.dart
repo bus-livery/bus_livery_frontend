@@ -11,4 +11,5 @@ final class AuthEndPoint {
 
 final class ProfileEndPoints {
   final getMy = '/v1/profile/fetch-my';
+  final updateMy = '/v1/profile/update';
 }

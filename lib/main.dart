@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
 
   final _appRouter = getIt<AppRouter>();
+  final botToastBuilder = BotToastInit();
 
   // This widget is the root of your application.
   @override
@@ -42,6 +44,7 @@ class MyApp extends StatelessWidget {
             routerConfig: _appRouter.config(),
             scaffoldMessengerKey: smKey,
             themeMode: ThemeMode.dark,
+            builder: (context, child) => botToastBuilder(context, child),
             darkTheme: ThemeData(
               fontFamily: GoogleFonts.openSans().fontFamily,
               colorScheme: ColorScheme.fromSeed(
