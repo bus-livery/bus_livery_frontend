@@ -57,16 +57,15 @@ abstract class WWTextFieldBase extends StatelessWidget {
           border: InputBorder.none,
 
           contentPadding: const EdgeInsets.all(10),
-          suffixIcon:
-              suffixTap == null
-                  ? null
-                  : GestureDetector(
-                    onTap: () => suffixTap!(),
-                    child: Icon(
-                      suffixIcon ?? Icons.search,
-                      color: Colors.black,
-                    ),
+          suffixIcon: suffixTap == null
+              ? null
+              : GestureDetector(
+                  onTap: () => suffixTap!(),
+                  child: Icon(
+                    suffixIcon ?? Icons.search,
+                    color: Colors.black,
                   ),
+                ),
         ),
       ),
     );
@@ -89,22 +88,22 @@ class WWTextFieldEmail extends WWTextFieldBase {
     super.hintText,
     super.onChanged,
   }) : super(
-         keyboardType: TextInputType.emailAddress,
-         validator: (v) {
-           if (v == null || v.isEmpty) {
-             return 'Please enter an email address';
-           }
-           final emailPattern = RegExp(
-             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-           );
+          keyboardType: TextInputType.emailAddress,
+          validator: (v) {
+            if (v == null || v.isEmpty) {
+              return 'Please enter an email address';
+            }
+            final emailPattern = RegExp(
+              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+            );
 
-           if (!emailPattern.hasMatch(v)) {
-             return 'Please enter a valid email address';
-           }
+            if (!emailPattern.hasMatch(v)) {
+              return 'Please enter a valid email address';
+            }
 
-           return null;
-         },
-       );
+            return null;
+          },
+        );
 }
 
 class WWTextFieldPhone extends WWTextFieldBase {
@@ -114,9 +113,9 @@ class WWTextFieldPhone extends WWTextFieldBase {
     super.hintText,
     super.onChanged,
   }) : super(
-         keyboardType: TextInputType.phone,
-         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-       );
+          keyboardType: TextInputType.phone,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        );
 }
 
 class WWTextFieldTextArea extends WWTextFieldBase {

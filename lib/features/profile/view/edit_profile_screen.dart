@@ -7,7 +7,7 @@ import 'package:livery/Cwidgets/ww_popup_error_success.dart';
 import 'package:livery/Cwidgets/ww_textfield.dart';
 import 'package:livery/features/profile/application/profile_bloc.dart';
 import 'package:livery/features/profile/model/profile_model.dart';
-import 'package:livery/utils/toast.dart';
+import 'package:livery/utils/app_size.dart';
 
 @RoutePage()
 class EditProfileScreen extends StatelessWidget {
@@ -20,7 +20,7 @@ class EditProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Edit Profile')),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: AppSize.swPadding,
         child: Column(
           spacing: 20,
           children: [
@@ -78,7 +78,7 @@ class _SubmitButton extends StatelessWidget {
             text: 'Submit',
             onPressed: () {
               bloc.add(
-                ProfileUpdateMyApiEvent(
+                UpdateMyProfileEvent(
                   data: data?.profileToApi() ?? ProfileModel(),
                 ),
               );

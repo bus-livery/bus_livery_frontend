@@ -31,8 +31,8 @@ class ProfileScreen extends StatelessWidget {
               ),
               AppSize.sizedBox2h,
               BlocSelector<ProfileBloc, ProfileState, String>(
-                selector:
-                    (state) => state.getProfileRes.apiData?.username ?? '',
+                selector: (state) =>
+                    state.getProfileRes.apiData?.username ?? '',
                 builder: (context, username) {
                   return WwText(
                     text: username,
@@ -73,9 +73,8 @@ class ProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         BlocSelector<ProfileBloc, ProfileState, int>(
-                          selector:
-                              (state) =>
-                                  state.getProfileRes.apiData?.likeCount ?? 0,
+                          selector: (state) =>
+                              state.getProfileRes.apiData?.likeCount ?? 0,
                           builder: (context, likeCount) {
                             return WwText(
                               text: likeCount.toString(),
@@ -105,48 +104,7 @@ class ProfileScreen extends StatelessWidget {
                     expandFlex: 1,
                     text: 'More',
                     onPressed: () {
-                      showModalBottomSheet<void>(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return SafeArea(
-                            child: Column(
-                              // mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                AppSize.sizedBox3h,
-                                const ListTile(
-                                  leading: Icon(Icons.security),
-                                  title: WwText(text: 'Privacy'),
-                                  trailing: Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                  ),
-                                ),
-                                const ListTile(
-                                  leading: Icon(Icons.privacy_tip),
-                                  title: WwText(text: 'Terms & Condition'),
-                                  trailing: Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                  ),
-                                ),
-                                const ListTile(
-                                  leading: Icon(
-                                    Icons.remove_circle_outline_outlined,
-                                  ),
-                                  title: WwText(text: 'Deactivate Account'),
-                                ),
-                                ListTile(
-                                  leading: Icon(Icons.logout),
-                                  title: WwText(text: 'Sign out'),
-                                  onTap: () {
-                                    getIt<SharedPrefService>().clear();
-                                    context.router.replaceAll([LoginRoute()]);
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
+                      _profileModeOptions(context);
                     },
                   ),
                 ],
@@ -175,11 +133,10 @@ class ProfileScreen extends StatelessWidget {
                       imageUrl:
                           "https://i.pinimg.com/736x/09/a6/d6/09a6d6ff2a65445a72fbf91c746e6dfd.jpg",
                       fit: BoxFit.cover,
-                      placeholder:
-                          (context, url) =>
-                              const Center(child: CircularProgressIndicator()),
-                      errorWidget:
-                          (context, url, error) => const Icon(Icons.error),
+                      placeholder: (context, url) =>
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     );
                   },
                 ),
@@ -188,6 +145,45 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _profileModeOptions(BuildContext context) {
+    return showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              AppSize.sizedBox3h,
+              const ListTile(
+                leading: Icon(Icons.security),
+                title: WwText(text: 'Privacy'),
+                trailing: Icon(Icons.arrow_forward_ios_rounded),
+              ),
+              const ListTile(
+                leading: Icon(Icons.privacy_tip),
+                title: WwText(text: 'Terms & Condition'),
+                trailing: Icon(Icons.arrow_forward_ios_rounded),
+              ),
+              const ListTile(
+                leading: Icon(Icons.remove_circle_outline_outlined),
+                title: WwText(text: 'Deactivate Account'),
+              ),
+              ListTile(
+                leading: Icon(Icons.logout),
+                title: WwText(text: 'Sign out'),
+                onTap: () {
+                  getIt<SharedPrefService>().clear();
+                  context.router.replaceAll([LoginRoute()]);
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

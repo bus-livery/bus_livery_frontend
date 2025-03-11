@@ -90,7 +90,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       email: event.email,
       otp: event.otp,
     );
-
+    otpCtr.clear();
     return response.fold(
       //
       (failure) {

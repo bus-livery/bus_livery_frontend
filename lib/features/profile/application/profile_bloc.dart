@@ -23,7 +23,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> with BlocLifeCycle {
 
     on<ProfileGetMyApiEvent>(_profileGetMyApi);
 
-    on<ProfileUpdateMyApiEvent>(_profileUpdateMyApiEvent);
+    on<UpdateMyProfileEvent>(_updatesMyProfileEvent);
   }
 
   @override
@@ -37,6 +37,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> with BlocLifeCycle {
   @override
   Future<void> close() {
     customPrint('PROFILE BLOC CLOSED');
+    state.getProfileRes.apiData?.dispose();
     return super.close();
   }
 
@@ -71,7 +72,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> with BlocLifeCycle {
     );
   }
 
-  _profileUpdateMyApiEvent(ProfileUpdateMyApiEvent event, emit) async {
+  _updatesMyProfileEvent(UpdateMyProfileEvent event, emit) async {
     emit(
       state.copyWith(updateProfileRes: ApiResponse(status: ApiStatus.loading)),
     );

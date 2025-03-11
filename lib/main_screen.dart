@@ -1,7 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:livery/features/feed/view/feed_screen.dart';
+import 'package:livery/features/livery/view/feed_screen.dart';
 import 'package:livery/features/profile/view/profile_screen.dart';
 
 @RoutePage()
@@ -68,8 +68,8 @@ class PageTransitionAnimation extends StatelessWidget {
     super.key,
     required int currentIndex,
     required List<Widget> tabs,
-  })  : _currentIndex = currentIndex,
-        _tabs = tabs;
+  }) : _currentIndex = currentIndex,
+       _tabs = tabs;
 
   final int _currentIndex;
   final List<Widget> _tabs;

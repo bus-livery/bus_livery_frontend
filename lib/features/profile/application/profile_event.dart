@@ -4,8 +4,8 @@ abstract class ProfileEvent {}
 
 class ProfileGetMyApiEvent extends ProfileEvent {}
 
-class ProfileUpdateMyApiEvent extends ProfileEvent {
+class UpdateMyProfileEvent extends ProfileEvent {
   final ProfileModel data;
 
-  ProfileUpdateMyApiEvent({required this.data});
+  UpdateMyProfileEvent({required this.data});
 }
