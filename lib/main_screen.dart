@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:livery/features/livery/view/feed_screen.dart';
 import 'package:livery/features/profile/view/profile_screen.dart';
+import 'package:livery/utils/router/router_names.dart';
 
 @RoutePage()
 class MainScreen extends StatefulWidget {
@@ -36,7 +37,9 @@ class _MainScreenState extends State<MainScreen> {
         body: PageTransitionAnimation(currentIndex: _currentIndex, tabs: _tabs),
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
-          onPressed: () {},
+          onPressed: () {
+            context.router.pushPath(RouterNames.liveryCreateScreen);
+          },
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,

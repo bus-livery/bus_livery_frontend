@@ -1,7 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:livery/Cwidgets/ww_error_handler.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
+import 'package:livery/features/livery/application/livery_bloc.dart';
+import 'package:livery/features/livery/livery_model/livery_model.dart';
 import 'package:livery/utils/app_size.dart';
 
 class FeedScreen extends StatelessWidget {
@@ -15,11 +19,23 @@ class FeedScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: AppSize.swPadding,
-        child: ListView.separated(
-          separatorBuilder: (context, index) => AppSize.sizedBox1h,
-          itemCount: 5,
-          itemBuilder: (BuildContext context, index) {
-            return const PostWidget();
+        child: BlocBuilder<LiveryBloc, LiveryState>(
+          builder: (context, state) {
+            List<LiveryModel>? liveryData = state.getAllLiveryRes.apiData?.data;
+            return WWResponseHandler(
+              data: state.getAllLiveryRes,
+              apiCall: () async {
+                context.read<LiveryBloc>().add(GetAllLiveryApiEvent());
+              },
+              isEmpty: liveryData?.isEmpty ?? true,
+              child: ListView.separated(
+                separatorBuilder: (context, index) => AppSize.sizedBox1h,
+                itemCount: liveryData?.length ?? 0,
+                itemBuilder: (BuildContext context, index) {
+                  return const PostWidget();
+                },
+              ),
+            );
           },
         ),
       ),
@@ -124,8 +140,8 @@ class PostWidget extends StatelessWidget {
         imageUrl:
             'https://buslivery.s3.eu-north-1.amazonaws.com/livery/livery_200/2024-07-07+15%3A22%3A17.396364+%2B0530+IST+m%3D%2B6.934072668', //   "https://i.pinimg.com/736x/09/a6/d6/09a6d6ff2a65445a72fbf91c746e6dfd.jpg",
         fit: BoxFit.cover,
-        placeholder: (context, url) =>
-            const Center(child: CircularProgressIndicator()),
+        placeholder:
+            (context, url) => const Center(child: CircularProgressIndicator()),
         errorWidget: (context, url, error) => const Icon(Icons.error),
       ),
     );

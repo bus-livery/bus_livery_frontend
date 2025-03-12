@@ -72,18 +72,39 @@ class WWDialogueBox extends WWDialogueBoxBase {
   final String? textSub;
   final String? svgIcon;
   WWDialogueBox({super.key, this.svgIcon, this.text, this.textSub})
-      : super(
-          icon: SvgPicture.asset(svgIcon ?? AppImages.google),
-          title: text ?? 'Oops',
-          subTitle: textSub,
-          buttons: [
-            WWButton(
-              expandFlex: 1,
-              text: 'Dismiss',
-              onPressed: getIt<AppRouter>().maybePop,
-            ),
-          ],
-        );
+    : super(
+        icon: SvgPicture.asset(svgIcon ?? AppImages.alertWarning),
+        title: text ?? 'Oops',
+        subTitle: textSub,
+        buttons: [
+          WWButton(
+            expandFlex: 1,
+            text: 'Dismiss',
+            onPressed: getIt<AppRouter>().maybePop,
+          ),
+        ],
+      );
+}
+
+class WWDialogueBoxError extends WWDialogueBoxBase {
+  final String? text;
+  final String? textSub;
+  final String? svgIcon;
+  final Function() onTap;
+  WWDialogueBoxError({
+    super.key,
+    this.svgIcon,
+    this.text,
+    this.textSub,
+    required this.onTap,
+  }) : super(
+         icon: SvgPicture.asset(svgIcon ?? AppImages.alertWarning),
+         title: text ?? 'Oops',
+         subTitle: textSub,
+         buttons: [
+           WWButton(expandFlex: 1, text: 'Try Again', onPressed: onTap),
+         ],
+       );
 }
 
 wwDialogueBox2Button(
@@ -128,25 +149,25 @@ class WWDialogueBox2Button extends WWDialogueBoxBase {
     required this.secondTap,
     this.firstTap,
   }) : super(
-          icon: SvgPicture.asset(svgIcon ?? AppImages.google),
-          title: text ?? 'Oops',
-          subTitle: textSub,
-          buttons: [
-            WWButton(
-              expandFlex: 1,
-              text: 'Close',
-              onPressed: () {
-                firstTap != null ? firstTap() : getIt<AppRouter>().back;
-              },
-            ),
-            AppSize.sizedBox2w,
-            WWButton(
-              expandFlex: 1,
-              text: buttonName ?? 'Continue',
-              onPressed: secondTap,
-            ),
-          ],
-        );
+         icon: SvgPicture.asset(svgIcon ?? AppImages.google),
+         title: text ?? 'Oops',
+         subTitle: textSub,
+         buttons: [
+           WWButton(
+             expandFlex: 1,
+             text: 'Close',
+             onPressed: () {
+               firstTap != null ? firstTap() : getIt<AppRouter>().back;
+             },
+           ),
+           AppSize.sizedBox2w,
+           WWButton(
+             expandFlex: 1,
+             text: buttonName ?? 'Continue',
+             onPressed: secondTap,
+           ),
+         ],
+       );
 }
 
 // class WWAccountCreation extends StatelessWidget {

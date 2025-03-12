@@ -6,4 +6,7 @@ abstract class RouterNames {
 
   // PROFILE SCREENS
   static const editProfileScreen = '/edit_profile_screen';
+
+  // LIVERY SCREEN
+  static const liveryCreateScreen = '/livery_create_screen';
 }

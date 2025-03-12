@@ -4,8 +4,16 @@ abstract class LiveryEvent {}
 
 class GetAllLiveryApiEvent extends LiveryEvent {}
 
+class GetMyLiveryApiEvent extends LiveryEvent {}
+
+class GetOthersLiveryApiEvent extends LiveryEvent {}
+
 class GetSinglelLiveryApiEvent extends LiveryEvent {}
 
-class UpdateSingleLiveryApiEvent extends LiveryEvent {}
+class UpdateLiveryApiEvent extends LiveryEvent {}
+
+class DeleteLiveryApiEvent extends LiveryEvent {}
 
 class DownloadLiveryApiEvent extends LiveryEvent {}
+
+class GetAllDownloadedLiveryApiEvent extends LiveryEvent {}

@@ -13,6 +13,8 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:livery/features/auth/application/auth_bloc.dart' as _i632;
 import 'package:livery/features/auth/service/auth_service.dart' as _i148;
+import 'package:livery/features/livery/application/livery_bloc.dart' as _i366;
+import 'package:livery/features/livery/service/livery_service.dart' as _i1027;
 import 'package:livery/features/profile/application/profile_bloc.dart' as _i469;
 import 'package:livery/features/profile/service/profile_service.dart' as _i923;
 import 'package:livery/service/dio_service.dart' as _i833;
@@ -35,10 +37,16 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i552.SharedPrefService>(),
       ),
     );
+    gh.lazySingleton<_i1027.ILiveryService>(
+      () => _i1027.LiveryService(gh<_i833.DioService>()),
+    );
     gh.lazySingleton<_i923.IProfileService>(
       () => _i923.ProfileService(gh<_i833.DioService>()),
     );
     gh.factory<_i632.AuthBloc>(() => _i632.AuthBloc(gh<_i148.IAuthService>()));
+    gh.factory<_i366.LiveryBloc>(
+      () => _i366.LiveryBloc(gh<_i1027.ILiveryService>()),
+    );
     gh.factory<_i469.ProfileBloc>(
       () => _i469.ProfileBloc(gh<_i923.IProfileService>()),
     );

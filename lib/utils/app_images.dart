@@ -1,4 +1,5 @@
 class AppImages {
   static const basePath = 'assets/svg';
   static const google = '$basePath/google.svg';
+  static const alertWarning = '$basePath/alert_warning.svg';
 }

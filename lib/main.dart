@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:livery/features/auth/application/auth_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/profile/application/profile_bloc.dart';
 import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/utils/di/injection.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => getIt<AuthBloc>()),
         BlocProvider(create: (context) => getIt<ProfileBloc>()),
+        BlocProvider(create: (context) => getIt<LiveryBloc>()),
       ],
       child: ScreenUtilInit(
         minTextAdapt: true,
