@@ -2,6 +2,7 @@ final class EndPoints {
   static AuthEndPoint auth = AuthEndPoint();
   static ProfileEndPoints profile = ProfileEndPoints();
   static LiveryEndPoints livery = LiveryEndPoints();
+  static BusTypeEndPoint busTypes = BusTypeEndPoint();
 }
 
 final class AuthEndPoint {
@@ -25,4 +26,8 @@ final class LiveryEndPoints {
   final deleteLivery = '/v1/livery/delete';
   final downloadLivery = '/v1/livery/download-count';
   final getDownloadedLivery = '/v1/livery/fetch-downloads';
+}
+
+final class BusTypeEndPoint {
+  final getBusTypes = '/v1/bus/types';
 }

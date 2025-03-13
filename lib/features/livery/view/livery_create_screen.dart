@@ -6,12 +6,20 @@ import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/Cwidgets/ww_popup_error_success.dart';
 import 'package:livery/Cwidgets/ww_textfield.dart';
 import 'package:livery/features/livery/application/livery_bloc.dart';
-import 'package:livery/features/livery/livery_model/livery_model.dart';
+import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/utils/app_size.dart';
 
 @RoutePage()
-class LiveryCreateScreen extends StatelessWidget {
+class LiveryCreateScreen extends StatelessWidget implements AutoRouteWrapper {
   const LiveryCreateScreen({super.key});
+
+  @override
+  Widget wrappedRoute(BuildContext ctx) {
+    return BlocProvider.value(
+      value: BlocProvider.of<LiveryBloc>(ctx)..add(GetBusTypeApiEvent()),
+      child: this,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +34,7 @@ class LiveryCreateScreen extends StatelessWidget {
           children: [
             WWTextField(
               controller: TextEditingController(),
-              hintText: 'Enter Livery name',
+              hintText: 'Livery name',
             ),
 
             WWTextFieldTextArea(

@@ -17,3 +17,5 @@ class DeleteLiveryApiEvent extends LiveryEvent {}
 class DownloadLiveryApiEvent extends LiveryEvent {}
 
 class GetAllDownloadedLiveryApiEvent extends LiveryEvent {}
+
+class GetBusTypeApiEvent extends LiveryEvent {}

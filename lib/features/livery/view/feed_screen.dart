@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livery/Cwidgets/ww_error_handler.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/features/livery/application/livery_bloc.dart';
-import 'package:livery/features/livery/livery_model/livery_model.dart';
+import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/utils/app_size.dart';
 
 class FeedScreen extends StatelessWidget {

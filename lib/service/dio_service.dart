@@ -131,7 +131,9 @@ class DioInterceptor extends Interceptor {
     log("= = = = = = = = = = = = = = = = = = = = = = = = = = = =");
 
     SharedPrefService sharedPS = getIt<SharedPrefService>();
-    if (response.data != null && response.data['token'] != null) {
+    if (response.data is! List &&
+        response.data != null &&
+        response.data['token'] != null) {
       await sharedPS.saveString('token', response.data['token'] ?? '');
     }
     super.onResponse(response, handler);
