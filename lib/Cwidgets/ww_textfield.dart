@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:livery/Cwidgets/ww_text.dart';
+import 'package:livery/utils/styles.dart';
 
 abstract class WWTextFieldBase extends StatelessWidget {
+  final String? title;
   final Function(String)? onChanged;
   final TextEditingController? controller;
   final Function()? suffixTap;
@@ -19,6 +22,7 @@ abstract class WWTextFieldBase extends StatelessWidget {
 
   const WWTextFieldBase({
     super.key,
+    this.title,
     this.onChanged,
     this.controller,
     this.suffixTap,
@@ -37,37 +41,47 @@ abstract class WWTextFieldBase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: TextFormField(
-        onChanged: onChanged,
-        controller: controller,
-        autofocus: autofocus,
-        keyboardType: keyboardType,
-        expands: description,
-        obscureText: obscureText,
-        maxLines: maxLines,
-        minLines: minLines,
-        inputFormatters: inputFormatters,
-        validator: validator,
-        // style: const TextStyle(color: Colors.black),
-        decoration: InputDecoration(
-          // filled: true,
-          hintText: hintText,
-          labelText: labelText,
-          border: InputBorder.none,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (title != null) WwText(text: title!, style: normalText(context)),
+        Card(
+          margin: EdgeInsets.only(top: 05),
+          child: TextFormField(
+            onChanged: onChanged,
+            controller: controller,
+            autofocus: autofocus,
+            keyboardType: keyboardType,
+            // cursorColor: Theme.of(context).colorScheme.onPrimaryContainer,
+            expands: description,
+            obscureText: obscureText,
+            maxLines: maxLines,
+            minLines: minLines,
+            inputFormatters: inputFormatters,
+            validator: validator,
+            style: normalText(context),
+            // style: const TextStyle(color: Colors.black),
+            decoration: InputDecoration(
+              // filled: true,
+              hintText: hintText,
+              labelText: labelText,
+              border: InputBorder.none,
 
-          contentPadding: const EdgeInsets.all(10),
-          suffixIcon: suffixTap == null
-              ? null
-              : GestureDetector(
-                  onTap: () => suffixTap!(),
-                  child: Icon(
-                    suffixIcon ?? Icons.search,
-                    color: Colors.black,
-                  ),
-                ),
+              contentPadding: const EdgeInsets.all(10),
+              suffixIcon:
+                  suffixTap == null
+                      ? null
+                      : GestureDetector(
+                        onTap: () => suffixTap!(),
+                        child: Icon(
+                          suffixIcon ?? Icons.search,
+                          color: Colors.black,
+                        ),
+                      ),
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -75,6 +89,7 @@ abstract class WWTextFieldBase extends StatelessWidget {
 class WWTextField extends WWTextFieldBase {
   const WWTextField({
     super.key,
+    super.title,
     super.controller,
     super.hintText,
     super.onChanged,
@@ -84,43 +99,46 @@ class WWTextField extends WWTextFieldBase {
 class WWTextFieldEmail extends WWTextFieldBase {
   WWTextFieldEmail({
     super.key,
+    super.title,
     super.controller,
     super.hintText,
     super.onChanged,
   }) : super(
-          keyboardType: TextInputType.emailAddress,
-          validator: (v) {
-            if (v == null || v.isEmpty) {
-              return 'Please enter an email address';
-            }
-            final emailPattern = RegExp(
-              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-            );
+         keyboardType: TextInputType.emailAddress,
+         validator: (v) {
+           if (v == null || v.isEmpty) {
+             return 'Please enter an email address';
+           }
+           final emailPattern = RegExp(
+             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+           );
 
-            if (!emailPattern.hasMatch(v)) {
-              return 'Please enter a valid email address';
-            }
+           if (!emailPattern.hasMatch(v)) {
+             return 'Please enter a valid email address';
+           }
 
-            return null;
-          },
-        );
+           return null;
+         },
+       );
 }
 
 class WWTextFieldPhone extends WWTextFieldBase {
   WWTextFieldPhone({
     super.key,
+    super.title,
     super.controller,
     super.hintText,
     super.onChanged,
   }) : super(
-          keyboardType: TextInputType.phone,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        );
+         keyboardType: TextInputType.phone,
+         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+       );
 }
 
 class WWTextFieldTextArea extends WWTextFieldBase {
   const WWTextFieldTextArea({
     super.key,
+    super.title,
     super.controller,
     super.hintText,
     super.onChanged,

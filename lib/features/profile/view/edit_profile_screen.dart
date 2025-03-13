@@ -8,6 +8,7 @@ import 'package:livery/Cwidgets/ww_textfield.dart';
 import 'package:livery/features/profile/application/profile_bloc.dart';
 import 'package:livery/features/profile/model/profile_model.dart';
 import 'package:livery/utils/app_size.dart';
+import 'package:livery/utils/styles.dart';
 
 @RoutePage()
 class EditProfileScreen extends StatelessWidget {
@@ -18,27 +19,21 @@ class EditProfileScreen extends StatelessWidget {
     final bloc = context.read<ProfileBloc>();
     final data = bloc.state.getProfileRes.apiData;
     return Scaffold(
-      appBar: AppBar(title: Text('Edit Profile')),
+      appBar: AppBar(title: Text('Edit Profile', style: normalText(context))),
       body: Padding(
         padding: AppSize.swPadding,
         child: Column(
           spacing: 20,
           children: [
-            WWTextField(
-              controller: data?.usernameCtr,
-              hintText: 'Enter Username',
-            ),
+            WWTextField(controller: data?.usernameCtr, title: 'Username'),
             WWTextFieldPhone(
               controller: data?.phoneNoCtr,
-              hintText: 'Enter Phone number',
+              title: 'Phone number',
             ),
-            WWTextFieldEmail(
-              controller: data?.emailCtr,
-              hintText: 'Enter Email',
-            ),
+            WWTextFieldEmail(controller: data?.emailCtr, title: 'Email'),
             WWTextFieldTextArea(
               controller: data?.descriptionCtr,
-              hintText: 'Enter Description',
+              title: 'Description',
             ),
             // SUBMIT BUTTON----------------------------------
             _SubmitButton(bloc: bloc, data: data),

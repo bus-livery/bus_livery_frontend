@@ -33,6 +33,9 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
     //
     initstate();
     //
+    on<StoreBusModelEvent>(_storeBusModelEvent);
+
+    // API EVENTS
     on<LiveryEvent>((event, emit) {});
 
     on<GetAllLiveryApiEvent>(_getAllLiveryApiEvent);
@@ -53,6 +56,13 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
 
     on<GetBusTypeApiEvent>(_getBusTypeApiEvent);
   }
+
+  //
+  _storeBusModelEvent(StoreBusModelEvent event, emit) {
+    emit(state.copyWith(busModels: event.busModels));
+  }
+
+  // API EVENT
 
   _getAllLiveryApiEvent(GetAllLiveryApiEvent event, emit) async {
     emit(

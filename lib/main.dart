@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
             scaffoldMessengerKey: smKey,
             themeMode: ThemeMode.dark,
             builder: (context, child) => botToastBuilder(context, child),
+
             darkTheme: ThemeData(
               fontFamily: GoogleFonts.openSans().fontFamily,
               colorScheme: ColorScheme.fromSeed(
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
               ),
               useMaterial3: true,
             ),
+
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
                 surface: Colors.white,
