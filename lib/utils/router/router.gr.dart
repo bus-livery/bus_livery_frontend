@@ -12,7 +12,8 @@
 import 'package:auto_route/auto_route.dart' as _i6;
 import 'package:livery/features/auth/view/login_screen.dart' as _i3;
 import 'package:livery/features/auth/view/otp_screen.dart' as _i5;
-import 'package:livery/features/livery/view/livery_create_screen.dart' as _i2;
+import 'package:livery/features/livery_create/view/livery_create_screen.dart'
+    as _i2;
 import 'package:livery/features/profile/view/edit_profile_screen.dart' as _i1;
 import 'package:livery/main_screen.dart' as _i4;
 
@@ -43,7 +44,7 @@ class LiveryCreateRoute extends _i6.PageRouteInfo<void> {
   static _i6.PageInfo page = _i6.PageInfo(
     name,
     builder: (data) {
-      return const _i2.LiveryCreateScreen();
+      return _i6.WrappedRoute(child: const _i2.LiveryCreateScreen());
     },
   );
 }

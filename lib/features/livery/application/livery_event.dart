@@ -2,12 +2,6 @@ part of 'livery_bloc.dart';
 
 abstract class LiveryEvent {}
 
-class StoreBusModelEvent extends LiveryEvent {
-  final List<String> busModels;
-
-  StoreBusModelEvent({required this.busModels});
-}
-
 // API EVENTS
 
 class GetAllLiveryApiEvent extends LiveryEvent {}
@@ -25,5 +19,3 @@ class DeleteLiveryApiEvent extends LiveryEvent {}
 class DownloadLiveryApiEvent extends LiveryEvent {}
 
 class GetAllDownloadedLiveryApiEvent extends LiveryEvent {}
-
-class GetBusTypeApiEvent extends LiveryEvent {}

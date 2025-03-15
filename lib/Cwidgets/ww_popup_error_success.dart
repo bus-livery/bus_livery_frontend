@@ -297,7 +297,7 @@ void showSuccessNotification() {
   );
 }
 
-void showSuccessToast() {
+void showSuccessToast({String? message}) {
   BotToast.showCustomNotification(
     duration: const Duration(seconds: 3),
     toastBuilder: (cancelFunc) {
@@ -320,9 +320,9 @@ void showSuccessToast() {
           children: [
             const Icon(Icons.check_circle, color: Colors.white, size: 28),
             const SizedBox(width: 12),
-            const Expanded(
+            Expanded(
               child: Text(
-                'Your action was successful.',
+                message ?? 'Your action was successful.',
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
             ),

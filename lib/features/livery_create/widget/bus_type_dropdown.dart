@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livery/Cmodel/enum.dart';
 import 'package:livery/Cwidgets/ww_drop_down.dart';
-import 'package:livery/features/livery/application/livery_bloc.dart';
-import 'package:livery/features/livery/model/bus_type_model/bus_type_model.dart';
+import 'package:livery/features/livery_create/application/livery_create_bloc.dart';
+import 'package:livery/features/livery_create/model/bus_type_model/bus_type_model.dart';
 
 class BusTypeDropDown extends StatelessWidget {
   final bool? isMandatory;
@@ -22,11 +22,11 @@ class BusTypeDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<LiveryBloc, LiveryState, ApiStatus>(
+    return BlocSelector<LiveryCreateBloc, LiveryCreateState, ApiStatus>(
       selector: (state) => state.busTypesRes.status,
-      bloc: BlocProvider.of<LiveryBloc>(context),
+      bloc: BlocProvider.of<LiveryCreateBloc>(context),
       builder: (context, state) {
-        final bloc = context.read<LiveryBloc>();
+        final bloc = context.read<LiveryCreateBloc>();
         return WWWebDesCustomSearchDropDownRow<BusTypeModel>(
           apiCall: () {},
           isMandatory: isMandatory ?? true,
@@ -62,9 +62,9 @@ class BusModelsDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<LiveryBloc, LiveryState, List<String>>(
+    return BlocSelector<LiveryCreateBloc, LiveryCreateState, List<String>>(
       selector: (state) => state.busModels,
-      bloc: BlocProvider.of<LiveryBloc>(context),
+      bloc: BlocProvider.of<LiveryCreateBloc>(context),
       builder: (context, state) {
         return WWWebDesCustomSearchDropDownRow<String>(
           apiCall: () {},

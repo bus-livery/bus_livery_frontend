@@ -62,7 +62,7 @@ class _SubmitButton extends StatelessWidget {
           wwDialogueBox(context, textSub: state.updateProfileRes.errorMessage);
         }
         if (state.updateProfileRes.status == ApiStatus.success) {
-          showSuccessToast();
+          showSuccessToast(message: 'Profile Updated Successfully');
           context.router.back();
         }
       },

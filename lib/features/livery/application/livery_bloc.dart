@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:livery/Cmodel/api_response.dart';
 import 'package:livery/Cmodel/enum.dart';
-import 'package:livery/features/livery/model/bus_type_model/bus_type_model.dart';
 import 'package:livery/features/livery/model/livery_model/livery_data_model.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/features/livery/service/livery_service.dart';
+import 'package:livery/service/image_picker_service.dart';
 import 'package:livery/utils/bloc_life_cycle.dart';
 import 'package:livery/utils/custom_print.dart';
 
@@ -33,7 +33,6 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
     //
     initstate();
     //
-    on<StoreBusModelEvent>(_storeBusModelEvent);
 
     // API EVENTS
     on<LiveryEvent>((event, emit) {});
@@ -53,13 +52,6 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
     on<DownloadLiveryApiEvent>(_downloadLiveryApiEvent);
 
     on<GetAllDownloadedLiveryApiEvent>(_getAllDownloadedLiveryApiEvent);
-
-    on<GetBusTypeApiEvent>(_getBusTypeApiEvent);
-  }
-
-  //
-  _storeBusModelEvent(StoreBusModelEvent event, emit) {
-    emit(state.copyWith(busModels: event.busModels));
   }
 
   // API EVENT
@@ -110,35 +102,4 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
   _downloadLiveryApiEvent(DownloadLiveryApiEvent event, emiy) {}
 
   _getAllDownloadedLiveryApiEvent(GetAllDownloadedLiveryApiEvent event, emit) {}
-
-  _getBusTypeApiEvent(GetBusTypeApiEvent event, emit) async {
-    emit(state.copyWith(busTypesRes: ApiResponse(status: ApiStatus.loading)));
-
-    final response = await liverService.getBusTypesServiceApi();
-
-    response.fold(
-      //
-      (failure) {
-        emit(
-          state.copyWith(
-            busTypesRes: ApiResponse(
-              status: ApiStatus.failure,
-              errorMessage: failure,
-            ),
-          ),
-        );
-      },
-      //
-      (success) {
-        emit(
-          state.copyWith(
-            busTypesRes: ApiResponse(
-              status: ApiStatus.success,
-              apiData: success,
-            ),
-          ),
-        );
-      },
-    );
-  }
 }

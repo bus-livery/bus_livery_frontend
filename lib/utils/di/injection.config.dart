@@ -15,6 +15,10 @@ import 'package:livery/features/auth/application/auth_bloc.dart' as _i632;
 import 'package:livery/features/auth/service/auth_service.dart' as _i148;
 import 'package:livery/features/livery/application/livery_bloc.dart' as _i366;
 import 'package:livery/features/livery/service/livery_service.dart' as _i1027;
+import 'package:livery/features/livery_create/application/livery_create_bloc.dart'
+    as _i117;
+import 'package:livery/features/livery_create/service/livery_create_service.dart'
+    as _i154;
 import 'package:livery/features/profile/application/profile_bloc.dart' as _i469;
 import 'package:livery/features/profile/service/profile_service.dart' as _i923;
 import 'package:livery/service/dio_service.dart' as _i833;
@@ -39,6 +43,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i1027.ILiveryService>(
       () => _i1027.LiveryService(gh<_i833.DioService>()),
+    );
+    gh.lazySingleton<_i154.ILiveryCreateService>(
+      () => _i154.LiveryCreateService(gh<_i833.DioService>()),
+    );
+    gh.factory<_i117.LiveryCreateBloc>(
+      () => _i117.LiveryCreateBloc(gh<_i154.ILiveryCreateService>()),
     );
     gh.lazySingleton<_i923.IProfileService>(
       () => _i923.ProfileService(gh<_i833.DioService>()),
