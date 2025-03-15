@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'image_picker_service.dart';
+part of 'image_picker_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -25,9 +25,15 @@ mixin _$ImagePickerModel {
   String? get fileName => throw _privateConstructorUsedError;
   String? get imagePath => throw _privateConstructorUsedError;
   String? get imageUUID => throw _privateConstructorUsedError;
-  String? get imageFileName => throw _privateConstructorUsedError;
+  String? get imageFileName => throw _privateConstructorUsedError; //
   @JsonKey(includeToJson: false, includeFromJson: false)
-  Uint8List? get imageUint8List => throw _privateConstructorUsedError;
+  Uint8List? get imageUint8List => throw _privateConstructorUsedError; // Original
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  Uint8List? get imageUint8List1080 => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  Uint8List? get imageUint8List600 => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  Uint8List? get imageUint8List200 => throw _privateConstructorUsedError;
 
   /// Serializes this ImagePickerModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -54,6 +60,12 @@ abstract class $ImagePickerModelCopyWith<$Res> {
     String? imageFileName,
     @JsonKey(includeToJson: false, includeFromJson: false)
     Uint8List? imageUint8List,
+    @JsonKey(includeToJson: false, includeFromJson: false)
+    Uint8List? imageUint8List1080,
+    @JsonKey(includeToJson: false, includeFromJson: false)
+    Uint8List? imageUint8List600,
+    @JsonKey(includeToJson: false, includeFromJson: false)
+    Uint8List? imageUint8List200,
   });
 }
 
@@ -78,6 +90,9 @@ class _$ImagePickerModelCopyWithImpl<$Res, $Val extends ImagePickerModel>
     Object? imageUUID = freezed,
     Object? imageFileName = freezed,
     Object? imageUint8List = freezed,
+    Object? imageUint8List1080 = freezed,
+    Object? imageUint8List600 = freezed,
+    Object? imageUint8List200 = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -111,6 +126,21 @@ class _$ImagePickerModelCopyWithImpl<$Res, $Val extends ImagePickerModel>
                     ? _value.imageUint8List
                     : imageUint8List // ignore: cast_nullable_to_non_nullable
                         as Uint8List?,
+            imageUint8List1080:
+                freezed == imageUint8List1080
+                    ? _value.imageUint8List1080
+                    : imageUint8List1080 // ignore: cast_nullable_to_non_nullable
+                        as Uint8List?,
+            imageUint8List600:
+                freezed == imageUint8List600
+                    ? _value.imageUint8List600
+                    : imageUint8List600 // ignore: cast_nullable_to_non_nullable
+                        as Uint8List?,
+            imageUint8List200:
+                freezed == imageUint8List200
+                    ? _value.imageUint8List200
+                    : imageUint8List200 // ignore: cast_nullable_to_non_nullable
+                        as Uint8List?,
           )
           as $Val,
     );
@@ -134,6 +164,12 @@ abstract class _$$ImagePickerModelImplCopyWith<$Res>
     String? imageFileName,
     @JsonKey(includeToJson: false, includeFromJson: false)
     Uint8List? imageUint8List,
+    @JsonKey(includeToJson: false, includeFromJson: false)
+    Uint8List? imageUint8List1080,
+    @JsonKey(includeToJson: false, includeFromJson: false)
+    Uint8List? imageUint8List600,
+    @JsonKey(includeToJson: false, includeFromJson: false)
+    Uint8List? imageUint8List200,
   });
 }
 
@@ -157,6 +193,9 @@ class __$$ImagePickerModelImplCopyWithImpl<$Res>
     Object? imageUUID = freezed,
     Object? imageFileName = freezed,
     Object? imageUint8List = freezed,
+    Object? imageUint8List1080 = freezed,
+    Object? imageUint8List600 = freezed,
+    Object? imageUint8List200 = freezed,
   }) {
     return _then(
       _$ImagePickerModelImpl(
@@ -190,6 +229,21 @@ class __$$ImagePickerModelImplCopyWithImpl<$Res>
                 ? _value.imageUint8List
                 : imageUint8List // ignore: cast_nullable_to_non_nullable
                     as Uint8List?,
+        imageUint8List1080:
+            freezed == imageUint8List1080
+                ? _value.imageUint8List1080
+                : imageUint8List1080 // ignore: cast_nullable_to_non_nullable
+                    as Uint8List?,
+        imageUint8List600:
+            freezed == imageUint8List600
+                ? _value.imageUint8List600
+                : imageUint8List600 // ignore: cast_nullable_to_non_nullable
+                    as Uint8List?,
+        imageUint8List200:
+            freezed == imageUint8List200
+                ? _value.imageUint8List200
+                : imageUint8List200 // ignore: cast_nullable_to_non_nullable
+                    as Uint8List?,
       ),
     );
   }
@@ -205,6 +259,12 @@ class _$ImagePickerModelImpl implements _ImagePickerModel {
     this.imageUUID,
     this.imageFileName,
     @JsonKey(includeToJson: false, includeFromJson: false) this.imageUint8List,
+    @JsonKey(includeToJson: false, includeFromJson: false)
+    this.imageUint8List1080,
+    @JsonKey(includeToJson: false, includeFromJson: false)
+    this.imageUint8List600,
+    @JsonKey(includeToJson: false, includeFromJson: false)
+    this.imageUint8List200,
   });
 
   factory _$ImagePickerModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -220,13 +280,24 @@ class _$ImagePickerModelImpl implements _ImagePickerModel {
   final String? imageUUID;
   @override
   final String? imageFileName;
+  //
   @override
   @JsonKey(includeToJson: false, includeFromJson: false)
   final Uint8List? imageUint8List;
+  // Original
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  final Uint8List? imageUint8List1080;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  final Uint8List? imageUint8List600;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  final Uint8List? imageUint8List200;
 
   @override
   String toString() {
-    return 'ImagePickerModel(imageUrl: $imageUrl, fileName: $fileName, imagePath: $imagePath, imageUUID: $imageUUID, imageFileName: $imageFileName, imageUint8List: $imageUint8List)';
+    return 'ImagePickerModel(imageUrl: $imageUrl, fileName: $fileName, imagePath: $imagePath, imageUUID: $imageUUID, imageFileName: $imageFileName, imageUint8List: $imageUint8List, imageUint8List1080: $imageUint8List1080, imageUint8List600: $imageUint8List600, imageUint8List200: $imageUint8List200)';
   }
 
   @override
@@ -247,6 +318,18 @@ class _$ImagePickerModelImpl implements _ImagePickerModel {
             const DeepCollectionEquality().equals(
               other.imageUint8List,
               imageUint8List,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other.imageUint8List1080,
+              imageUint8List1080,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other.imageUint8List600,
+              imageUint8List600,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other.imageUint8List200,
+              imageUint8List200,
             ));
   }
 
@@ -260,6 +343,9 @@ class _$ImagePickerModelImpl implements _ImagePickerModel {
     imageUUID,
     imageFileName,
     const DeepCollectionEquality().hash(imageUint8List),
+    const DeepCollectionEquality().hash(imageUint8List1080),
+    const DeepCollectionEquality().hash(imageUint8List600),
+    const DeepCollectionEquality().hash(imageUint8List200),
   );
 
   /// Create a copy of ImagePickerModel
@@ -288,6 +374,12 @@ abstract class _ImagePickerModel implements ImagePickerModel {
     final String? imageFileName,
     @JsonKey(includeToJson: false, includeFromJson: false)
     final Uint8List? imageUint8List,
+    @JsonKey(includeToJson: false, includeFromJson: false)
+    final Uint8List? imageUint8List1080,
+    @JsonKey(includeToJson: false, includeFromJson: false)
+    final Uint8List? imageUint8List600,
+    @JsonKey(includeToJson: false, includeFromJson: false)
+    final Uint8List? imageUint8List200,
   }) = _$ImagePickerModelImpl;
 
   factory _ImagePickerModel.fromJson(Map<String, dynamic> json) =
@@ -302,10 +394,19 @@ abstract class _ImagePickerModel implements ImagePickerModel {
   @override
   String? get imageUUID;
   @override
-  String? get imageFileName;
+  String? get imageFileName; //
   @override
   @JsonKey(includeToJson: false, includeFromJson: false)
-  Uint8List? get imageUint8List;
+  Uint8List? get imageUint8List; // Original
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  Uint8List? get imageUint8List1080;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  Uint8List? get imageUint8List600;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  Uint8List? get imageUint8List200;
 
   /// Create a copy of ImagePickerModel
   /// with the given fields replaced by the non-null parameter values.

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:livery/service/image_picker_service.dart';
+import 'package:livery/Cmodel/image_picker_model/image_picker_model.dart';
 
 part 'livery_req_model.freezed.dart';
 part 'livery_req_model.g.dart';

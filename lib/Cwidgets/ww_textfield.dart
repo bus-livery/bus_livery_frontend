@@ -59,7 +59,7 @@ abstract class WWTextFieldBase extends StatelessWidget {
             minLines: minLines,
             inputFormatters: inputFormatters,
             validator: validator,
-            style: normalText(context),
+            style: textFieldStyle(context),
             // style: const TextStyle(color: Colors.black),
             decoration: InputDecoration(
               // filled: true,

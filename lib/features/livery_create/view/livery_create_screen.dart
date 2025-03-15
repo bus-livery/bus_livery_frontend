@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:typed_data';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,6 @@ import 'package:livery/Cwidgets/ww_dashed_border.dart';
 import 'package:livery/Cwidgets/ww_popup_error_success.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/Cwidgets/ww_textfield.dart';
-import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/features/livery_create/application/livery_create_bloc.dart';
 import 'package:livery/features/livery_create/widget/bus_type_dropdown.dart';
@@ -47,11 +47,7 @@ class LiveryCreateScreen extends StatelessWidget implements AutoRouteWrapper {
             spacing: 15,
             children: [
               WwText(text: 'Upload Image', style: normalText(context)),
-              BlocBuilder<LiveryBloc, LiveryState>(
-                builder: (context, state) {
-                  return _ImagePicker();
-                },
-              ), // IMAGE PICKER -------------------------------------
+              _ImagePicker(), // IMAGE PICKER -------------------------------------
               WWTextField(title: 'Name', controller: TextEditingController()),
               _BusTypeChoose(bloc: bloc), // CHOOSE BUS MODEL ----------------
               WWTextFieldTextArea(
@@ -114,23 +110,24 @@ class _ImagePicker extends StatelessWidget {
           alignment: Alignment.center,
           padding: EdgeInsets.all(10.0),
           child: AspectRatio(
-            aspectRatio: 2 / 1,
+            aspectRatio: 1 / 1,
             child: Stack(
               alignment: Alignment.center,
               children: [
+                Icon(
+                  Icons.filter_none_rounded,
+                  size: 40,
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
                 BlocSelector<LiveryCreateBloc, LiveryCreateState, Uint8List?>(
                   selector: (state) {
                     return state.liveryCreateRes.apiData?.image?.imageUint8List;
                   },
                   builder: (context, image) {
-                    customPrint(image, name: 'selectedImage 2');
-                    return image == null ? SizedBox() : Image.memory(image);
+                    return image == null
+                        ? SizedBox()
+                        : Image.memory(image, fit: BoxFit.contain);
                   },
-                ),
-                Icon(
-                  Icons.filter_none_rounded,
-                  size: 40,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
                 ),
               ],
             ),

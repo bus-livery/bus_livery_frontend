@@ -6,7 +6,6 @@ import 'package:livery/Cmodel/enum.dart';
 import 'package:livery/features/livery/model/livery_model/livery_data_model.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/features/livery/service/livery_service.dart';
-import 'package:livery/service/image_picker_service.dart';
 import 'package:livery/utils/bloc_life_cycle.dart';
 import 'package:livery/utils/custom_print.dart';
 

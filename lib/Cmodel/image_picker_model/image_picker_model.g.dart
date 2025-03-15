@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'image_picker_service.dart';
+part of 'image_picker_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

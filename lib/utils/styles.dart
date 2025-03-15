@@ -20,6 +20,14 @@ TextStyle normalText(BuildContext context) {
   );
 }
 
+TextStyle textFieldStyle(BuildContext context) {
+  return TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
+    color: Theme.of(context).colorScheme.onPrimaryContainer,
+  );
+}
+
 InputDecoration tfInputDecoration({
   required BuildContext context,
   String? labelText,
