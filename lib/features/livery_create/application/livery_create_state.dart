@@ -3,12 +3,15 @@ part of 'livery_create_bloc.dart';
 class LiveryCreateState {
   final List<String> busModels;
 
+  ImagePickerModel? storeImage;
+
   // API STATES
   final ApiResponse<LiveryReqModel> liveryCreateRes;
   // Bus Types
   final ApiResponse<List<BusTypeModel>> busTypesRes;
   LiveryCreateState({
     required this.busModels,
+    required this.storeImage,
 
     // API STATES
     required this.liveryCreateRes,
@@ -18,6 +21,7 @@ class LiveryCreateState {
   factory LiveryCreateState.initial() {
     return LiveryCreateState(
       busModels: <String>[],
+      storeImage: ImagePickerModel(),
 
       // API STATES
       liveryCreateRes: ApiResponse<LiveryReqModel>(apiData: LiveryReqModel()),
@@ -27,6 +31,7 @@ class LiveryCreateState {
 
   LiveryCreateState copyWith({
     List<String>? busModels,
+    ImagePickerModel? storeImage,
 
     // API STATES
     ApiResponse<LiveryReqModel>? liveryCreateRes,
@@ -34,6 +39,7 @@ class LiveryCreateState {
   }) {
     return LiveryCreateState(
       busModels: busModels ?? this.busModels,
+      storeImage: storeImage ?? this.storeImage,
 
       // API STATES
       liveryCreateRes: liveryCreateRes ?? this.liveryCreateRes,

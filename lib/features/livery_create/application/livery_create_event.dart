@@ -17,7 +17,7 @@ class LiveryCreateStore extends LiveryCreateEvent {
 // API EVENTS
 
 class CreateLiveryApiEvent extends LiveryCreateEvent {
-  final LiveryReqModel data;
+  final FormData data;
 
   CreateLiveryApiEvent({required this.data});
 }

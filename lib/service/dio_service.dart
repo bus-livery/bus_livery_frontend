@@ -65,7 +65,7 @@ class DioService {
         case Method.delete:
           response = await dio.delete(
             endpoint,
-            data: data ?? formData,
+            data: data,
             queryParameters: queryParam,
           );
           break;
@@ -112,15 +112,19 @@ class DioInterceptor extends Interceptor {
       if (token != null) "Authorization": "Bearer $token",
     });
 
+    log("${options.uri}", name: "req uri");
+
     // Log request details
     if (isFormData) {
       // For FormData, log file details
       final formData = options.data as FormData;
       log('Uploading ${formData.files.length} files', name: 'Multipart Upload');
+      log(formData.fields.toString(), name: "FormData Fields");
+      log(formData.files.toString(), name: "FormData Files");
     } else {
       log(jsonEncode(options.data), name: "Post data");
-      log("${options.uri}", name: "req uri");
     }
+
     super.onRequest(options, handler);
   }
 
@@ -141,7 +145,6 @@ class DioInterceptor extends Interceptor {
 
   @override
   Future onError(DioException err, ErrorInterceptorHandler handler) async {
-    customPrint("${err.requestOptions.uri}", name: "Endpoint");
     customPrint(
       "${err.response?.statusCode} ${err.response?.data}",
       name: "DioException.Error",

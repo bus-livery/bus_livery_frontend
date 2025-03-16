@@ -21,8 +21,6 @@ LiveryReqModel _$LiveryReqModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$LiveryReqModel {
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  ImagePickerModel? get image => throw _privateConstructorUsedError;
   @JsonKey(name: 'bus_type')
   String? get busType => throw _privateConstructorUsedError;
   @JsonKey(name: 'bus_model')
@@ -57,8 +55,6 @@ abstract class $LiveryReqModelCopyWith<$Res> {
   ) = _$LiveryReqModelCopyWithImpl<$Res, LiveryReqModel>;
   @useResult
   $Res call({
-    @JsonKey(includeFromJson: false, includeToJson: false)
-    ImagePickerModel? image,
     @JsonKey(name: 'bus_type') String? busType,
     @JsonKey(name: 'bus_model') String? busModel,
     @JsonKey(name: 'post_name') String? postName,
@@ -68,8 +64,6 @@ abstract class $LiveryReqModelCopyWith<$Res> {
     @JsonKey(name: 'post_image_600') String? postImage600,
     @JsonKey(name: 'post_image_200') String? postImage200,
   });
-
-  $ImagePickerModelCopyWith<$Res>? get image;
 }
 
 /// @nodoc
@@ -87,7 +81,6 @@ class _$LiveryReqModelCopyWithImpl<$Res, $Val extends LiveryReqModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? image = freezed,
     Object? busType = freezed,
     Object? busModel = freezed,
     Object? postName = freezed,
@@ -99,11 +92,6 @@ class _$LiveryReqModelCopyWithImpl<$Res, $Val extends LiveryReqModel>
   }) {
     return _then(
       _value.copyWith(
-            image:
-                freezed == image
-                    ? _value.image
-                    : image // ignore: cast_nullable_to_non_nullable
-                        as ImagePickerModel?,
             busType:
                 freezed == busType
                     ? _value.busType
@@ -148,20 +136,6 @@ class _$LiveryReqModelCopyWithImpl<$Res, $Val extends LiveryReqModel>
           as $Val,
     );
   }
-
-  /// Create a copy of LiveryReqModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $ImagePickerModelCopyWith<$Res>? get image {
-    if (_value.image == null) {
-      return null;
-    }
-
-    return $ImagePickerModelCopyWith<$Res>(_value.image!, (value) {
-      return _then(_value.copyWith(image: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -174,8 +148,6 @@ abstract class _$$LiveryReqModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    @JsonKey(includeFromJson: false, includeToJson: false)
-    ImagePickerModel? image,
     @JsonKey(name: 'bus_type') String? busType,
     @JsonKey(name: 'bus_model') String? busModel,
     @JsonKey(name: 'post_name') String? postName,
@@ -185,9 +157,6 @@ abstract class _$$LiveryReqModelImplCopyWith<$Res>
     @JsonKey(name: 'post_image_600') String? postImage600,
     @JsonKey(name: 'post_image_200') String? postImage200,
   });
-
-  @override
-  $ImagePickerModelCopyWith<$Res>? get image;
 }
 
 /// @nodoc
@@ -204,7 +173,6 @@ class __$$LiveryReqModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? image = freezed,
     Object? busType = freezed,
     Object? busModel = freezed,
     Object? postName = freezed,
@@ -216,11 +184,6 @@ class __$$LiveryReqModelImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$LiveryReqModelImpl(
-        image:
-            freezed == image
-                ? _value.image
-                : image // ignore: cast_nullable_to_non_nullable
-                    as ImagePickerModel?,
         busType:
             freezed == busType
                 ? _value.busType
@@ -270,7 +233,6 @@ class __$$LiveryReqModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$LiveryReqModelImpl implements _LiveryReqModel {
   _$LiveryReqModelImpl({
-    @JsonKey(includeFromJson: false, includeToJson: false) this.image,
     @JsonKey(name: 'bus_type') this.busType,
     @JsonKey(name: 'bus_model') this.busModel,
     @JsonKey(name: 'post_name') this.postName,
@@ -284,9 +246,6 @@ class _$LiveryReqModelImpl implements _LiveryReqModel {
   factory _$LiveryReqModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$LiveryReqModelImplFromJson(json);
 
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  final ImagePickerModel? image;
   @override
   @JsonKey(name: 'bus_type')
   final String? busType;
@@ -313,7 +272,7 @@ class _$LiveryReqModelImpl implements _LiveryReqModel {
 
   @override
   String toString() {
-    return 'LiveryReqModel(image: $image, busType: $busType, busModel: $busModel, postName: $postName, description: $description, postImageOriginal: $postImageOriginal, postImage1080: $postImage1080, postImage600: $postImage600, postImage200: $postImage200)';
+    return 'LiveryReqModel(busType: $busType, busModel: $busModel, postName: $postName, description: $description, postImageOriginal: $postImageOriginal, postImage1080: $postImage1080, postImage600: $postImage600, postImage200: $postImage200)';
   }
 
   @override
@@ -321,7 +280,6 @@ class _$LiveryReqModelImpl implements _LiveryReqModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LiveryReqModelImpl &&
-            (identical(other.image, image) || other.image == image) &&
             (identical(other.busType, busType) || other.busType == busType) &&
             (identical(other.busModel, busModel) ||
                 other.busModel == busModel) &&
@@ -343,7 +301,6 @@ class _$LiveryReqModelImpl implements _LiveryReqModel {
   @override
   int get hashCode => Object.hash(
     runtimeType,
-    image,
     busType,
     busModel,
     postName,
@@ -373,8 +330,6 @@ class _$LiveryReqModelImpl implements _LiveryReqModel {
 
 abstract class _LiveryReqModel implements LiveryReqModel {
   factory _LiveryReqModel({
-    @JsonKey(includeFromJson: false, includeToJson: false)
-    final ImagePickerModel? image,
     @JsonKey(name: 'bus_type') final String? busType,
     @JsonKey(name: 'bus_model') final String? busModel,
     @JsonKey(name: 'post_name') final String? postName,
@@ -388,9 +343,6 @@ abstract class _LiveryReqModel implements LiveryReqModel {
   factory _LiveryReqModel.fromJson(Map<String, dynamic> json) =
       _$LiveryReqModelImpl.fromJson;
 
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  ImagePickerModel? get image;
   @override
   @JsonKey(name: 'bus_type')
   String? get busType;

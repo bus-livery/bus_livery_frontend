@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:livery/Cmodel/image_picker_model/image_picker_model.dart';
 
 part 'livery_req_model.freezed.dart';
 part 'livery_req_model.g.dart';
@@ -7,9 +6,6 @@ part 'livery_req_model.g.dart';
 @freezed
 class LiveryReqModel with _$LiveryReqModel {
   factory LiveryReqModel({
-    @JsonKey(includeFromJson: false, includeToJson: false)
-    ImagePickerModel? image,
-
     @JsonKey(name: 'bus_type') String? busType,
     @JsonKey(name: 'bus_model') String? busModel,
     @JsonKey(name: 'post_name') String? postName,

@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:livery/Cmodel/api_response.dart';
 import 'package:livery/Cmodel/enum.dart';
@@ -17,6 +19,11 @@ class LiveryCreateBloc extends Bloc<LiveryCreateEvent, LiveryCreateState>
     with BlocLifeCycle {
   final ILiveryCreateService liverCreateService;
 
+  final liveryName = TextEditingController();
+  String busType = '';
+  String busModel = '';
+  final description = TextEditingController();
+
   @override
   void initstate() {
     customPrint('LIVERY CREATE BLOC INITIALIZED');
@@ -25,6 +32,8 @@ class LiveryCreateBloc extends Bloc<LiveryCreateEvent, LiveryCreateState>
   @override
   Future<void> close() {
     customPrint('LIVERY CREATE BLOC CLOSED');
+    liveryName.dispose();
+    description.dispose();
     return super.close();
   }
 
@@ -34,6 +43,7 @@ class LiveryCreateBloc extends Bloc<LiveryCreateEvent, LiveryCreateState>
 
     initstate();
     //
+
     on<LiveryCreateEvent>((event, emit) {});
 
     on<CreateLiveryApiEvent>(_createLiveryApiEvent);
@@ -48,23 +58,48 @@ class LiveryCreateBloc extends Bloc<LiveryCreateEvent, LiveryCreateState>
   }
 
   //
+
   _storeBusModelEvent(StoreBusModelEvent event, emit) {
     emit(state.copyWith(busModels: event.busModels));
   }
 
   _liveryCreateStore(LiveryCreateStore event, emit) {
-    emit(
-      state.copyWith(
-        liveryCreateRes: ApiResponse(
-          apiData: state.liveryCreateRes.apiData?.copyWith(image: event.image),
-        ),
-      ),
-    );
+    emit(state.copyWith(storeImage: event.image));
   }
 
   // API
 
-  _createLiveryApiEvent(CreateLiveryApiEvent event, emit) async {}
+  _createLiveryApiEvent(CreateLiveryApiEvent event, emit) async {
+    emit(
+      state.copyWith(liveryCreateRes: ApiResponse(status: ApiStatus.loading)),
+    );
+
+    final response = await liverCreateService.createLiveryServiceApi(
+      data: event.data,
+    );
+
+    response.fold(
+      //
+      (failure) {
+        emit(
+          state.copyWith(
+            liveryCreateRes: ApiResponse(
+              status: ApiStatus.failure,
+              errorMessage: failure,
+            ),
+          ),
+        );
+      },
+      //
+      (success) {
+        emit(
+          state.copyWith(
+            liveryCreateRes: ApiResponse(status: ApiStatus.success),
+          ),
+        );
+      },
+    );
+  }
 
   _getBusTypeApiEvent(GetBusTypeApiEvent event, emit) async {
     emit(state.copyWith(busTypesRes: ApiResponse(status: ApiStatus.loading)));
