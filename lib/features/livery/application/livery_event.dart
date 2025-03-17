@@ -14,7 +14,11 @@ class GetSinglelLiveryApiEvent extends LiveryEvent {}
 
 class UpdateLiveryApiEvent extends LiveryEvent {}
 
-class DeleteLiveryApiEvent extends LiveryEvent {}
+class DeleteLiveryApiEvent extends LiveryEvent {
+  final int liveryId;
+
+  DeleteLiveryApiEvent({required this.liveryId});
+}
 
 class DownloadLiveryApiEvent extends LiveryEvent {}
 

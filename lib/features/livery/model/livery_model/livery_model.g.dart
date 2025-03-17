@@ -20,7 +20,7 @@ _$LiveryModelImpl _$$LiveryModelImplFromJson(Map<String, dynamic> json) =>
       deletedAt: json['DeletedAt'],
       busType: json['bus_type'] as String?,
       busModel: json['bus_model'] as String?,
-      postName: json['post_name'] as String?,
+      liveryName: json['livery_name'] as String?,
       description: json['description'] as String?,
       downloadCount: (json['download_count'] as num?)?.toInt(),
       user:
@@ -28,10 +28,10 @@ _$LiveryModelImpl _$$LiveryModelImplFromJson(Map<String, dynamic> json) =>
               ? null
               : ProfileModel.fromJson(json['user'] as Map<String, dynamic>),
       postImage:
-          json['post_image'] == null
+          json['livery_image'] == null
               ? null
-              : PostImageModel.fromJson(
-                json['post_image'] as Map<String, dynamic>,
+              : LiveryImageModel.fromJson(
+                json['livery_image'] as Map<String, dynamic>,
               ),
     );
 
@@ -43,9 +43,9 @@ Map<String, dynamic> _$$LiveryModelImplToJson(_$LiveryModelImpl instance) =>
       'DeletedAt': instance.deletedAt,
       'bus_type': instance.busType,
       'bus_model': instance.busModel,
-      'post_name': instance.postName,
+      'livery_name': instance.liveryName,
       'description': instance.description,
       'download_count': instance.downloadCount,
       'user': instance.user,
-      'post_image': instance.postImage,
+      'livery_image': instance.postImage,
     };

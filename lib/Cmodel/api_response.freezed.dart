@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ApiResponse<T> {
+  dynamic get key => throw _privateConstructorUsedError;
   T? get apiData => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
   String? get successMessage => throw _privateConstructorUsedError;
@@ -39,6 +40,7 @@ abstract class $ApiResponseCopyWith<T, $Res> {
   ) = _$ApiResponseCopyWithImpl<T, $Res, ApiResponse<T>>;
   @useResult
   $Res call({
+    dynamic key,
     T? apiData,
     String? errorMessage,
     String? successMessage,
@@ -63,6 +65,7 @@ class _$ApiResponseCopyWithImpl<T, $Res, $Val extends ApiResponse<T>>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? key = freezed,
     Object? apiData = freezed,
     Object? errorMessage = freezed,
     Object? successMessage = freezed,
@@ -72,6 +75,11 @@ class _$ApiResponseCopyWithImpl<T, $Res, $Val extends ApiResponse<T>>
   }) {
     return _then(
       _value.copyWith(
+            key:
+                freezed == key
+                    ? _value.key
+                    : key // ignore: cast_nullable_to_non_nullable
+                        as dynamic,
             apiData:
                 freezed == apiData
                     ? _value.apiData
@@ -118,6 +126,7 @@ abstract class _$$ApiResponseImplCopyWith<T, $Res>
   @override
   @useResult
   $Res call({
+    dynamic key,
     T? apiData,
     String? errorMessage,
     String? successMessage,
@@ -141,6 +150,7 @@ class __$$ApiResponseImplCopyWithImpl<T, $Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? key = freezed,
     Object? apiData = freezed,
     Object? errorMessage = freezed,
     Object? successMessage = freezed,
@@ -150,6 +160,11 @@ class __$$ApiResponseImplCopyWithImpl<T, $Res>
   }) {
     return _then(
       _$ApiResponseImpl<T>(
+        key:
+            freezed == key
+                ? _value.key
+                : key // ignore: cast_nullable_to_non_nullable
+                    as dynamic,
         apiData:
             freezed == apiData
                 ? _value.apiData
@@ -189,6 +204,7 @@ class __$$ApiResponseImplCopyWithImpl<T, $Res>
 
 class _$ApiResponseImpl<T> implements _ApiResponse<T> {
   _$ApiResponseImpl({
+    this.key,
     this.apiData,
     this.errorMessage,
     this.successMessage,
@@ -197,6 +213,8 @@ class _$ApiResponseImpl<T> implements _ApiResponse<T> {
     this.paginationLoading = false,
   });
 
+  @override
+  final dynamic key;
   @override
   final T? apiData;
   @override
@@ -215,7 +233,7 @@ class _$ApiResponseImpl<T> implements _ApiResponse<T> {
 
   @override
   String toString() {
-    return 'ApiResponse<$T>(apiData: $apiData, errorMessage: $errorMessage, successMessage: $successMessage, status: $status, loading: $loading, paginationLoading: $paginationLoading)';
+    return 'ApiResponse<$T>(key: $key, apiData: $apiData, errorMessage: $errorMessage, successMessage: $successMessage, status: $status, loading: $loading, paginationLoading: $paginationLoading)';
   }
 
   @override
@@ -223,6 +241,7 @@ class _$ApiResponseImpl<T> implements _ApiResponse<T> {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ApiResponseImpl<T> &&
+            const DeepCollectionEquality().equals(other.key, key) &&
             const DeepCollectionEquality().equals(other.apiData, apiData) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
@@ -237,6 +256,7 @@ class _$ApiResponseImpl<T> implements _ApiResponse<T> {
   @override
   int get hashCode => Object.hash(
     runtimeType,
+    const DeepCollectionEquality().hash(key),
     const DeepCollectionEquality().hash(apiData),
     errorMessage,
     successMessage,
@@ -259,6 +279,7 @@ class _$ApiResponseImpl<T> implements _ApiResponse<T> {
 
 abstract class _ApiResponse<T> implements ApiResponse<T> {
   factory _ApiResponse({
+    final dynamic key,
     final T? apiData,
     final String? errorMessage,
     final String? successMessage,
@@ -267,6 +288,8 @@ abstract class _ApiResponse<T> implements ApiResponse<T> {
     final bool paginationLoading,
   }) = _$ApiResponseImpl<T>;
 
+  @override
+  dynamic get key;
   @override
   T? get apiData;
   @override

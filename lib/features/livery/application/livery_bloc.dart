@@ -96,7 +96,47 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
 
   _updateSingleLiveryApiEvent(UpdateLiveryApiEvent event, emiy) {}
 
-  _deleteLiveryApiEvent(DeleteLiveryApiEvent event, emit) {}
+  _deleteLiveryApiEvent(DeleteLiveryApiEvent event, emit) async {
+    customPrint('liveru delete called');
+
+    emit(
+      state.copyWith(
+        deleteLiveryRes: ApiResponse(
+          key: event.liveryId,
+          status: ApiStatus.loading,
+        ),
+      ),
+    );
+
+    final response = await liverService.deleteLiveryServiceApi(event.liveryId);
+
+    response.fold(
+      //
+      (failure) {
+        emit(
+          state.copyWith(
+            deleteLiveryRes: ApiResponse(
+              key: event.liveryId,
+              status: ApiStatus.failure,
+              errorMessage: failure,
+            ),
+          ),
+        );
+      },
+      //
+      (success) {
+        emit(
+          state.copyWith(
+            deleteLiveryRes: ApiResponse(
+              key: event.liveryId,
+              status: ApiStatus.success,
+              apiData: success,
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   _downloadLiveryApiEvent(DownloadLiveryApiEvent event, emiy) {}
 

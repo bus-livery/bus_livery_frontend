@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livery/Cmodel/enum.dart';
+import 'package:livery/Cwidgets/ww_app_bar.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/Cwidgets/ww_dashed_border.dart';
 import 'package:livery/Cwidgets/ww_popup_error_success.dart';
@@ -34,7 +35,7 @@ class LiveryCreateScreen extends StatelessWidget implements AutoRouteWrapper {
     final bloc = context.read<LiveryCreateBloc>();
 
     return Scaffold(
-      appBar: AppBar(title: Text('Post Livery', style: normalText(context))),
+      appBar: WwAppBar(title: 'Create Livery'),
       bottomNavigationBar: _SubmitButton(
         bloc: bloc,
         data: LiveryModel(),
@@ -180,8 +181,9 @@ class _SubmitButton extends StatelessWidget {
                           'livery_name': bloc.liveryName.text,
                         if (bloc.description.text.isNotEmpty)
                           'description': bloc.description.text,
-                        if (bloc.busType.isEmpty) 'bus_type': bloc.busType,
-                        if (bloc.busModel.isEmpty) 'bus_model': bloc.busModel,
+                        if (bloc.busType.isNotEmpty) 'bus_type': bloc.busType,
+                        if (bloc.busModel.isNotEmpty)
+                          'bus_model': bloc.busModel,
                         if (state.storeImage?.imageUint8List != null)
                           'livery_image': MultipartFile.fromBytes(
                             state.storeImage!.imageUint8List!,

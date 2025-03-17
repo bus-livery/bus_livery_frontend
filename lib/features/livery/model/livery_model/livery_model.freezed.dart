@@ -33,14 +33,14 @@ mixin _$LiveryModel {
   String? get busType => throw _privateConstructorUsedError;
   @JsonKey(name: 'bus_model')
   String? get busModel => throw _privateConstructorUsedError;
-  @JsonKey(name: 'post_name')
-  String? get postName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'livery_name')
+  String? get liveryName => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: 'download_count')
   int? get downloadCount => throw _privateConstructorUsedError;
   ProfileModel? get user => throw _privateConstructorUsedError;
-  @JsonKey(name: 'post_image')
-  PostImageModel? get postImage => throw _privateConstructorUsedError;
+  @JsonKey(name: 'livery_image')
+  LiveryImageModel? get postImage => throw _privateConstructorUsedError;
 
   /// Serializes this LiveryModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -66,15 +66,15 @@ abstract class $LiveryModelCopyWith<$Res> {
     @JsonKey(name: 'DeletedAt') dynamic deletedAt,
     @JsonKey(name: 'bus_type') String? busType,
     @JsonKey(name: 'bus_model') String? busModel,
-    @JsonKey(name: 'post_name') String? postName,
+    @JsonKey(name: 'livery_name') String? liveryName,
     String? description,
     @JsonKey(name: 'download_count') int? downloadCount,
     ProfileModel? user,
-    @JsonKey(name: 'post_image') PostImageModel? postImage,
+    @JsonKey(name: 'livery_image') LiveryImageModel? postImage,
   });
 
   $ProfileModelCopyWith<$Res>? get user;
-  $PostImageModelCopyWith<$Res>? get postImage;
+  $LiveryImageModelCopyWith<$Res>? get postImage;
 }
 
 /// @nodoc
@@ -98,7 +98,7 @@ class _$LiveryModelCopyWithImpl<$Res, $Val extends LiveryModel>
     Object? deletedAt = freezed,
     Object? busType = freezed,
     Object? busModel = freezed,
-    Object? postName = freezed,
+    Object? liveryName = freezed,
     Object? description = freezed,
     Object? downloadCount = freezed,
     Object? user = freezed,
@@ -136,10 +136,10 @@ class _$LiveryModelCopyWithImpl<$Res, $Val extends LiveryModel>
                     ? _value.busModel
                     : busModel // ignore: cast_nullable_to_non_nullable
                         as String?,
-            postName:
-                freezed == postName
-                    ? _value.postName
-                    : postName // ignore: cast_nullable_to_non_nullable
+            liveryName:
+                freezed == liveryName
+                    ? _value.liveryName
+                    : liveryName // ignore: cast_nullable_to_non_nullable
                         as String?,
             description:
                 freezed == description
@@ -160,7 +160,7 @@ class _$LiveryModelCopyWithImpl<$Res, $Val extends LiveryModel>
                 freezed == postImage
                     ? _value.postImage
                     : postImage // ignore: cast_nullable_to_non_nullable
-                        as PostImageModel?,
+                        as LiveryImageModel?,
           )
           as $Val,
     );
@@ -184,12 +184,12 @@ class _$LiveryModelCopyWithImpl<$Res, $Val extends LiveryModel>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $PostImageModelCopyWith<$Res>? get postImage {
+  $LiveryImageModelCopyWith<$Res>? get postImage {
     if (_value.postImage == null) {
       return null;
     }
 
-    return $PostImageModelCopyWith<$Res>(_value.postImage!, (value) {
+    return $LiveryImageModelCopyWith<$Res>(_value.postImage!, (value) {
       return _then(_value.copyWith(postImage: value) as $Val);
     });
   }
@@ -211,17 +211,17 @@ abstract class _$$LiveryModelImplCopyWith<$Res>
     @JsonKey(name: 'DeletedAt') dynamic deletedAt,
     @JsonKey(name: 'bus_type') String? busType,
     @JsonKey(name: 'bus_model') String? busModel,
-    @JsonKey(name: 'post_name') String? postName,
+    @JsonKey(name: 'livery_name') String? liveryName,
     String? description,
     @JsonKey(name: 'download_count') int? downloadCount,
     ProfileModel? user,
-    @JsonKey(name: 'post_image') PostImageModel? postImage,
+    @JsonKey(name: 'livery_image') LiveryImageModel? postImage,
   });
 
   @override
   $ProfileModelCopyWith<$Res>? get user;
   @override
-  $PostImageModelCopyWith<$Res>? get postImage;
+  $LiveryImageModelCopyWith<$Res>? get postImage;
 }
 
 /// @nodoc
@@ -244,7 +244,7 @@ class __$$LiveryModelImplCopyWithImpl<$Res>
     Object? deletedAt = freezed,
     Object? busType = freezed,
     Object? busModel = freezed,
-    Object? postName = freezed,
+    Object? liveryName = freezed,
     Object? description = freezed,
     Object? downloadCount = freezed,
     Object? user = freezed,
@@ -282,10 +282,10 @@ class __$$LiveryModelImplCopyWithImpl<$Res>
                 ? _value.busModel
                 : busModel // ignore: cast_nullable_to_non_nullable
                     as String?,
-        postName:
-            freezed == postName
-                ? _value.postName
-                : postName // ignore: cast_nullable_to_non_nullable
+        liveryName:
+            freezed == liveryName
+                ? _value.liveryName
+                : liveryName // ignore: cast_nullable_to_non_nullable
                     as String?,
         description:
             freezed == description
@@ -306,7 +306,7 @@ class __$$LiveryModelImplCopyWithImpl<$Res>
             freezed == postImage
                 ? _value.postImage
                 : postImage // ignore: cast_nullable_to_non_nullable
-                    as PostImageModel?,
+                    as LiveryImageModel?,
       ),
     );
   }
@@ -322,11 +322,11 @@ class _$LiveryModelImpl implements _LiveryModel {
     @JsonKey(name: 'DeletedAt') this.deletedAt,
     @JsonKey(name: 'bus_type') this.busType,
     @JsonKey(name: 'bus_model') this.busModel,
-    @JsonKey(name: 'post_name') this.postName,
+    @JsonKey(name: 'livery_name') this.liveryName,
     this.description,
     @JsonKey(name: 'download_count') this.downloadCount,
     this.user,
-    @JsonKey(name: 'post_image') this.postImage,
+    @JsonKey(name: 'livery_image') this.postImage,
   });
 
   factory _$LiveryModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -351,8 +351,8 @@ class _$LiveryModelImpl implements _LiveryModel {
   @JsonKey(name: 'bus_model')
   final String? busModel;
   @override
-  @JsonKey(name: 'post_name')
-  final String? postName;
+  @JsonKey(name: 'livery_name')
+  final String? liveryName;
   @override
   final String? description;
   @override
@@ -361,12 +361,12 @@ class _$LiveryModelImpl implements _LiveryModel {
   @override
   final ProfileModel? user;
   @override
-  @JsonKey(name: 'post_image')
-  final PostImageModel? postImage;
+  @JsonKey(name: 'livery_image')
+  final LiveryImageModel? postImage;
 
   @override
   String toString() {
-    return 'LiveryModel(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, busType: $busType, busModel: $busModel, postName: $postName, description: $description, downloadCount: $downloadCount, user: $user, postImage: $postImage)';
+    return 'LiveryModel(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, busType: $busType, busModel: $busModel, liveryName: $liveryName, description: $description, downloadCount: $downloadCount, user: $user, postImage: $postImage)';
   }
 
   @override
@@ -383,8 +383,8 @@ class _$LiveryModelImpl implements _LiveryModel {
             (identical(other.busType, busType) || other.busType == busType) &&
             (identical(other.busModel, busModel) ||
                 other.busModel == busModel) &&
-            (identical(other.postName, postName) ||
-                other.postName == postName) &&
+            (identical(other.liveryName, liveryName) ||
+                other.liveryName == liveryName) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.downloadCount, downloadCount) ||
@@ -404,7 +404,7 @@ class _$LiveryModelImpl implements _LiveryModel {
     const DeepCollectionEquality().hash(deletedAt),
     busType,
     busModel,
-    postName,
+    liveryName,
     description,
     downloadCount,
     user,
@@ -433,11 +433,11 @@ abstract class _LiveryModel implements LiveryModel {
     @JsonKey(name: 'DeletedAt') final dynamic deletedAt,
     @JsonKey(name: 'bus_type') final String? busType,
     @JsonKey(name: 'bus_model') final String? busModel,
-    @JsonKey(name: 'post_name') final String? postName,
+    @JsonKey(name: 'livery_name') final String? liveryName,
     final String? description,
     @JsonKey(name: 'download_count') final int? downloadCount,
     final ProfileModel? user,
-    @JsonKey(name: 'post_image') final PostImageModel? postImage,
+    @JsonKey(name: 'livery_image') final LiveryImageModel? postImage,
   }) = _$LiveryModelImpl;
 
   factory _LiveryModel.fromJson(Map<String, dynamic> json) =
@@ -462,8 +462,8 @@ abstract class _LiveryModel implements LiveryModel {
   @JsonKey(name: 'bus_model')
   String? get busModel;
   @override
-  @JsonKey(name: 'post_name')
-  String? get postName;
+  @JsonKey(name: 'livery_name')
+  String? get liveryName;
   @override
   String? get description;
   @override
@@ -472,8 +472,8 @@ abstract class _LiveryModel implements LiveryModel {
   @override
   ProfileModel? get user;
   @override
-  @JsonKey(name: 'post_image')
-  PostImageModel? get postImage;
+  @JsonKey(name: 'livery_image')
+  LiveryImageModel? get postImage;
 
   /// Create a copy of LiveryModel
   /// with the given fields replaced by the non-null parameter values.

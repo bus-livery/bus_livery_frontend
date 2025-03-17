@@ -15,11 +15,11 @@ class LiveryModel with _$LiveryModel {
     @JsonKey(name: 'DeletedAt') dynamic deletedAt,
     @JsonKey(name: 'bus_type') String? busType,
     @JsonKey(name: 'bus_model') String? busModel,
-    @JsonKey(name: 'post_name') String? postName,
+    @JsonKey(name: 'livery_name') String? liveryName,
     String? description,
     @JsonKey(name: 'download_count') int? downloadCount,
     ProfileModel? user,
-    @JsonKey(name: 'post_image') PostImageModel? postImage,
+    @JsonKey(name: 'livery_image') LiveryImageModel? postImage,
   }) = _LiveryModel;
 
   factory LiveryModel.fromJson(Map<String, dynamic> json) =>

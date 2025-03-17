@@ -15,12 +15,12 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-PostImageModel _$PostImageModelFromJson(Map<String, dynamic> json) {
-  return _PostImageModel.fromJson(json);
+LiveryImageModel _$LiveryImageModelFromJson(Map<String, dynamic> json) {
+  return _LiveryImageModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$PostImageModel {
+mixin _$LiveryImageModel {
   @JsonKey(name: 'ID')
   int? get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'CreatedAt')
@@ -29,55 +29,55 @@ mixin _$PostImageModel {
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'DeletedAt')
   dynamic get deletedAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'post_image_original')
-  String? get postImageOriginal => throw _privateConstructorUsedError;
-  @JsonKey(name: 'post_image_1080')
-  String? get postImage1080 => throw _privateConstructorUsedError;
-  @JsonKey(name: 'post_image_600')
-  String? get postImage600 => throw _privateConstructorUsedError;
-  @JsonKey(name: 'post_image_200')
-  String? get postImage200 => throw _privateConstructorUsedError;
+  @JsonKey(name: 'livery_image_original')
+  String? get liveryImageOriginal => throw _privateConstructorUsedError;
+  @JsonKey(name: 'livery_image_1080')
+  String? get liveryImage1080 => throw _privateConstructorUsedError;
+  @JsonKey(name: 'livery_image_600')
+  String? get livertImage600 => throw _privateConstructorUsedError;
+  @JsonKey(name: 'livery_image_200')
+  String? get liveryImage200 => throw _privateConstructorUsedError;
 
-  /// Serializes this PostImageModel to a JSON map.
+  /// Serializes this LiveryImageModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of PostImageModel
+  /// Create a copy of LiveryImageModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $PostImageModelCopyWith<PostImageModel> get copyWith =>
+  $LiveryImageModelCopyWith<LiveryImageModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PostImageModelCopyWith<$Res> {
-  factory $PostImageModelCopyWith(
-    PostImageModel value,
-    $Res Function(PostImageModel) then,
-  ) = _$PostImageModelCopyWithImpl<$Res, PostImageModel>;
+abstract class $LiveryImageModelCopyWith<$Res> {
+  factory $LiveryImageModelCopyWith(
+    LiveryImageModel value,
+    $Res Function(LiveryImageModel) then,
+  ) = _$LiveryImageModelCopyWithImpl<$Res, LiveryImageModel>;
   @useResult
   $Res call({
     @JsonKey(name: 'ID') int? id,
     @JsonKey(name: 'CreatedAt') DateTime? createdAt,
     @JsonKey(name: 'UpdatedAt') DateTime? updatedAt,
     @JsonKey(name: 'DeletedAt') dynamic deletedAt,
-    @JsonKey(name: 'post_image_original') String? postImageOriginal,
-    @JsonKey(name: 'post_image_1080') String? postImage1080,
-    @JsonKey(name: 'post_image_600') String? postImage600,
-    @JsonKey(name: 'post_image_200') String? postImage200,
+    @JsonKey(name: 'livery_image_original') String? liveryImageOriginal,
+    @JsonKey(name: 'livery_image_1080') String? liveryImage1080,
+    @JsonKey(name: 'livery_image_600') String? livertImage600,
+    @JsonKey(name: 'livery_image_200') String? liveryImage200,
   });
 }
 
 /// @nodoc
-class _$PostImageModelCopyWithImpl<$Res, $Val extends PostImageModel>
-    implements $PostImageModelCopyWith<$Res> {
-  _$PostImageModelCopyWithImpl(this._value, this._then);
+class _$LiveryImageModelCopyWithImpl<$Res, $Val extends LiveryImageModel>
+    implements $LiveryImageModelCopyWith<$Res> {
+  _$LiveryImageModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of PostImageModel
+  /// Create a copy of LiveryImageModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -86,10 +86,10 @@ class _$PostImageModelCopyWithImpl<$Res, $Val extends PostImageModel>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? deletedAt = freezed,
-    Object? postImageOriginal = freezed,
-    Object? postImage1080 = freezed,
-    Object? postImage600 = freezed,
-    Object? postImage200 = freezed,
+    Object? liveryImageOriginal = freezed,
+    Object? liveryImage1080 = freezed,
+    Object? livertImage600 = freezed,
+    Object? liveryImage200 = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -113,25 +113,25 @@ class _$PostImageModelCopyWithImpl<$Res, $Val extends PostImageModel>
                     ? _value.deletedAt
                     : deletedAt // ignore: cast_nullable_to_non_nullable
                         as dynamic,
-            postImageOriginal:
-                freezed == postImageOriginal
-                    ? _value.postImageOriginal
-                    : postImageOriginal // ignore: cast_nullable_to_non_nullable
+            liveryImageOriginal:
+                freezed == liveryImageOriginal
+                    ? _value.liveryImageOriginal
+                    : liveryImageOriginal // ignore: cast_nullable_to_non_nullable
                         as String?,
-            postImage1080:
-                freezed == postImage1080
-                    ? _value.postImage1080
-                    : postImage1080 // ignore: cast_nullable_to_non_nullable
+            liveryImage1080:
+                freezed == liveryImage1080
+                    ? _value.liveryImage1080
+                    : liveryImage1080 // ignore: cast_nullable_to_non_nullable
                         as String?,
-            postImage600:
-                freezed == postImage600
-                    ? _value.postImage600
-                    : postImage600 // ignore: cast_nullable_to_non_nullable
+            livertImage600:
+                freezed == livertImage600
+                    ? _value.livertImage600
+                    : livertImage600 // ignore: cast_nullable_to_non_nullable
                         as String?,
-            postImage200:
-                freezed == postImage200
-                    ? _value.postImage200
-                    : postImage200 // ignore: cast_nullable_to_non_nullable
+            liveryImage200:
+                freezed == liveryImage200
+                    ? _value.liveryImage200
+                    : liveryImage200 // ignore: cast_nullable_to_non_nullable
                         as String?,
           )
           as $Val,
@@ -140,12 +140,12 @@ class _$PostImageModelCopyWithImpl<$Res, $Val extends PostImageModel>
 }
 
 /// @nodoc
-abstract class _$$PostImageModelImplCopyWith<$Res>
-    implements $PostImageModelCopyWith<$Res> {
-  factory _$$PostImageModelImplCopyWith(
-    _$PostImageModelImpl value,
-    $Res Function(_$PostImageModelImpl) then,
-  ) = __$$PostImageModelImplCopyWithImpl<$Res>;
+abstract class _$$LiveryImageModelImplCopyWith<$Res>
+    implements $LiveryImageModelCopyWith<$Res> {
+  factory _$$LiveryImageModelImplCopyWith(
+    _$LiveryImageModelImpl value,
+    $Res Function(_$LiveryImageModelImpl) then,
+  ) = __$$LiveryImageModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({
@@ -153,23 +153,23 @@ abstract class _$$PostImageModelImplCopyWith<$Res>
     @JsonKey(name: 'CreatedAt') DateTime? createdAt,
     @JsonKey(name: 'UpdatedAt') DateTime? updatedAt,
     @JsonKey(name: 'DeletedAt') dynamic deletedAt,
-    @JsonKey(name: 'post_image_original') String? postImageOriginal,
-    @JsonKey(name: 'post_image_1080') String? postImage1080,
-    @JsonKey(name: 'post_image_600') String? postImage600,
-    @JsonKey(name: 'post_image_200') String? postImage200,
+    @JsonKey(name: 'livery_image_original') String? liveryImageOriginal,
+    @JsonKey(name: 'livery_image_1080') String? liveryImage1080,
+    @JsonKey(name: 'livery_image_600') String? livertImage600,
+    @JsonKey(name: 'livery_image_200') String? liveryImage200,
   });
 }
 
 /// @nodoc
-class __$$PostImageModelImplCopyWithImpl<$Res>
-    extends _$PostImageModelCopyWithImpl<$Res, _$PostImageModelImpl>
-    implements _$$PostImageModelImplCopyWith<$Res> {
-  __$$PostImageModelImplCopyWithImpl(
-    _$PostImageModelImpl _value,
-    $Res Function(_$PostImageModelImpl) _then,
+class __$$LiveryImageModelImplCopyWithImpl<$Res>
+    extends _$LiveryImageModelCopyWithImpl<$Res, _$LiveryImageModelImpl>
+    implements _$$LiveryImageModelImplCopyWith<$Res> {
+  __$$LiveryImageModelImplCopyWithImpl(
+    _$LiveryImageModelImpl _value,
+    $Res Function(_$LiveryImageModelImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of PostImageModel
+  /// Create a copy of LiveryImageModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -178,13 +178,13 @@ class __$$PostImageModelImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? deletedAt = freezed,
-    Object? postImageOriginal = freezed,
-    Object? postImage1080 = freezed,
-    Object? postImage600 = freezed,
-    Object? postImage200 = freezed,
+    Object? liveryImageOriginal = freezed,
+    Object? liveryImage1080 = freezed,
+    Object? livertImage600 = freezed,
+    Object? liveryImage200 = freezed,
   }) {
     return _then(
-      _$PostImageModelImpl(
+      _$LiveryImageModelImpl(
         id:
             freezed == id
                 ? _value.id
@@ -205,25 +205,25 @@ class __$$PostImageModelImplCopyWithImpl<$Res>
                 ? _value.deletedAt
                 : deletedAt // ignore: cast_nullable_to_non_nullable
                     as dynamic,
-        postImageOriginal:
-            freezed == postImageOriginal
-                ? _value.postImageOriginal
-                : postImageOriginal // ignore: cast_nullable_to_non_nullable
+        liveryImageOriginal:
+            freezed == liveryImageOriginal
+                ? _value.liveryImageOriginal
+                : liveryImageOriginal // ignore: cast_nullable_to_non_nullable
                     as String?,
-        postImage1080:
-            freezed == postImage1080
-                ? _value.postImage1080
-                : postImage1080 // ignore: cast_nullable_to_non_nullable
+        liveryImage1080:
+            freezed == liveryImage1080
+                ? _value.liveryImage1080
+                : liveryImage1080 // ignore: cast_nullable_to_non_nullable
                     as String?,
-        postImage600:
-            freezed == postImage600
-                ? _value.postImage600
-                : postImage600 // ignore: cast_nullable_to_non_nullable
+        livertImage600:
+            freezed == livertImage600
+                ? _value.livertImage600
+                : livertImage600 // ignore: cast_nullable_to_non_nullable
                     as String?,
-        postImage200:
-            freezed == postImage200
-                ? _value.postImage200
-                : postImage200 // ignore: cast_nullable_to_non_nullable
+        liveryImage200:
+            freezed == liveryImage200
+                ? _value.liveryImage200
+                : liveryImage200 // ignore: cast_nullable_to_non_nullable
                     as String?,
       ),
     );
@@ -232,20 +232,20 @@ class __$$PostImageModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$PostImageModelImpl implements _PostImageModel {
-  _$PostImageModelImpl({
+class _$LiveryImageModelImpl implements _LiveryImageModel {
+  _$LiveryImageModelImpl({
     @JsonKey(name: 'ID') this.id,
     @JsonKey(name: 'CreatedAt') this.createdAt,
     @JsonKey(name: 'UpdatedAt') this.updatedAt,
     @JsonKey(name: 'DeletedAt') this.deletedAt,
-    @JsonKey(name: 'post_image_original') this.postImageOriginal,
-    @JsonKey(name: 'post_image_1080') this.postImage1080,
-    @JsonKey(name: 'post_image_600') this.postImage600,
-    @JsonKey(name: 'post_image_200') this.postImage200,
+    @JsonKey(name: 'livery_image_original') this.liveryImageOriginal,
+    @JsonKey(name: 'livery_image_1080') this.liveryImage1080,
+    @JsonKey(name: 'livery_image_600') this.livertImage600,
+    @JsonKey(name: 'livery_image_200') this.liveryImage200,
   });
 
-  factory _$PostImageModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PostImageModelImplFromJson(json);
+  factory _$LiveryImageModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LiveryImageModelImplFromJson(json);
 
   @override
   @JsonKey(name: 'ID')
@@ -260,42 +260,42 @@ class _$PostImageModelImpl implements _PostImageModel {
   @JsonKey(name: 'DeletedAt')
   final dynamic deletedAt;
   @override
-  @JsonKey(name: 'post_image_original')
-  final String? postImageOriginal;
+  @JsonKey(name: 'livery_image_original')
+  final String? liveryImageOriginal;
   @override
-  @JsonKey(name: 'post_image_1080')
-  final String? postImage1080;
+  @JsonKey(name: 'livery_image_1080')
+  final String? liveryImage1080;
   @override
-  @JsonKey(name: 'post_image_600')
-  final String? postImage600;
+  @JsonKey(name: 'livery_image_600')
+  final String? livertImage600;
   @override
-  @JsonKey(name: 'post_image_200')
-  final String? postImage200;
+  @JsonKey(name: 'livery_image_200')
+  final String? liveryImage200;
 
   @override
   String toString() {
-    return 'PostImageModel(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, postImageOriginal: $postImageOriginal, postImage1080: $postImage1080, postImage600: $postImage600, postImage200: $postImage200)';
+    return 'LiveryImageModel(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, liveryImageOriginal: $liveryImageOriginal, liveryImage1080: $liveryImage1080, livertImage600: $livertImage600, liveryImage200: $liveryImage200)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PostImageModelImpl &&
+            other is _$LiveryImageModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             const DeepCollectionEquality().equals(other.deletedAt, deletedAt) &&
-            (identical(other.postImageOriginal, postImageOriginal) ||
-                other.postImageOriginal == postImageOriginal) &&
-            (identical(other.postImage1080, postImage1080) ||
-                other.postImage1080 == postImage1080) &&
-            (identical(other.postImage600, postImage600) ||
-                other.postImage600 == postImage600) &&
-            (identical(other.postImage200, postImage200) ||
-                other.postImage200 == postImage200));
+            (identical(other.liveryImageOriginal, liveryImageOriginal) ||
+                other.liveryImageOriginal == liveryImageOriginal) &&
+            (identical(other.liveryImage1080, liveryImage1080) ||
+                other.liveryImage1080 == liveryImage1080) &&
+            (identical(other.livertImage600, livertImage600) ||
+                other.livertImage600 == livertImage600) &&
+            (identical(other.liveryImage200, liveryImage200) ||
+                other.liveryImage200 == liveryImage200));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -306,43 +306,43 @@ class _$PostImageModelImpl implements _PostImageModel {
     createdAt,
     updatedAt,
     const DeepCollectionEquality().hash(deletedAt),
-    postImageOriginal,
-    postImage1080,
-    postImage600,
-    postImage200,
+    liveryImageOriginal,
+    liveryImage1080,
+    livertImage600,
+    liveryImage200,
   );
 
-  /// Create a copy of PostImageModel
+  /// Create a copy of LiveryImageModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$PostImageModelImplCopyWith<_$PostImageModelImpl> get copyWith =>
-      __$$PostImageModelImplCopyWithImpl<_$PostImageModelImpl>(
+  _$$LiveryImageModelImplCopyWith<_$LiveryImageModelImpl> get copyWith =>
+      __$$LiveryImageModelImplCopyWithImpl<_$LiveryImageModelImpl>(
         this,
         _$identity,
       );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PostImageModelImplToJson(this);
+    return _$$LiveryImageModelImplToJson(this);
   }
 }
 
-abstract class _PostImageModel implements PostImageModel {
-  factory _PostImageModel({
+abstract class _LiveryImageModel implements LiveryImageModel {
+  factory _LiveryImageModel({
     @JsonKey(name: 'ID') final int? id,
     @JsonKey(name: 'CreatedAt') final DateTime? createdAt,
     @JsonKey(name: 'UpdatedAt') final DateTime? updatedAt,
     @JsonKey(name: 'DeletedAt') final dynamic deletedAt,
-    @JsonKey(name: 'post_image_original') final String? postImageOriginal,
-    @JsonKey(name: 'post_image_1080') final String? postImage1080,
-    @JsonKey(name: 'post_image_600') final String? postImage600,
-    @JsonKey(name: 'post_image_200') final String? postImage200,
-  }) = _$PostImageModelImpl;
+    @JsonKey(name: 'livery_image_original') final String? liveryImageOriginal,
+    @JsonKey(name: 'livery_image_1080') final String? liveryImage1080,
+    @JsonKey(name: 'livery_image_600') final String? livertImage600,
+    @JsonKey(name: 'livery_image_200') final String? liveryImage200,
+  }) = _$LiveryImageModelImpl;
 
-  factory _PostImageModel.fromJson(Map<String, dynamic> json) =
-      _$PostImageModelImpl.fromJson;
+  factory _LiveryImageModel.fromJson(Map<String, dynamic> json) =
+      _$LiveryImageModelImpl.fromJson;
 
   @override
   @JsonKey(name: 'ID')
@@ -357,22 +357,22 @@ abstract class _PostImageModel implements PostImageModel {
   @JsonKey(name: 'DeletedAt')
   dynamic get deletedAt;
   @override
-  @JsonKey(name: 'post_image_original')
-  String? get postImageOriginal;
+  @JsonKey(name: 'livery_image_original')
+  String? get liveryImageOriginal;
   @override
-  @JsonKey(name: 'post_image_1080')
-  String? get postImage1080;
+  @JsonKey(name: 'livery_image_1080')
+  String? get liveryImage1080;
   @override
-  @JsonKey(name: 'post_image_600')
-  String? get postImage600;
+  @JsonKey(name: 'livery_image_600')
+  String? get livertImage600;
   @override
-  @JsonKey(name: 'post_image_200')
-  String? get postImage200;
+  @JsonKey(name: 'livery_image_200')
+  String? get liveryImage200;
 
-  /// Create a copy of PostImageModel
+  /// Create a copy of LiveryImageModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PostImageModelImplCopyWith<_$PostImageModelImpl> get copyWith =>
+  _$$LiveryImageModelImplCopyWith<_$LiveryImageModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
