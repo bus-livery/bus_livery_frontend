@@ -59,15 +59,23 @@ abstract class WWTextFieldBase extends StatelessWidget {
             minLines: minLines,
             inputFormatters: inputFormatters,
             validator: validator,
+
             style: textFieldStyle(context),
             // style: const TextStyle(color: Colors.black),
             decoration: InputDecoration(
+              // counterText: '',
+
               // filled: true,
               hintText: hintText,
               labelText: labelText,
               border: InputBorder.none,
 
               contentPadding: const EdgeInsets.all(10),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(color: Colors.red),
+              ),
+              errorStyle: TextStyle(fontSize: 0, height: 0),
               suffixIcon:
                   suffixTap == null
                       ? null
@@ -93,6 +101,7 @@ class WWTextField extends WWTextFieldBase {
     super.controller,
     super.hintText,
     super.onChanged,
+    super.validator,
   });
 }
 

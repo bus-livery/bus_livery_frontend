@@ -35,7 +35,7 @@ class WWResponseHandler extends StatelessWidget {
                 ),
               )
               : isEmpty ?? true
-              ? const EmptyDataWidget()
+              ? EmptyDataWidget(apiCall: apiCall)
               : child,
         ],
       ),
@@ -44,7 +44,9 @@ class WWResponseHandler extends StatelessWidget {
 }
 
 class EmptyDataWidget extends StatelessWidget {
-  const EmptyDataWidget({super.key});
+  final Future<void> Function() apiCall;
+
+  const EmptyDataWidget({super.key, required this.apiCall});
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +69,7 @@ class EmptyDataWidget extends StatelessWidget {
             style: Theme.of(context).textTheme.bodySmall,
             textAlign: TextAlign.center,
           ),
+          IconButton(onPressed: apiCall, icon: Icon(Icons.refresh)),
         ],
       ),
     );

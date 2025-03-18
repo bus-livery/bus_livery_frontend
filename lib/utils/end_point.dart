@@ -3,6 +3,7 @@ final class EndPoints {
   static ProfileEndPoints profile = ProfileEndPoints();
   static LiveryEndPoints livery = LiveryEndPoints();
   static BusTypeEndPoint busTypes = BusTypeEndPoint();
+  static ReportEndPoint report = ReportEndPoint();
 }
 
 final class AuthEndPoint {
@@ -30,4 +31,9 @@ final class LiveryEndPoints {
 
 final class BusTypeEndPoint {
   final getBusTypes = '/v1/bus/types';
+}
+
+final class ReportEndPoint {
+  final reportContent = '/v1/report/content';
+  final getReportReasons = '/v1/report/reasons';
 }

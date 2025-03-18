@@ -15,6 +15,7 @@ import 'package:livery/features/livery_create/application/livery_create_bloc.dar
 import 'package:livery/features/livery_create/widget/bus_type_dropdown.dart';
 import 'package:livery/service/image_picker_service.dart';
 import 'package:livery/utils/app_size.dart';
+import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/styles.dart';
 
@@ -43,19 +44,31 @@ class LiveryCreateScreen extends StatelessWidget implements AutoRouteWrapper {
       body: Padding(
         padding: AppSize.swPadding,
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 15,
-            children: [
-              WwText(text: 'Upload Image', style: normalText(context)),
-              _ImagePicker(), // IMAGE PICKER -------------------------------------
-              WWTextField(title: 'Name', controller: bloc.liveryName),
-              _BusTypeChoose(bloc: bloc), // CHOOSE BUS MODEL ----------------
-              WWTextFieldTextArea(
-                title: 'Description',
-                controller: bloc.description,
-              ),
-            ],
+          child: Form(
+            key: bloc.formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 15,
+              children: [
+                WwText(text: 'Upload Image', style: normalText(context)),
+                _ImagePicker(), // IMAGE PICKER -------------------------------------
+                WWTextField(
+                  title: 'Name',
+                  controller: bloc.liveryName,
+                  validator: (v) {
+                    if (v?.isEmpty ?? true) {
+                      return '';
+                    }
+                    return null;
+                  },
+                ),
+                _BusTypeChoose(bloc: bloc), // CHOOSE BUS MODEL ----------------
+                WWTextFieldTextArea(
+                  title: 'Description',
+                  controller: bloc.description,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -79,7 +92,14 @@ class _BusTypeChoose extends StatelessWidget {
             selectedItem: '',
             onChanged: (v) {
               bloc.busType = v?.busType ?? '';
+              bloc.busModel = v?.busModels?.first ?? '';
               bloc.add(StoreBusModelEvent(busModels: v?.busModels ?? []));
+            },
+            validator: (v) {
+              if (bloc.busType.isEmpty) {
+                return '';
+              }
+              return null;
             },
           ),
         ),
@@ -87,6 +107,12 @@ class _BusTypeChoose extends StatelessWidget {
           child: BusModelsDropDown(
             title: 'Bus Model',
             onChanged: (v) => bloc.busModel = v ?? '',
+            validator: (v) {
+              if (bloc.busModel.isEmpty) {
+                return '';
+              }
+              return null;
+            },
           ),
         ),
       ],
@@ -174,6 +200,10 @@ class _SubmitButton extends StatelessWidget {
                 widthFull: true,
                 text: 'Submit',
                 onPressed: () {
+                  if (bloc.formKey.currentState?.validate() == false) {
+                    return;
+                  }
+
                   bloc.add(
                     CreateLiveryApiEvent(
                       data: FormData.fromMap({

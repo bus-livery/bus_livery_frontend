@@ -11,6 +11,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:livery/Cfeature/report/application/report_bloc.dart' as _i473;
+import 'package:livery/Cfeature/report/service/report_service.dart' as _i67;
 import 'package:livery/features/auth/application/auth_bloc.dart' as _i632;
 import 'package:livery/features/auth/service/auth_service.dart' as _i148;
 import 'package:livery/features/livery/application/livery_bloc.dart' as _i366;
@@ -44,6 +46,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1027.ILiveryService>(
       () => _i1027.LiveryService(gh<_i833.DioService>()),
     );
+    gh.lazySingleton<_i67.IReportService>(
+      () => _i67.ReportService(gh<_i833.DioService>()),
+    );
     gh.lazySingleton<_i154.ILiveryCreateService>(
       () => _i154.LiveryCreateService(gh<_i833.DioService>()),
     );
@@ -59,6 +64,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i469.ProfileBloc>(
       () => _i469.ProfileBloc(gh<_i923.IProfileService>()),
+    );
+    gh.factory<_i473.ReportBloc>(
+      () => _i473.ReportBloc(gh<_i67.IReportService>()),
     );
     return this;
   }

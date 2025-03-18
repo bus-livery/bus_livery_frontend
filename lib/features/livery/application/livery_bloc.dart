@@ -15,6 +15,7 @@ part 'livery_state.dart';
 @injectable
 class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
   final ILiveryService liverService;
+
   @override
   void initstate() {
     WidgetsBinding.instance.addPostFrameCallback(
@@ -97,8 +98,6 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
   _updateSingleLiveryApiEvent(UpdateLiveryApiEvent event, emiy) {}
 
   _deleteLiveryApiEvent(DeleteLiveryApiEvent event, emit) async {
-    customPrint('liveru delete called');
-
     emit(
       state.copyWith(
         deleteLiveryRes: ApiResponse(
@@ -134,6 +133,25 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
             ),
           ),
         );
+
+        List<LiveryModel> listData =
+            state.getAllLiveryRes.apiData?.data?.toList() ?? [];
+
+        int index = listData.indexWhere((v) => v.id == event.liveryId);
+
+        if (index != -1) {
+          listData.removeAt(index);
+
+          emit(
+            state.copyWith(
+              getAllLiveryRes: state.getAllLiveryRes.copyWith(
+                apiData: state.getAllLiveryRes.apiData?.copyWith(
+                  data: listData,
+                ),
+              ),
+            ),
+          );
+        }
       },
     );
   }

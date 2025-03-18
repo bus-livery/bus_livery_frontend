@@ -3,8 +3,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:livery/Cfeature/report/application/report_bloc.dart';
 import 'package:livery/Cmodel/enum.dart';
-import 'package:livery/Cwidgets/ww_app_bar.dart';
 import 'package:livery/Cwidgets/ww_error_handler.dart';
 import 'package:livery/Cwidgets/ww_popup_error_success.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
@@ -15,6 +15,7 @@ import 'package:livery/utils/app_colors.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/extensions.dart';
+import 'package:livery/utils/styles.dart';
 
 class FeedScreen extends StatelessWidget {
   const FeedScreen({super.key});
@@ -40,6 +41,7 @@ class FeedScreen extends StatelessWidget {
               child: ListView.separated(
                 separatorBuilder: (context, index) => AppSize.sizedBox1h,
                 itemCount: liveryData?.length ?? 0,
+                physics: AlwaysScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, index) {
                   return PostWidget(
                     key: ValueKey(liveryData![index].id),
@@ -74,7 +76,7 @@ class PostWidget extends StatelessWidget {
                 //
                 postOwnerDetail(context, data: data),
                 //
-                _MoreOptons(bloc: bloc, data: data),
+                _MoreOptons(context, bloc: bloc, data: data),
               ],
             ),
           ),
@@ -165,9 +167,10 @@ class PostWidget extends StatelessWidget {
 }
 
 class _MoreOptons extends StatelessWidget {
+  final BuildContext context;
   final LiveryBloc bloc;
   final LiveryModel data;
-  const _MoreOptons({required this.bloc, required this.data});
+  const _MoreOptons(this.context, {required this.bloc, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -182,8 +185,6 @@ class _MoreOptons extends StatelessWidget {
             c.deleteLiveryRes.key == data.id;
       },
       listener: (context, state) {
-        customPrint(state.deleteLiveryRes.status, name: 'deleteLiveryRes 1 ');
-
         if (state.deleteLiveryRes.status == ApiStatus.failure) {
           wwDialogueBox(context, textSub: state.deleteLiveryRes.errorMessage);
         }
@@ -194,7 +195,6 @@ class _MoreOptons extends StatelessWidget {
       },
       builder: (context, state) {
         customPrint('_MoreOptons', name: 'builder');
-
         return state.deleteLiveryRes.status == ApiStatus.loading
             ? CupertinoActivityIndicator()
             : postUpdate(context);
@@ -216,11 +216,19 @@ class _MoreOptons extends StatelessWidget {
                   AppSize.sizedBox3h,
                   const ListTile(
                     leading: Icon(Icons.edit),
-                    title: WwText(text: 'Edit Post'),
+                    title: WwText(text: 'Edit Livery'),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.report),
+                    title: WwText(text: 'Report Livery'),
+                    onTap: () {
+                      showBottomSheet();
+                      // context.router.maybePop();
+                    },
                   ),
                   ListTile(
                     leading: Icon(Icons.delete),
-                    title: WwText(text: 'Delete Post'),
+                    title: WwText(text: 'Delete Livery'),
                     onTap: () {
                       context.router.maybePop();
                       bloc.add(DeleteLiveryApiEvent(liveryId: data.id!));
@@ -233,6 +241,63 @@ class _MoreOptons extends StatelessWidget {
         );
       },
       icon: const Icon(Icons.more_horiz, color: AppColors.primary),
+    );
+  }
+
+  showBottomSheet() {
+    return showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: BlocSelector<ReportBloc, ReportState, List<dynamic>>(
+              selector: (state) {
+                return state.getReportReasonsRes.apiData ?? <dynamic>[];
+              },
+              builder: (context, state) {
+                return GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 15,
+                    mainAxisSpacing: 15,
+                    childAspectRatio: 4,
+                  ),
+                  itemCount: state.length,
+                  itemBuilder: (context, index) {
+                    return reportDecoration(state[index]);
+                  },
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  InkWell reportDecoration(String text) {
+    return InkWell(
+      onTap: () {
+        context.router.maybePop();
+        context.read<ReportBloc>().add(
+          ReportContentApiEvent(
+            reportType: ReportType.livery,
+            id: data.id,
+            reason: text,
+          ),
+        );
+      },
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: AppColors.primary),
+          // color: AppColors.primary,
+        ),
+        child: Center(child: Text(text, style: normalText(context))),
+      ),
     );
   }
 }

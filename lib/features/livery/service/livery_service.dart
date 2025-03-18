@@ -41,7 +41,10 @@ class LiveryService implements ILiveryService {
         method: Method.delete,
         queryParam: {'livery_id': liveryId},
       );
-      return res.fold((l) => Left(l.message), (r) async => Right('success'));
+      return res.fold(
+        (l) => Left(l.message),
+        (r) async => Right(r.data['message']),
+      );
     } catch (e) {
       return Left("$e");
     }

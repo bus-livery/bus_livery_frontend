@@ -24,6 +24,8 @@ class LiveryCreateBloc extends Bloc<LiveryCreateEvent, LiveryCreateState>
   String busModel = '';
   final description = TextEditingController();
 
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   void initstate() {
     customPrint('LIVERY CREATE BLOC INITIALIZED');
