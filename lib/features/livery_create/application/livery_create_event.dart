@@ -8,18 +8,26 @@ class StoreBusModelEvent extends LiveryCreateEvent {
   StoreBusModelEvent({required this.busModels});
 }
 
-class LiveryCreateStore extends LiveryCreateEvent {
+class LiveryImageStore extends LiveryCreateEvent {
   final ImagePickerModel? image;
 
-  LiveryCreateStore({required this.image});
+  LiveryImageStore({required this.image});
+}
+
+class LiveryAssignValuesEvent extends LiveryCreateEvent {
+  final LiveryModel? data;
+
+  LiveryAssignValuesEvent({required this.data});
 }
 
 // API EVENTS
 
 class CreateLiveryApiEvent extends LiveryCreateEvent {
   final FormData data;
+  final int? liveryId;
+  final int? index;
 
-  CreateLiveryApiEvent({required this.data});
+  CreateLiveryApiEvent({required this.data, this.liveryId, this.index});
 }
 
 class GetBusTypeApiEvent extends LiveryCreateEvent {}

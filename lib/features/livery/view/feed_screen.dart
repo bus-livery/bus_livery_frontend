@@ -12,10 +12,13 @@ import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/livery/livery_styles.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
+import 'package:livery/features/livery_create/application/livery_create_bloc.dart';
 import 'package:livery/utils/app_colors.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/extensions.dart';
+import 'package:livery/utils/router/router.gr.dart';
+import 'package:livery/utils/router/router_names.dart';
 import 'package:livery/utils/styles.dart';
 
 class FeedScreen extends StatelessWidget {
@@ -215,9 +218,12 @@ class _MoreOptons extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   AppSize.sizedBox3h,
-                  const ListTile(
+                  ListTile(
                     leading: Icon(Icons.edit),
                     title: WwText(text: 'Edit Livery'),
+                    onTap: () {
+                      context.router.push(LiveryCreateRoute(data: data));
+                    },
                   ),
                   ListTile(
                     leading: Icon(Icons.report),

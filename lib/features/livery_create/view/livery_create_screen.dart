@@ -15,18 +15,23 @@ import 'package:livery/features/livery_create/application/livery_create_bloc.dar
 import 'package:livery/features/livery_create/widget/bus_type_dropdown.dart';
 import 'package:livery/service/image_picker_service.dart';
 import 'package:livery/utils/app_size.dart';
-import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/di/injection.dart';
+import 'package:livery/utils/extensions.dart';
 import 'package:livery/utils/styles.dart';
 
 @RoutePage()
 class LiveryCreateScreen extends StatelessWidget implements AutoRouteWrapper {
-  const LiveryCreateScreen({super.key});
+  final LiveryModel? data;
+  const LiveryCreateScreen({super.key, this.data});
 
   @override
   Widget wrappedRoute(BuildContext ctx) {
     return BlocProvider(
-      create: (ctx) => getIt<LiveryCreateBloc>()..add(GetBusTypeApiEvent()),
+      create:
+          (ctx) =>
+              getIt<LiveryCreateBloc>()
+                ..add(GetBusTypeApiEvent())
+                ..addIf(data != null, LiveryAssignValuesEvent(data: data)),
       child: this,
     );
   }
@@ -39,7 +44,7 @@ class LiveryCreateScreen extends StatelessWidget implements AutoRouteWrapper {
       appBar: WwAppBar(title: 'Create Livery'),
       bottomNavigationBar: _SubmitButton(
         bloc: bloc,
-        data: LiveryModel(),
+        data: data,
       ), // SUBMIT BUTTON----------------------------------
       body: Padding(
         padding: AppSize.swPadding,
@@ -50,8 +55,10 @@ class LiveryCreateScreen extends StatelessWidget implements AutoRouteWrapper {
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 15,
               children: [
-                WwText(text: 'Upload Image', style: normalText(context)),
-                _ImagePicker(), // IMAGE PICKER -------------------------------------
+                if (data == null) ...[
+                  WwText(text: 'Upload Image', style: normalText(context)),
+                  _ImagePicker(), // IMAGE PICKER -------------------------------------
+                ],
                 WWTextField(
                   title: 'Name',
                   controller: bloc.liveryName,
@@ -62,7 +69,10 @@ class LiveryCreateScreen extends StatelessWidget implements AutoRouteWrapper {
                     return null;
                   },
                 ),
-                _BusTypeChoose(bloc: bloc), // CHOOSE BUS MODEL ----------------
+                _BusTypeChoose(
+                  bloc: bloc,
+                  data: data,
+                ), // CHOOSE BUS MODEL ----------------
                 WWTextFieldTextArea(
                   title: 'Description',
                   controller: bloc.description,
@@ -77,7 +87,8 @@ class LiveryCreateScreen extends StatelessWidget implements AutoRouteWrapper {
 }
 
 class _BusTypeChoose extends StatelessWidget {
-  const _BusTypeChoose({required this.bloc});
+  final LiveryModel? data;
+  const _BusTypeChoose({required this.bloc, required this.data});
 
   final LiveryCreateBloc bloc;
 
@@ -89,7 +100,7 @@ class _BusTypeChoose extends StatelessWidget {
         Flexible(
           child: BusTypeDropDown(
             title: 'Bus Type',
-            selectedItem: '',
+            selectedItem: data?.busType ?? '',
             onChanged: (v) {
               bloc.busType = v?.busType ?? '';
               bloc.busModel = v?.busModels?.first ?? '';
@@ -106,6 +117,7 @@ class _BusTypeChoose extends StatelessWidget {
         Flexible(
           child: BusModelsDropDown(
             title: 'Bus Model',
+            selectedItem: data?.busModel ?? '',
             onChanged: (v) => bloc.busModel = v ?? '',
             validator: (v) {
               if (bloc.busModel.isEmpty) {
@@ -134,7 +146,7 @@ class _ImagePicker extends StatelessWidget {
         onTap: () async {
           final bloc = context.read<LiveryCreateBloc>();
           final selectedImage = await ImagePickerService.imagePicker();
-          bloc.add(LiveryCreateStore(image: selectedImage));
+          bloc.add(LiveryImageStore(image: selectedImage));
         },
         child: Container(
           width: double.infinity,
@@ -198,7 +210,7 @@ class _SubmitButton extends StatelessWidget {
                 expandFlex: 0,
                 loader: state.liveryCreateRes.status == ApiStatus.loading,
                 widthFull: true,
-                text: 'Submit',
+                text: data != null ? 'Update' : 'Submit',
                 onPressed: () {
                   if (bloc.formKey.currentState?.validate() == false) {
                     return;
@@ -206,7 +218,9 @@ class _SubmitButton extends StatelessWidget {
 
                   bloc.add(
                     CreateLiveryApiEvent(
+                      liveryId: bloc.liveryId,
                       data: FormData.fromMap({
+                        if (bloc.liveryId != null) 'livery_id': bloc.liveryId,
                         if (bloc.liveryName.text.isNotEmpty)
                           'livery_name': bloc.liveryName.text,
                         if (bloc.description.text.isNotEmpty)

@@ -1,10 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:livery/Cmodel/api_response.dart';
 import 'package:livery/Cmodel/enum.dart';
 import 'package:livery/Cmodel/image_picker_model/image_picker_model.dart';
+import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/features/livery_create/model/bus_type_model/bus_type_model.dart';
 import 'package:livery/features/livery_create/model/livery_req_model/livery_req_model.dart';
 import 'package:livery/features/livery_create/service/livery_create_service.dart';
@@ -20,6 +22,7 @@ class LiveryCreateBloc extends Bloc<LiveryCreateEvent, LiveryCreateState>
   final ILiveryCreateService liverCreateService;
 
   final liveryName = TextEditingController();
+  int? liveryId;
   String busType = '';
   String busModel = '';
   final description = TextEditingController();
@@ -52,11 +55,21 @@ class LiveryCreateBloc extends Bloc<LiveryCreateEvent, LiveryCreateState>
 
     on<StoreBusModelEvent>(_storeBusModelEvent);
 
-    on<LiveryCreateStore>(_liveryCreateStore);
+    on<LiveryImageStore>(_liveryCreateStore);
+
+    on<LiveryAssignValuesEvent>(_liveryAssignValuesEvent);
 
     // API EVENT
 
     on<GetBusTypeApiEvent>(_getBusTypeApiEvent);
+  }
+
+  void _liveryAssignValuesEvent(LiveryAssignValuesEvent event, emit) {
+    liveryId = event.data?.id;
+    liveryName.text = event.data?.liveryName ?? '';
+    busModel = event.data?.busModel ?? '';
+    busType = event.data?.busType ?? '';
+    description.text = event.data?.description ?? '';
   }
 
   //
@@ -65,7 +78,7 @@ class LiveryCreateBloc extends Bloc<LiveryCreateEvent, LiveryCreateState>
     emit(state.copyWith(busModels: event.busModels));
   }
 
-  _liveryCreateStore(LiveryCreateStore event, emit) {
+  _liveryCreateStore(LiveryImageStore event, emit) {
     emit(state.copyWith(storeImage: event.image));
   }
 
@@ -76,9 +89,16 @@ class LiveryCreateBloc extends Bloc<LiveryCreateEvent, LiveryCreateState>
       state.copyWith(liveryCreateRes: ApiResponse(status: ApiStatus.loading)),
     );
 
-    final response = await liverCreateService.createLiveryServiceApi(
-      data: event.data,
-    );
+    late Either<String, LiveryModel> response;
+    if (event.liveryId != null) {
+      response = await liverCreateService.updateLiveryServiceApi(
+        data: event.data,
+      );
+    } else {
+      response = await liverCreateService.createLiveryServiceApi(
+        data: event.data,
+      );
+    }
 
     response.fold(
       //

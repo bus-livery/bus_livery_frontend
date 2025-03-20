@@ -11,7 +11,9 @@ abstract class ILiveryCreateService {
     required FormData data,
   });
 
-  Future<Either<String, LiveryModel>> updateLiveryServiceApi(LiveryModel data);
+  Future<Either<String, LiveryModel>> updateLiveryServiceApi({
+    required FormData data,
+  });
 
   Future<Either<String, List<BusTypeModel>>> getBusTypesServiceApi();
 }
@@ -42,13 +44,14 @@ class LiveryCreateService implements ILiveryCreateService {
   }
 
   @override
-  Future<Either<String, LiveryModel>> updateLiveryServiceApi(
-    LiveryModel data,
-  ) async {
+  Future<Either<String, LiveryModel>> updateLiveryServiceApi({
+    required FormData data,
+  }) async {
     try {
       final res = await _dioServices.request(
         EndPoints.livery.updateLivery,
         method: Method.patch,
+        formData: data,
       );
       return res.fold(
         (l) => Left(l.message),
