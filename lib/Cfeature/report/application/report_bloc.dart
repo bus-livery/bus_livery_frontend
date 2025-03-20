@@ -90,6 +90,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> with BlocLifeCycle {
     response.fold(
       //
       (failure) {
+        customPrint(failure, name: 'failure');
         emit(
           state.copyWith(
             reportContentRes: ApiResponse(

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livery/Cfeature/report/application/report_bloc.dart';
+import 'package:livery/Cfeature/report/widget/ww_report_content.dart';
 import 'package:livery/Cmodel/enum.dart';
 import 'package:livery/Cwidgets/ww_error_handler.dart';
 import 'package:livery/Cwidgets/ww_popup_error_success.dart';
@@ -248,56 +249,8 @@ class _MoreOptons extends StatelessWidget {
     return showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: BlocSelector<ReportBloc, ReportState, List<dynamic>>(
-              selector: (state) {
-                return state.getReportReasonsRes.apiData ?? <dynamic>[];
-              },
-              builder: (context, state) {
-                return GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 15,
-                    mainAxisSpacing: 15,
-                    childAspectRatio: 4,
-                  ),
-                  itemCount: state.length,
-                  itemBuilder: (context, index) {
-                    return reportDecoration(state[index]);
-                  },
-                );
-              },
-            ),
-          ),
-        );
+        return WwReportContent(contentId: data.id);
       },
-    );
-  }
-
-  InkWell reportDecoration(String text) {
-    return InkWell(
-      onTap: () {
-        context.router.maybePop();
-        context.read<ReportBloc>().add(
-          ReportContentApiEvent(
-            reportType: ReportType.livery,
-            id: data.id,
-            reason: text,
-          ),
-        );
-      },
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppColors.primary),
-          // color: AppColors.primary,
-        ),
-        child: Center(child: Text(text, style: normalText(context))),
-      ),
     );
   }
 }

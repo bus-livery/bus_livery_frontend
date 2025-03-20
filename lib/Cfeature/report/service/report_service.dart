@@ -25,7 +25,7 @@ class ReportService implements IReportService {
       final res = await _dioServices.request(
         EndPoints.report.reportContent,
         method: Method.post,
-        queryParam: data,
+        data: data,
       );
       return res.fold(
         (l) => Left(l.message),
