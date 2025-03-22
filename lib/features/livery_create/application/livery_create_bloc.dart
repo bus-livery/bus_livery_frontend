@@ -2,14 +2,17 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:livery/Cmodel/api_response.dart';
 import 'package:livery/Cmodel/enum.dart';
 import 'package:livery/Cmodel/image_picker_model/image_picker_model.dart';
+import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/features/livery_create/model/bus_type_model/bus_type_model.dart';
 import 'package:livery/features/livery_create/model/livery_req_model/livery_req_model.dart';
 import 'package:livery/features/livery_create/service/livery_create_service.dart';
+import 'package:livery/main.dart';
 import 'package:livery/utils/bloc_life_cycle.dart';
 import 'package:livery/utils/custom_print.dart';
 
@@ -118,6 +121,12 @@ class LiveryCreateBloc extends Bloc<LiveryCreateEvent, LiveryCreateState>
           state.copyWith(
             liveryCreateRes: ApiResponse(status: ApiStatus.success),
           ),
+        );
+
+        // updating list it inserts new data
+
+        smKey.currentState!.context.read<LiveryBloc>().add(
+          InsetNewLiveryEvent(newData: success),
         );
       },
     );

@@ -6,20 +6,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livery/Cfeature/report/application/report_bloc.dart';
 import 'package:livery/Cfeature/report/widget/ww_report_content.dart';
 import 'package:livery/Cmodel/enum.dart';
+import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/Cwidgets/ww_error_handler.dart';
 import 'package:livery/Cwidgets/ww_popup_error_success.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/livery/livery_styles.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
-import 'package:livery/features/livery_create/application/livery_create_bloc.dart';
 import 'package:livery/utils/app_colors.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/extensions.dart';
 import 'package:livery/utils/router/router.gr.dart';
-import 'package:livery/utils/router/router_names.dart';
-import 'package:livery/utils/styles.dart';
 
 class FeedScreen extends StatelessWidget {
   const FeedScreen({super.key});
@@ -34,7 +32,12 @@ class FeedScreen extends StatelessWidget {
       body: Padding(
         padding: AppSize.swPadding,
         child: BlocBuilder<LiveryBloc, LiveryState>(
+          buildWhen:
+              (p, c) => p.getAllLiveryRes.status != c.getAllLiveryRes.status,
+
+          // (p, c) => p.getAllLiveryRes.apiData != c.getAllLiveryRes.apiData,
           builder: (context, state) {
+            customPrint('BLOC BUILDER - FeedScreen');
             List<LiveryModel>? liveryData = state.getAllLiveryRes.apiData?.data;
             return WWResponseHandler(
               data: state.getAllLiveryRes,
@@ -48,9 +51,9 @@ class FeedScreen extends StatelessWidget {
                 physics: AlwaysScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, index) {
                   return PostWidget(
-                    key: ValueKey(liveryData![index].id),
+                    index: index,
                     bloc: bloc,
-                    data: liveryData[index],
+                    data: liveryData![index],
                   );
                 },
               ),
@@ -65,7 +68,13 @@ class FeedScreen extends StatelessWidget {
 class PostWidget extends StatelessWidget {
   final LiveryBloc bloc;
   final LiveryModel data;
-  const PostWidget({super.key, required this.data, required this.bloc});
+  final int index;
+  const PostWidget({
+    super.key,
+    required this.data,
+    required this.bloc,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -78,14 +87,17 @@ class PostWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 //
-                postOwnerDetail(context, data: data),
+                postOwnerDetail(
+                  context,
+                  data: data,
+                ), // POST OWNER DETAIL ----------
                 //
                 _MoreOptons(context, bloc: bloc, data: data),
               ],
             ),
           ),
           //
-          postImage(),
+          postImage(), // POST IMAGE --------------------------------
           //
           Padding(
             padding: const EdgeInsets.all(10),
@@ -99,13 +111,14 @@ class PostWidget extends StatelessWidget {
                 ),
                 AppSize.sizedBox1h,
                 //
-                postDownload(context),
-                //
+                if (data.description?.isNotEmpty ?? false)
+                  WwText(
+                    text: data.description ?? '',
+                    style: LiveryStyles.description(),
+                  ),
                 AppSize.sizedBox1h,
-                WwText(
-                  text: data.description ?? '',
-                  style: LiveryStyles.description(),
-                ),
+                //
+                postDownload(context),
               ],
             ),
           ),
@@ -114,13 +127,20 @@ class PostWidget extends StatelessWidget {
     );
   }
 
-  Row postDownload(BuildContext context) {
-    return Row(
-      children: [
-        const Icon(CupertinoIcons.cloud_download, color: AppColors.primary),
-        AppSize.sizedBox1w,
-        WwText(text: '15', style: Theme.of(context).textTheme.bodySmall),
-      ],
+  Widget postDownload(BuildContext context) {
+    return BlocSelector<LiveryBloc, LiveryState, int?>(
+      selector: (state) {
+        return state.getAllLiveryRes.apiData?.data?[index].downloadCount;
+      },
+      builder: (context, count) {
+        customPrint('BLOC BUILDER - postDownload');
+        return WWButton(
+          text: 'Download ($count)',
+          onPressed: () {
+            bloc.add(DownloadLiveryApiEvent(liveryId: data.id));
+          },
+        );
+      },
     );
   }
 
@@ -197,16 +217,42 @@ class _MoreOptons extends StatelessWidget {
           showSuccessToast(message: state.deleteLiveryRes.successMessage);
         }
       },
-      builder: (context, state) {
-        customPrint('_MoreOptons', name: 'builder');
-        return state.deleteLiveryRes.status == ApiStatus.loading
-            ? CupertinoActivityIndicator()
-            : postUpdate(context);
+      builder: (context, deleteStatus) {
+        customPrint('LIVERY BLOC BUILDER - _MoreOptons');
+        return BlocConsumer<ReportBloc, ReportState>(
+          buildWhen: (p, c) {
+            return p.reportContentRes.status != c.reportContentRes.status &&
+                c.reportContentRes.key == data.id;
+          },
+          listenWhen: (p, c) {
+            return p.reportContentRes.status != c.reportContentRes.status &&
+                c.reportContentRes.key == data.id;
+          },
+          listener: (context, state) {
+            if (state.reportContentRes.status == ApiStatus.failure) {
+              wwDialogueBox(
+                context,
+                textSub: state.reportContentRes.errorMessage,
+              );
+            }
+
+            if (state.reportContentRes.status == ApiStatus.success) {
+              showSuccessToast(message: state.reportContentRes.successMessage);
+            }
+          },
+          builder: (context, reportStatus) {
+            customPrint('REPORT BLOC BUILDER - _MoreOptons');
+            return deleteStatus.deleteLiveryRes.status == ApiStatus.loading ||
+                    reportStatus.reportContentRes.status == ApiStatus.loading
+                ? CupertinoActivityIndicator()
+                : buildMoreOptions(context);
+          },
+        );
       },
     );
   }
 
-  IconButton postUpdate(BuildContext context) {
+  IconButton buildMoreOptions(BuildContext context) {
     return IconButton(
       onPressed: () {
         showModalBottomSheet<void>(

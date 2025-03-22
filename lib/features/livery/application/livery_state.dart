@@ -4,13 +4,13 @@ class LiveryState {
   // API STATES
   final ApiResponse<LiveryDateModel> getAllLiveryRes;
   final ApiResponse<LiveryModel> getSingleLiveryRes;
-  final ApiResponse<String> liveryDownloadRes;
+  final ApiResponse<DownloadCountModel> downloadCountRes;
   final ApiResponse<String> deleteLiveryRes;
   LiveryState({
     // API STATES
     required this.getAllLiveryRes,
     required this.getSingleLiveryRes,
-    required this.liveryDownloadRes,
+    required this.downloadCountRes,
     required this.deleteLiveryRes,
   });
 
@@ -19,7 +19,7 @@ class LiveryState {
       // API STATES
       getAllLiveryRes: ApiResponse<LiveryDateModel>(),
       getSingleLiveryRes: ApiResponse<LiveryModel>(),
-      liveryDownloadRes: ApiResponse<String>(),
+      downloadCountRes: ApiResponse<DownloadCountModel>(),
       deleteLiveryRes: ApiResponse<String>(),
     );
   }
@@ -30,14 +30,14 @@ class LiveryState {
     // API STATES
     ApiResponse<LiveryDateModel>? getAllLiveryRes,
     ApiResponse<LiveryModel>? getSingleLiveryRes,
-    ApiResponse<String>? liveryDownloadRes,
+    ApiResponse<DownloadCountModel>? downloadCountRes,
     ApiResponse<String>? deleteLiveryRes,
   }) {
     return LiveryState(
       // API STATES
       getSingleLiveryRes: getSingleLiveryRes ?? this.getSingleLiveryRes,
       getAllLiveryRes: getAllLiveryRes ?? this.getAllLiveryRes,
-      liveryDownloadRes: liveryDownloadRes ?? this.liveryDownloadRes,
+      downloadCountRes: downloadCountRes ?? this.downloadCountRes,
       deleteLiveryRes: deleteLiveryRes ?? this.deleteLiveryRes,
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:livery/Cmodel/api_response.dart';
 import 'package:livery/Cmodel/enum.dart';
+import 'package:livery/features/livery/model/download_count_model/download_count_model.dart';
 import 'package:livery/features/livery/model/livery_model/livery_data_model.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/features/livery/service/livery_service.dart';
@@ -34,6 +35,8 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
     initstate();
     //
 
+    on<InsetNewLiveryEvent>(_insetNewLiveryEvent);
+
     // API EVENTS
     on<LiveryEvent>((event, emit) {});
 
@@ -45,13 +48,34 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
 
     on<GetSinglelLiveryApiEvent>(_getSinglelLiveryApiEvent);
 
-    on<UpdateLiveryApiEvent>(_updateSingleLiveryApiEvent);
-
     on<DeleteLiveryApiEvent>(_deleteLiveryApiEvent);
 
     on<DownloadLiveryApiEvent>(_downloadLiveryApiEvent);
 
     on<GetAllDownloadedLiveryApiEvent>(_getAllDownloadedLiveryApiEvent);
+  }
+
+  _insetNewLiveryEvent(InsetNewLiveryEvent event, emit) {
+    emit(
+      state.copyWith(
+        getAllLiveryRes: state.getAllLiveryRes.copyWith(
+          status: ApiStatus.initial,
+        ),
+      ),
+    );
+
+    var liveryList = state.getAllLiveryRes.apiData?.data?.toList();
+
+    liveryList?.add(event.newData);
+
+    emit(
+      state.copyWith(
+        getAllLiveryRes: state.getAllLiveryRes.copyWith(
+          status: ApiStatus.success,
+          apiData: state.getAllLiveryRes.apiData?.copyWith(data: liveryList),
+        ),
+      ),
+    );
   }
 
   // API EVENT
@@ -95,11 +119,12 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
 
   _getSinglelLiveryApiEvent(GetSinglelLiveryApiEvent event, emit) {}
 
-  _updateSingleLiveryApiEvent(UpdateLiveryApiEvent event, emiy) {}
-
   _deleteLiveryApiEvent(DeleteLiveryApiEvent event, emit) async {
     emit(
       state.copyWith(
+        getAllLiveryRes: state.getAllLiveryRes.copyWith(
+          status: ApiStatus.initial,
+        ),
         deleteLiveryRes: ApiResponse(
           key: event.liveryId,
           status: ApiStatus.loading,
@@ -145,6 +170,7 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
           emit(
             state.copyWith(
               getAllLiveryRes: state.getAllLiveryRes.copyWith(
+                status: ApiStatus.success,
                 apiData: state.getAllLiveryRes.apiData?.copyWith(
                   data: listData,
                 ),
@@ -156,7 +182,63 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
     );
   }
 
-  _downloadLiveryApiEvent(DownloadLiveryApiEvent event, emiy) {}
+  _downloadLiveryApiEvent(DownloadLiveryApiEvent event, emit) async {
+    emit(
+      state.copyWith(
+        downloadCountRes: ApiResponse(
+          key: event.liveryId,
+          status: ApiStatus.loading,
+        ),
+      ),
+    );
+
+    final response = await liverService.downloadCountServiceApi(event.liveryId);
+
+    response.fold(
+      //
+      (failure) {
+        emit(
+          state.copyWith(
+            downloadCountRes: ApiResponse(
+              key: event.liveryId,
+              status: ApiStatus.failure,
+              errorMessage: failure,
+            ),
+          ),
+        );
+      },
+      //
+      (success) {
+        var liveryDataApi = state.getAllLiveryRes;
+        var liveryData = liveryDataApi.apiData;
+        var liveryList = liveryData?.data?.toList() ?? [];
+
+        int? index = liveryList.indexWhere(
+          (element) => element.id == event.liveryId,
+        );
+
+        if (index != 1) {
+          liveryList[index] = liveryList[index].copyWith(
+            downloadCount: success.downloadCount,
+          );
+
+          liveryData = liveryData?.copyWith(data: liveryList);
+          liveryDataApi = liveryDataApi.copyWith(apiData: liveryData);
+        }
+
+        emit(
+          state.copyWith(
+            getAllLiveryRes: liveryDataApi,
+            downloadCountRes: ApiResponse(
+              key: event.liveryId,
+              status: ApiStatus.success,
+              apiData: success,
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   _getAllDownloadedLiveryApiEvent(GetAllDownloadedLiveryApiEvent event, emit) {}
 }

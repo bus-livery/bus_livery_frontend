@@ -76,7 +76,9 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> with BlocLifeCycle {
 
   _reportContentApiEvent(ReportContentApiEvent event, emit) async {
     emit(
-      state.copyWith(reportContentRes: ApiResponse(status: ApiStatus.loading)),
+      state.copyWith(
+        reportContentRes: ApiResponse(key: event.id, status: ApiStatus.loading),
+      ),
     );
 
     final response = await service.reportContent(
@@ -90,10 +92,10 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> with BlocLifeCycle {
     response.fold(
       //
       (failure) {
-        customPrint(failure, name: 'failure');
         emit(
           state.copyWith(
             reportContentRes: ApiResponse(
+              key: event.id,
               status: ApiStatus.failure,
               errorMessage: failure,
             ),
@@ -105,6 +107,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> with BlocLifeCycle {
         emit(
           state.copyWith(
             reportContentRes: ApiResponse(
+              key: event.id,
               status: ApiStatus.success,
               apiData: success,
             ),

@@ -25,7 +25,7 @@ final class LiveryEndPoints {
   final getSingleLivery = '/v1/livery/fetch-single';
   final updateLivery = '/v1/livery/update';
   final deleteLivery = '/v1/livery/delete';
-  final downloadLivery = '/v1/livery/download-count';
+  final downloadCount = '/v1/livery/download-count';
   final getDownloadedLivery = '/v1/livery/fetch-downloads';
 }
 

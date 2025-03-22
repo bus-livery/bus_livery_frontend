@@ -60,7 +60,11 @@ class DioService {
           response = await dio.put(endpoint, data: data ?? formData);
           break;
         case Method.patch:
-          response = await dio.patch(endpoint, data: data ?? formData);
+          response = await dio.patch(
+            endpoint,
+            data: data ?? formData,
+            queryParameters: queryParam,
+          );
           break;
         case Method.delete:
           response = await dio.delete(
