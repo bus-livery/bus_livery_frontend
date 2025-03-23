@@ -39,11 +39,13 @@ abstract class WWButtonBase extends StatelessWidget {
         child:
             loader == true
                 ? CircularProgressIndicator()
-                : Row(
+                : widgets.length > 1
+                ? Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: widgets,
-                ),
+                )
+                : widgets.first,
       ),
     );
   }
@@ -60,11 +62,7 @@ class WWButton extends WWButtonBase {
     super.widthFull,
     super.expandFlex,
     required super.onPressed,
-  }) : super(
-         widgets: [
-           WwText(text: text, style: normalText(smKey.currentState!.context)),
-         ],
-       );
+  }) : super(widgets: [WwText(text: text, style: normalText())]);
 }
 
 class WWButtonPrefixSvg extends WWButtonBase {

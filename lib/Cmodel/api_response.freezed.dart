@@ -22,7 +22,6 @@ mixin _$ApiResponse<T> {
   String? get errorMessage => throw _privateConstructorUsedError;
   String? get successMessage => throw _privateConstructorUsedError;
   ApiStatus get status => throw _privateConstructorUsedError;
-  bool get loading => throw _privateConstructorUsedError;
   bool get paginationLoading => throw _privateConstructorUsedError;
 
   /// Create a copy of ApiResponse
@@ -45,7 +44,6 @@ abstract class $ApiResponseCopyWith<T, $Res> {
     String? errorMessage,
     String? successMessage,
     ApiStatus status,
-    bool loading,
     bool paginationLoading,
   });
 }
@@ -70,7 +68,6 @@ class _$ApiResponseCopyWithImpl<T, $Res, $Val extends ApiResponse<T>>
     Object? errorMessage = freezed,
     Object? successMessage = freezed,
     Object? status = null,
-    Object? loading = null,
     Object? paginationLoading = null,
   }) {
     return _then(
@@ -100,11 +97,6 @@ class _$ApiResponseCopyWithImpl<T, $Res, $Val extends ApiResponse<T>>
                     ? _value.status
                     : status // ignore: cast_nullable_to_non_nullable
                         as ApiStatus,
-            loading:
-                null == loading
-                    ? _value.loading
-                    : loading // ignore: cast_nullable_to_non_nullable
-                        as bool,
             paginationLoading:
                 null == paginationLoading
                     ? _value.paginationLoading
@@ -131,7 +123,6 @@ abstract class _$$ApiResponseImplCopyWith<T, $Res>
     String? errorMessage,
     String? successMessage,
     ApiStatus status,
-    bool loading,
     bool paginationLoading,
   });
 }
@@ -155,7 +146,6 @@ class __$$ApiResponseImplCopyWithImpl<T, $Res>
     Object? errorMessage = freezed,
     Object? successMessage = freezed,
     Object? status = null,
-    Object? loading = null,
     Object? paginationLoading = null,
   }) {
     return _then(
@@ -185,11 +175,6 @@ class __$$ApiResponseImplCopyWithImpl<T, $Res>
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
                     as ApiStatus,
-        loading:
-            null == loading
-                ? _value.loading
-                : loading // ignore: cast_nullable_to_non_nullable
-                    as bool,
         paginationLoading:
             null == paginationLoading
                 ? _value.paginationLoading
@@ -209,7 +194,6 @@ class _$ApiResponseImpl<T> implements _ApiResponse<T> {
     this.errorMessage,
     this.successMessage,
     this.status = ApiStatus.initial,
-    this.loading = false,
     this.paginationLoading = false,
   });
 
@@ -226,14 +210,11 @@ class _$ApiResponseImpl<T> implements _ApiResponse<T> {
   final ApiStatus status;
   @override
   @JsonKey()
-  final bool loading;
-  @override
-  @JsonKey()
   final bool paginationLoading;
 
   @override
   String toString() {
-    return 'ApiResponse<$T>(key: $key, apiData: $apiData, errorMessage: $errorMessage, successMessage: $successMessage, status: $status, loading: $loading, paginationLoading: $paginationLoading)';
+    return 'ApiResponse<$T>(key: $key, apiData: $apiData, errorMessage: $errorMessage, successMessage: $successMessage, status: $status, paginationLoading: $paginationLoading)';
   }
 
   @override
@@ -248,7 +229,6 @@ class _$ApiResponseImpl<T> implements _ApiResponse<T> {
             (identical(other.successMessage, successMessage) ||
                 other.successMessage == successMessage) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.paginationLoading, paginationLoading) ||
                 other.paginationLoading == paginationLoading));
   }
@@ -261,7 +241,6 @@ class _$ApiResponseImpl<T> implements _ApiResponse<T> {
     errorMessage,
     successMessage,
     status,
-    loading,
     paginationLoading,
   );
 
@@ -284,7 +263,6 @@ abstract class _ApiResponse<T> implements ApiResponse<T> {
     final String? errorMessage,
     final String? successMessage,
     final ApiStatus status,
-    final bool loading,
     final bool paginationLoading,
   }) = _$ApiResponseImpl<T>;
 
@@ -298,8 +276,6 @@ abstract class _ApiResponse<T> implements ApiResponse<T> {
   String? get successMessage;
   @override
   ApiStatus get status;
-  @override
-  bool get loading;
   @override
   bool get paginationLoading;
 

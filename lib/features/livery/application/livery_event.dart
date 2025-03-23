@@ -12,10 +12,6 @@ class InsetNewLiveryEvent extends LiveryEvent {
 
 class GetAllLiveryApiEvent extends LiveryEvent {}
 
-class GetMyLiveryApiEvent extends LiveryEvent {}
-
-class GetOthersLiveryApiEvent extends LiveryEvent {}
-
 class GetSinglelLiveryApiEvent extends LiveryEvent {}
 
 class DeleteLiveryApiEvent extends LiveryEvent {

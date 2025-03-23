@@ -163,29 +163,34 @@ class PostWidget extends StatelessWidget {
     );
   }
 
-  Row postOwnerDetail(BuildContext context, {required LiveryModel data}) {
-    return Row(
-      children: [
-        const CircleAvatar(
-          backgroundImage: NetworkImage(
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz68b1g8MSxSUqvFtuo44MvagkdFGoG7Z7DQ&s',
+  InkWell postOwnerDetail(BuildContext context, {required LiveryModel data}) {
+    return InkWell(
+      onTap: () {
+        context.router.push(OtherProfileRoute(profileData: data.user));
+      },
+      child: Row(
+        children: [
+          const CircleAvatar(
+            backgroundImage: NetworkImage(
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz68b1g8MSxSUqvFtuo44MvagkdFGoG7Z7DQ&s',
+            ),
           ),
-        ),
-        AppSize.sizedBox2w,
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            WwText(
-              text: data.user?.username ?? '',
-              style: LiveryStyles.profileName(),
-            ),
-            WwText(
-              text: data.createdAt?.displayDDMMYY() ?? '',
-              style: LiveryStyles.date(),
-            ),
-          ],
-        ),
-      ],
+          AppSize.sizedBox2w,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              WwText(
+                text: data.user?.username ?? '',
+                style: LiveryStyles.profileName(),
+              ),
+              WwText(
+                text: data.createdAt?.displayDDMMYY() ?? '',
+                style: LiveryStyles.date(),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -301,7 +306,7 @@ class _MoreOptons extends StatelessWidget {
     return showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
-        return WwReportContent(contentId: data.id);
+        return WwReportContent(contentId: data.id, type: ReportType.livery);
       },
     );
   }

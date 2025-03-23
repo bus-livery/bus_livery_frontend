@@ -11,7 +11,6 @@ class ApiResponse<T> with _$ApiResponse<T> {
     String? errorMessage,
     String? successMessage,
     @Default(ApiStatus.initial) ApiStatus status,
-    @Default(false) bool loading,
     @Default(false) bool paginationLoading,
   }) = _ApiResponse<T>;
 }

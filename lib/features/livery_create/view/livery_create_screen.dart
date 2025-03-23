@@ -56,7 +56,7 @@ class LiveryCreateScreen extends StatelessWidget implements AutoRouteWrapper {
               spacing: 15,
               children: [
                 if (data == null) ...[
-                  WwText(text: 'Upload Image', style: normalText(context)),
+                  WwText(text: 'Upload Image', style: normalText()),
                   _ImagePicker(), // IMAGE PICKER -------------------------------------
                 ],
                 WWTextField(

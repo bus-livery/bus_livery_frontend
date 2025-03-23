@@ -99,7 +99,7 @@ class _WWWebDesCustomSearchDropDownRowState<T>
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              WwText(text: widget.title ?? '', style: normalText(context)),
+              WwText(text: widget.title ?? '', style: normalText()),
               if (widget.isMandatory == true)
                 const Text(' *', style: TextStyle(color: Colors.red)),
               const Spacer(),
@@ -148,7 +148,7 @@ class _WWWebDesCustomSearchDropDownRowState<T>
                 return widget.itemsList;
               },
               decoratorProps: DropDownDecoratorProps(
-                baseStyle: normalText(context),
+                baseStyle: normalText(),
                 decoration: tfInputDecoration(context: context),
               ),
               popupProps: PopupPropsMultiSelection.menu(
@@ -162,7 +162,7 @@ class _WWWebDesCustomSearchDropDownRowState<T>
                     child: WwText(
                       text: widget.itemName(item),
                       textAlign: TextAlign.start,
-                      style: normalText(context),
+                      style: normalText(),
                     ),
                   );
                 },
@@ -186,7 +186,7 @@ class _WWWebDesCustomSearchDropDownRowState<T>
                                 title: WwText(
                                   text: widget.addListName ?? '',
                                   textAlign: TextAlign.start,
-                                  style: normalText(context),
+                                  style: normalText(),
                                 ),
                                 onTap: () {
                                   context.router.maybePop();
@@ -200,7 +200,7 @@ class _WWWebDesCustomSearchDropDownRowState<T>
                 searchFieldProps: TextFieldProps(
                   cursorHeight: 18,
                   autofocus: true,
-                  style: normalText(context),
+                  style: normalText(),
                   decoration: tfInputDecoration(
                     context: context,
                     isRequired: false,

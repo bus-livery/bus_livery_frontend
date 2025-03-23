@@ -1,30 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:livery/utils/app_colors.dart';
 
-TextStyle normalGreyText(
-  BuildContext context, {
-  Color? color,
-  FontWeight? fontWeight,
-}) {
+TextStyle normalGreyText({Color? color, FontWeight? fontWeight}) {
   return TextStyle(
-    color: color ?? Theme.of(context).colorScheme.onPrimaryContainer,
+    color: color ?? AppColors.primary,
     // fontSize: 14,
     fontWeight: fontWeight ?? FontWeight.w500,
   );
 }
 
-TextStyle normalText(BuildContext context) {
+TextStyle normalText() {
   return TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.bold,
-    color: Theme.of(context).colorScheme.onPrimaryContainer,
+    color: AppColors.primary,
   );
 }
 
-TextStyle textFieldStyle(BuildContext context) {
+TextStyle textFieldStyle() {
   return TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.bold,
-    color: Theme.of(context).colorScheme.onPrimaryContainer,
+    color: AppColors.primary,
   );
 }
 

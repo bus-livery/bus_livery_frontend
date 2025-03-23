@@ -44,7 +44,7 @@ abstract class WWTextFieldBase extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (title != null) WwText(text: title!, style: normalText(context)),
+        if (title != null) WwText(text: title!, style: normalText()),
         Card(
           margin: EdgeInsets.only(top: 05),
           child: TextFormField(
@@ -60,7 +60,7 @@ abstract class WWTextFieldBase extends StatelessWidget {
             inputFormatters: inputFormatters,
             validator: validator,
 
-            style: textFieldStyle(context),
+            style: textFieldStyle(),
             // style: const TextStyle(color: Colors.black),
             decoration: InputDecoration(
               // counterText: '',

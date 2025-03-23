@@ -42,10 +42,6 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
 
     on<GetAllLiveryApiEvent>(_getAllLiveryApiEvent);
 
-    on<GetMyLiveryApiEvent>(_getMyLiveryApiEvent);
-
-    on<GetOthersLiveryApiEvent>(_getOthersLiveryApiEvent);
-
     on<GetSinglelLiveryApiEvent>(_getSinglelLiveryApiEvent);
 
     on<DeleteLiveryApiEvent>(_deleteLiveryApiEvent);
@@ -112,10 +108,6 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
       },
     );
   }
-
-  _getMyLiveryApiEvent(GetMyLiveryApiEvent event, emit) {}
-
-  _getOthersLiveryApiEvent(GetOthersLiveryApiEvent event, emit) {}
 
   _getSinglelLiveryApiEvent(GetSinglelLiveryApiEvent event, emit) {}
 

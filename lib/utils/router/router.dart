@@ -18,6 +18,10 @@ class AppRouter extends RootStackRouter {
       path: RouterNames.mainScreen,
     ),
     AutoRoute(page: EditProfileRoute.page, path: RouterNames.editProfileScreen),
+    AutoRoute(
+      page: OtherProfileRoute.page,
+      path: RouterNames.otherProfileScreen,
+    ),
 
     AutoRoute(
       page: LiveryCreateRoute.page,

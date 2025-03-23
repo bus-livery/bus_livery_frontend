@@ -4,11 +4,20 @@ import 'package:livery/utils/app_colors.dart';
 
 class WwAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  const WwAppBar({super.key, required this.title});
+  final bool centerTitle;
+  final List<Widget>? actions;
+  const WwAppBar({
+    super.key,
+    required this.title,
+    this.centerTitle = false,
+    this.actions,
+  });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      centerTitle: centerTitle,
+      actions: actions,
       title: Text(
         title,
         style: TextStyle(

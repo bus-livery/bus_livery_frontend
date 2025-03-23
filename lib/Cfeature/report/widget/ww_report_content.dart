@@ -4,20 +4,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livery/Cfeature/report/application/report_bloc.dart';
 import 'package:livery/Cmodel/api_response.dart';
 import 'package:livery/Cwidgets/ww_error_handler.dart';
+import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/utils/app_colors.dart';
 import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/styles.dart';
 
 class WwReportContent extends StatelessWidget {
   final int? contentId;
-  const WwReportContent({super.key, required this.contentId});
+  final ReportType type;
+  const WwReportContent({
+    super.key,
+    required this.contentId,
+    required this.type,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(15.0),
-        child:
+        child: Column(
+          spacing: 15,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            WwText(text: 'Report', style: normalText()),
             BlocSelector<ReportBloc, ReportState, ApiResponse<List<dynamic>>?>(
               selector: (state) => state.getReportReasonsRes,
               builder: (context, data) {
@@ -46,6 +56,8 @@ class WwReportContent extends StatelessWidget {
                 );
               },
             ),
+          ],
+        ),
       ),
     );
   }
@@ -55,11 +67,7 @@ class WwReportContent extends StatelessWidget {
       onTap: () {
         context.router.maybePop();
         context.read<ReportBloc>().add(
-          ReportContentApiEvent(
-            reportType: ReportType.livery,
-            id: contentId,
-            reason: text,
-          ),
+          ReportContentApiEvent(reportType: type, id: contentId, reason: text),
         );
       },
       child: DecoratedBox(
@@ -68,7 +76,7 @@ class WwReportContent extends StatelessWidget {
           border: Border.all(color: AppColors.primary),
           // color: AppColors.primary,
         ),
-        child: Center(child: Text(text, style: normalText(context))),
+        child: Center(child: Text(text, style: normalText())),
       ),
     );
   }

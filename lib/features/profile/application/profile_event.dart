@@ -9,3 +9,7 @@ class UpdateMyProfileEvent extends ProfileEvent {
 
   UpdateMyProfileEvent({required this.data});
 }
+
+class GetMyLiveryApiEvent extends ProfileEvent {}
+
+class GetOthersLiveryApiEvent extends ProfileEvent {}

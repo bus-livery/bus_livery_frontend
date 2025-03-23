@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
+import 'package:livery/Cwidgets/ww_error_handler.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
+import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/features/profile/application/profile_bloc.dart';
 import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/utils/app_size.dart';
@@ -17,6 +19,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<ProfileBloc>();
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -31,12 +34,11 @@ class ProfileScreen extends StatelessWidget {
               ),
               AppSize.sizedBox2h,
               BlocSelector<ProfileBloc, ProfileState, String>(
-                selector: (state) =>
-                    state.getProfileRes.apiData?.username ?? '',
+                selector:
+                    (state) => state.getProfileRes.apiData?.username ?? '',
                 builder: (context, username) {
                   return WwText(
                     text: username,
-                    test: TextStyles.heading,
                     style: Theme.of(context).textTheme.titleLarge,
                   );
                 },
@@ -73,8 +75,9 @@ class ProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         BlocSelector<ProfileBloc, ProfileState, int>(
-                          selector: (state) =>
-                              state.getProfileRes.apiData?.likeCount ?? 0,
+                          selector:
+                              (state) =>
+                                  state.getProfileRes.apiData?.likeCount ?? 0,
                           builder: (context, likeCount) {
                             return WwText(
                               text: likeCount.toString(),
@@ -118,29 +121,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
               AppSize.sizedBox2h,
-              Flexible(
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 1,
-                  ),
-                  itemCount: 20,
-                  itemBuilder: (c, i) {
-                    return CachedNetworkImage(
-                      width: double.infinity,
-                      imageUrl:
-                          "https://i.pinimg.com/736x/09/a6/d6/09a6d6ff2a65445a72fbf91c746e6dfd.jpg",
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) =>
-                          const Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    );
-                  },
-                ),
-              ),
+              Flexible(child: _ProfileGallery(bloc: bloc)),
             ],
           ),
         ),
@@ -181,6 +162,45 @@ class ProfileScreen extends StatelessWidget {
                 },
               ),
             ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _ProfileGallery extends StatelessWidget {
+  final ProfileBloc bloc;
+  const _ProfileGallery({required this.bloc});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<ProfileBloc, ProfileState, List<LiveryModel>?>(
+      selector: (state) => state.getMyLiveryRes.apiData,
+      builder: (context, state) {
+        return WWResponseHandler(
+          data: bloc.state.getMyLiveryRes,
+          isEmpty: state?.isEmpty,
+          apiCall: () async => bloc.add(GetMyLiveryApiEvent()),
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              childAspectRatio: 1,
+            ),
+            itemCount: state?.length ?? 0,
+            itemBuilder: (c, i) {
+              return CachedNetworkImage(
+                width: double.infinity,
+                imageUrl: state![i].postImage?.livertImage600 ?? '',
+                fit: BoxFit.cover,
+                placeholder:
+                    (context, url) =>
+                        const Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              );
+            },
           ),
         );
       },

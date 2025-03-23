@@ -5,7 +5,6 @@ class WwText extends StatelessWidget {
   final String text;
   final TextStyle? style;
   final TextAlign textAlign;
-  final TextStyle? test;
   final int? maxLines;
   final TextOverflow? overflow;
 
@@ -16,7 +15,6 @@ class WwText extends StatelessWidget {
     this.textAlign = TextAlign.start,
     this.maxLines,
     this.overflow,
-    this.test,
     this.context,
   });
 
