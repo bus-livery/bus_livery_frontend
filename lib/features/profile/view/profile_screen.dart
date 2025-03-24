@@ -3,13 +3,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:livery/Cmodel/enum.dart';
+import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box.dart';
+import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box2_buttons.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/Cwidgets/ww_error_handler.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/features/profile/application/profile_bloc.dart';
+import 'package:livery/features/profile/model/profile_model.dart';
 import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/utils/app_size.dart';
+import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/router/router.gr.dart';
 import 'package:livery/utils/router/router_names.dart';
@@ -27,19 +32,47 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             children: [
               CircleAvatar(
-                radius: 40.r,
+                radius: 30.r,
                 backgroundImage: const NetworkImage(
                   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz68b1g8MSxSUqvFtuo44MvagkdFGoG7Z7DQ&s',
                 ),
               ),
               AppSize.sizedBox2h,
-              BlocSelector<ProfileBloc, ProfileState, String>(
-                selector:
-                    (state) => state.getProfileRes.apiData?.username ?? '',
-                builder: (context, username) {
-                  return WwText(
-                    text: username,
-                    style: Theme.of(context).textTheme.titleLarge,
+              BlocConsumer<ProfileBloc, ProfileState>(
+                listenWhen:
+                    (p, c) => p.getProfileRes.status != c.getProfileRes.status,
+                buildWhen:
+                    (p, c) => p.getProfileRes.status != c.getProfileRes.status,
+                listener: (context, state) {
+                  final res = state.getProfileRes;
+                  if (res.status == ApiStatus.success) {
+                    violationPop(context, count: res.apiData?.violationCount);
+                  }
+                },
+                builder: (context, state) {
+                  customPrint('BLOC BUILDER - PROFILE SCREEN');
+                  ProfileModel? data = state.getProfileRes.apiData;
+                  return Column(
+                    spacing: 05,
+                    children: [
+                      WwText(
+                        text: data?.username ?? '',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      if ((data?.violationCount ?? 0) > 0)
+                        InkWell(
+                          onTap: () {
+                            violationPop(context, count: data?.violationCount);
+                          },
+                          child: WwText(
+                            text: 'Account Warning',
+                            style: TextStyle(
+                              color: Colors.red[400],
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                    ],
                   );
                 },
               ),
@@ -149,9 +182,25 @@ class ProfileScreen extends StatelessWidget {
                 title: WwText(text: 'Terms & Condition'),
                 trailing: Icon(Icons.arrow_forward_ios_rounded),
               ),
-              const ListTile(
+              ListTile(
                 leading: Icon(Icons.remove_circle_outline_outlined),
                 title: WwText(text: 'Deactivate Account'),
+                onTap: () {
+                  wwDialogueBox2Button(
+                    context,
+                    text: 'Account Deactivation',
+                    textSub: '''
+Your account is scheduled for deactivation and will be permanently removed after 45 days.
+
+During this period, you can reactivate your account by logging in. After 45 days, your data will be permanently deleted and cannot be recovered.
+
+''',
+                    secondTap: () {
+                      getIt<SharedPrefService>().clear();
+                      context.router.replaceAll([LoginRoute()]);
+                    },
+                  );
+                },
               ),
               ListTile(
                 leading: Icon(Icons.logout),
@@ -204,6 +253,32 @@ class _ProfileGallery extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+void violationPop(BuildContext context, {int? count}) {
+  late String subtitle;
+
+  if (count == 1) {
+    subtitle =
+        'We noticed that your recent post violates our community guidelines. Please ensure your content aligns with our policies. Continued violations may lead to restrictions on your account. Warnings will reset after 30 days if no further violations occur.';
+  } else if (count == 2) {
+    subtitle =
+        'This is your second warning regarding inappropriate content. Please review our community guidelines to avoid penalties. Another violation may result in temporary account suspension. If you maintain compliance for 30 days, warnings will reset.';
+  } else if (count == 3) {
+    subtitle =
+        'This is your final warning. If another violation occurs, your account may be suspended. Please ensure all content follows our guidelines. If no further violations occur, warnings will reset after 30 days';
+  } else {
+    subtitle = '';
+  }
+
+  if ((count ?? 0) > 0) {
+    wwDialogueBox(
+      context,
+      barrierDismissible: false,
+      text: 'Content Violation Notice',
+      textSub: subtitle,
     );
   }
 }

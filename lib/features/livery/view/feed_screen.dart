@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livery/Cfeature/report/application/report_bloc.dart';
 import 'package:livery/Cfeature/report/widget/ww_report_content.dart';
 import 'package:livery/Cmodel/enum.dart';
+import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/Cwidgets/ww_error_handler.dart';
 import 'package:livery/Cwidgets/ww_popup_error_success.dart';
@@ -34,8 +35,6 @@ class FeedScreen extends StatelessWidget {
         child: BlocBuilder<LiveryBloc, LiveryState>(
           buildWhen:
               (p, c) => p.getAllLiveryRes.status != c.getAllLiveryRes.status,
-
-          // (p, c) => p.getAllLiveryRes.apiData != c.getAllLiveryRes.apiData,
           builder: (context, state) {
             customPrint('BLOC BUILDER - FeedScreen');
             List<LiveryModel>? liveryData = state.getAllLiveryRes.apiData?.data;

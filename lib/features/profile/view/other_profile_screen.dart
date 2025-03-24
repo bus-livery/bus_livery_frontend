@@ -58,7 +58,6 @@ class OtherProfileScreen extends StatelessWidget {
           spacing: 10,
           children: [
             _ProfileDetail(bloc: bloc, profileData: profileData),
-
             WWButton(
               text: 'Like Profile',
               onPressed: () {

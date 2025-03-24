@@ -2,9 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livery/Cmodel/enum.dart';
+import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box.dart';
+import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box2_buttons.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/Cwidgets/ww_pin_code_text_field.dart';
-import 'package:livery/Cwidgets/ww_popup_error_success.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/features/auth/application/auth_bloc.dart';
 import 'package:livery/utils/app_size.dart';
@@ -117,10 +118,10 @@ class _ResendButton extends StatelessWidget {
             state.otpResponse.status != ApiStatus.loading
                 ? SizedBox()
                 : SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(),
-                  ),
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(),
+                ),
           ],
         );
       },
@@ -162,16 +163,17 @@ class _LoginButton extends StatelessWidget {
           context.router.pushPath(RouterNames.mainScreen);
         }
       },
-      builder: (context, state) => WWButton(
-        text: 'Continue',
-        widthFull: true,
-        loader: state.loginResponse.status == ApiStatus.loading,
-        onPressed: () {
-          bloc.add(
-            AuthLoginApi(email: bloc.emailCtr.text, otp: bloc.otpCtr.text),
-          );
-        },
-      ),
+      builder:
+          (context, state) => WWButton(
+            text: 'Continue',
+            widthFull: true,
+            loader: state.loginResponse.status == ApiStatus.loading,
+            onPressed: () {
+              bloc.add(
+                AuthLoginApi(email: bloc.emailCtr.text, otp: bloc.otpCtr.text),
+              );
+            },
+          ),
     );
   }
 }

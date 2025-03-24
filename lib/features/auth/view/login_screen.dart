@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:livery/Cmodel/enum.dart';
+import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
-import 'package:livery/Cwidgets/ww_popup_error_success.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/Cwidgets/ww_textfield.dart';
 import 'package:livery/features/auth/application/auth_bloc.dart';
@@ -76,10 +76,14 @@ class _ButtonGenerateOtp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
-      buildWhen: (p, c) =>
-          p.otpResponse.status != c.otpResponse.status && c.isFromLoginScreen,
-      listenWhen: (p, c) =>
-          p.otpResponse.status != c.otpResponse.status && c.isFromLoginScreen,
+      buildWhen:
+          (p, c) =>
+              p.otpResponse.status != c.otpResponse.status &&
+              c.isFromLoginScreen,
+      listenWhen:
+          (p, c) =>
+              p.otpResponse.status != c.otpResponse.status &&
+              c.isFromLoginScreen,
       listener: (context, state) {
         if (state.otpResponse.status == ApiStatus.failure) {
           wwDialogueBox(context, textSub: state.otpResponse.errorMessage ?? '');
@@ -90,19 +94,20 @@ class _ButtonGenerateOtp extends StatelessWidget {
           context.router.pushPath(RouterNames.otpScreen);
         }
       },
-      builder: (context, state) => WWButton(
-        widthFull: true,
-        loader: state.otpResponse.status == ApiStatus.loading,
-        text: 'Get OTP',
-        onPressed: () {
-          context.read<AuthBloc>().add(
+      builder:
+          (context, state) => WWButton(
+            widthFull: true,
+            loader: state.otpResponse.status == ApiStatus.loading,
+            text: 'Get OTP',
+            onPressed: () {
+              context.read<AuthBloc>().add(
                 AuthOtpGenerateApi(
                   isFromLoginScreen: true,
                   email: bloc.emailCtr.text,
                 ),
               );
-        },
-      ),
+            },
+          ),
     );
   }
 }

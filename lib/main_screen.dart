@@ -1,8 +1,11 @@
 import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box_violation.dart';
 import 'package:livery/features/livery/view/feed_screen.dart';
 import 'package:livery/features/profile/view/profile_screen.dart';
+import 'package:livery/service/shared_pref_service.dart';
+import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/router/router_names.dart';
 
 @RoutePage()
@@ -20,6 +23,38 @@ class _MainScreenState extends State<MainScreen> {
     const Center(child: FeedScreen()),
     const Center(child: ProfileScreen()),
   ];
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((v) async {
+      SharedPrefService sharedPS = getIt<SharedPrefService>();
+      if (sharedPS.getString('app_opened') == null &&
+          sharedPS.getString('token') != null) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              content: WWDialogueBoxViolation(
+                text: 'Community Guidelines',
+                textSub: '''
+To ensure a safe and respectful environment, please review our community guidelines. By continuing, you agree to follow these rules. Violations may lead to warnings or account restrictions.
+
+Would you like to add a confirmation button like "I Agree" or "Continue"
+''',
+                onClose: () {
+                  sharedPS.saveString('app_opened', 'true');
+                  context.router.maybePop();
+                },
+              ),
+            );
+          },
+        );
+      }
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
