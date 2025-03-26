@@ -19,6 +19,7 @@ import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/extensions.dart';
 import 'package:livery/utils/router/router.gr.dart';
+import 'package:livery/utils/styles.dart';
 
 class FeedScreen extends StatelessWidget {
   const FeedScreen({super.key});
@@ -91,7 +92,12 @@ class PostWidget extends StatelessWidget {
                   data: data,
                 ), // POST OWNER DETAIL ----------
                 //
-                _MoreOptons(context, bloc: bloc, data: data),
+                Row(
+                  children: [
+                    postDownload(),
+                    _MoreOptons(context, bloc: bloc, data: data),
+                  ],
+                ),
               ],
             ),
           ),
@@ -104,6 +110,7 @@ class PostWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Row(),
                 WwText(
                   text: data.liveryName ?? '',
                   style: LiveryStyles.liveryName(),
@@ -116,8 +123,6 @@ class PostWidget extends StatelessWidget {
                     style: LiveryStyles.description(),
                   ),
                 AppSize.sizedBox1h,
-                //
-                postDownload(context),
               ],
             ),
           ),
@@ -126,19 +131,32 @@ class PostWidget extends StatelessWidget {
     );
   }
 
-  Widget postDownload(BuildContext context) {
+  Widget postDownload() {
     return BlocSelector<LiveryBloc, LiveryState, int?>(
       selector: (state) {
         return state.getAllLiveryRes.apiData?.data?[index].downloadCount;
       },
       builder: (context, count) {
         customPrint('BLOC BUILDER - postDownload');
-        return WWButton(
-          text: 'Download ($count)',
+        return IconButton(
           onPressed: () {
             bloc.add(DownloadLiveryApiEvent(liveryId: data.id));
           },
+          icon: Row(
+            children: [
+              WwText(text: count?.toString() ?? '', style: normalText()),
+              SizedBox(width: 05),
+              Icon(Icons.downloading_outlined),
+            ],
+          ),
         );
+
+        // WWButton(
+        //   text: 'Download ($count)',
+        //   onPressed: () {
+        //     bloc.add(DownloadLiveryApiEvent(liveryId: data.id));
+        //   },
+        // );
       },
     );
   }
