@@ -4,6 +4,8 @@ import 'package:injectable/injectable.dart';
 import 'package:livery/Cfeature/report/service/report_service.dart';
 import 'package:livery/Cmodel/api_response.dart';
 import 'package:livery/Cmodel/enum.dart';
+import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box.dart';
+import 'package:livery/Cwidgets/ww_popup_error_success.dart';
 import 'package:livery/utils/bloc_life_cycle.dart';
 import 'package:livery/utils/custom_print.dart';
 
@@ -75,10 +77,8 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> with BlocLifeCycle {
   }
 
   _reportContentApiEvent(ReportContentApiEvent event, emit) async {
-    emit(
-      state.copyWith(
-        reportContentRes: ApiResponse(key: event.id, status: ApiStatus.loading),
-      ),
+    state.copyWith(
+      reportContentRes: ApiResponse(key: event.id, status: ApiStatus.loading),
     );
 
     final response = await service.reportContent(
@@ -92,14 +92,20 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> with BlocLifeCycle {
     response.fold(
       //
       (failure) {
+        customPrint('failure found');
         emit(
           state.copyWith(
-            reportContentRes: ApiResponse(
+            reportContentRes: state.reportContentRes.copyWith(
               key: event.id,
               status: ApiStatus.failure,
               errorMessage: failure,
             ),
           ),
+        );
+
+        wwDialogueBox(
+          event.context,
+          textSub: state.reportContentRes.errorMessage,
         );
       },
       //
@@ -113,6 +119,8 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> with BlocLifeCycle {
             ),
           ),
         );
+
+        showSuccessToast(message: state.reportContentRes.successMessage);
       },
     );
   }

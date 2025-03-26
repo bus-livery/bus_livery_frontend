@@ -223,35 +223,9 @@ class _MoreOptons extends StatelessWidget {
       },
       builder: (context, deleteStatus) {
         customPrint('LIVERY BLOC BUILDER - _MoreOptons');
-        return BlocConsumer<ReportBloc, ReportState>(
-          buildWhen: (p, c) {
-            return p.reportContentRes.status != c.reportContentRes.status &&
-                c.reportContentRes.key == data.id;
-          },
-          listenWhen: (p, c) {
-            return p.reportContentRes.status != c.reportContentRes.status &&
-                c.reportContentRes.key == data.id;
-          },
-          listener: (context, state) {
-            if (state.reportContentRes.status == ApiStatus.failure) {
-              wwDialogueBox(
-                context,
-                textSub: state.reportContentRes.errorMessage,
-              );
-            }
-
-            if (state.reportContentRes.status == ApiStatus.success) {
-              showSuccessToast(message: state.reportContentRes.successMessage);
-            }
-          },
-          builder: (context, reportStatus) {
-            customPrint('REPORT BLOC BUILDER - _MoreOptons');
-            return deleteStatus.deleteLiveryRes.status == ApiStatus.loading ||
-                    reportStatus.reportContentRes.status == ApiStatus.loading
-                ? CupertinoActivityIndicator()
-                : buildMoreOptions(context);
-          },
-        );
+        return deleteStatus.deleteLiveryRes.status == ApiStatus.loading
+            ? CupertinoActivityIndicator()
+            : buildMoreOptions(context);
       },
     );
   }
@@ -304,8 +278,12 @@ class _MoreOptons extends StatelessWidget {
   showBottomSheet() {
     return showModalBottomSheet<void>(
       context: context,
-      builder: (BuildContext context) {
-        return WwReportContent(contentId: data.id, type: ReportType.livery);
+      builder: (BuildContext _) {
+        return WwReportContent(
+          context,
+          contentId: data.id,
+          type: ReportType.livery,
+        );
       },
     );
   }

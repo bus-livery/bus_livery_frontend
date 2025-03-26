@@ -1,16 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dartz/dartz.dart' as data;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:livery/Cfeature/report/application/report_bloc.dart';
 import 'package:livery/Cfeature/report/widget/ww_report_content.dart';
+import 'package:livery/Cwidgets/pop_up_menu/profile_menus.dart';
 import 'package:livery/Cwidgets/ww_app_bar.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/Cwidgets/ww_error_handler.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
-import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/features/profile/application/profile_bloc.dart';
 import 'package:livery/features/profile/model/profile_model.dart';
@@ -31,8 +30,9 @@ class OtherProfileScreen extends StatelessWidget {
     showBottomSheet() {
       return showModalBottomSheet<void>(
         context: context,
-        builder: (BuildContext context) {
+        builder: (BuildContext _) {
           return WwReportContent(
+            context,
             contentId: profileData?.id,
             type: ReportType.profile,
           );
@@ -44,12 +44,7 @@ class OtherProfileScreen extends StatelessWidget {
       appBar: WwAppBar(
         title: profileData?.username ?? '',
         centerTitle: false,
-        actions: [
-          IconButton(
-            onPressed: () => showBottomSheet(),
-            icon: Icon(Icons.more_horiz),
-          ),
-        ],
+        actions: [WwProfileMenus(reportTap: () => showBottomSheet())],
       ),
 
       body: Padding(
