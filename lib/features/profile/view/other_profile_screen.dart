@@ -151,7 +151,7 @@ class _ProfileGallery extends StatelessWidget {
               var data = state.apiData![i];
               return CachedNetworkImage(
                 width: double.infinity,
-                imageUrl: data.postImage?.livertImage600 ?? '',
+                imageUrl: data.postImage?.liveryImage200 ?? '',
                 fit: BoxFit.cover,
                 placeholder:
                     (context, url) =>
