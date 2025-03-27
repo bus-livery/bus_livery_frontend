@@ -8,6 +8,7 @@ import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box.dart';
 import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box2_buttons.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/Cwidgets/ww_error_handler.dart';
+import 'package:livery/Cwidgets/ww_livery_status_display.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/features/profile/application/profile_bloc.dart';
@@ -245,7 +246,7 @@ class _ProfileGallery extends StatelessWidget {
                 children: [
                   CachedNetworkImage(
                     width: double.infinity,
-                    imageUrl: state[i].postImage?.livertImage600 ?? '',
+                    imageUrl: state[i].postImage?.liveryImage200 ?? '',
                     fit: BoxFit.cover,
                     placeholder:
                         (context, url) =>
@@ -255,41 +256,13 @@ class _ProfileGallery extends StatelessWidget {
                   ),
                   if (state[i].approvalStatus ==
                       ApprovalStatus.rejected.name) ...[
-                    ColoredBox(color: Colors.black.withValues(alpha: 0.8)),
-                    IconButton(
-                      onPressed: () {
-                        wwDialogueBox(
-                          context,
-                          text: 'Rejected',
-                          textSub:
-                              'We noticed that your recent post violates our community guidelines',
-                        );
-                      },
-                      icon: Icon(
-                        Icons.error_outline_outlined,
-                        size: 40,
-                        color: Colors.red[400],
-                      ),
-                    ),
+                    liverShade,
+                    WwLiveryRejected(),
                   ],
                   if (state[i].approvalStatus ==
                       ApprovalStatus.waiting.name) ...[
-                    ColoredBox(color: Colors.black.withValues(alpha: 0.8)),
-                    IconButton(
-                      onPressed: () {
-                        wwDialogueBox(
-                          context,
-                          text: 'Pending',
-                          textSub:
-                              'Waiting for administrator review and approval.',
-                        );
-                      },
-                      icon: Icon(
-                        Icons.timelapse_sharp,
-                        size: 40,
-                        color: Colors.amber[400],
-                      ),
-                    ),
+                    liverShade,
+                    WwLiveryWaiting(),
                   ],
                 ],
               );

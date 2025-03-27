@@ -7,8 +7,8 @@ import 'package:livery/Cfeature/report/application/report_bloc.dart';
 import 'package:livery/Cfeature/report/widget/ww_report_content.dart';
 import 'package:livery/Cmodel/enum.dart';
 import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box.dart';
-import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/Cwidgets/ww_error_handler.dart';
+import 'package:livery/Cwidgets/ww_livery_status_display.dart';
 import 'package:livery/Cwidgets/ww_popup_error_success.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/features/livery/application/livery_bloc.dart';
@@ -102,7 +102,7 @@ class PostWidget extends StatelessWidget {
             ),
           ),
           //
-          postImage(), // POST IMAGE --------------------------------
+          postImage(context), // POST IMAGE --------------------------------
           //
           Padding(
             padding: const EdgeInsets.all(10),
@@ -150,32 +150,35 @@ class PostWidget extends StatelessWidget {
             ],
           ),
         );
-
-        // WWButton(
-        //   text: 'Download ($count)',
-        //   onPressed: () {
-        //     bloc.add(DownloadLiveryApiEvent(liveryId: data.id));
-        //   },
-        // );
       },
     );
   }
 
-  ClipRRect postImage() {
+  ClipRRect postImage(BuildContext context) {
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(10)),
-      child: CachedNetworkImage(
-        height: 200,
-        width: double.infinity,
-        imageUrl:
-            data.postImage?.liveryImage1080 ??
-            '', //   "https://i.pinimg.com/736x/09/a6/d6/09a6d6ff2a65445a72fbf91c746e6dfd.jpg",
-        fit: BoxFit.cover,
-        placeholder:
-            (context, url) => const Center(child: CircularProgressIndicator()),
-        errorWidget:
-            (context, url, error) =>
-                const Icon(Icons.error, color: AppColors.primary),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          CachedNetworkImage(
+            height: 200,
+            width: double.infinity,
+            imageUrl:
+                data.postImage?.liveryImage1080 ??
+                '', //   "https://i.pinimg.com/736x/09/a6/d6/09a6d6ff2a65445a72fbf91c746e6dfd.jpg",
+            fit: BoxFit.cover,
+            placeholder:
+                (context, url) =>
+                    const Center(child: CircularProgressIndicator()),
+            errorWidget:
+                (context, url, error) =>
+                    const Icon(Icons.error, color: AppColors.primary),
+          ),
+          if (data.approvalStatus == ApprovalStatus.waiting.name) ...[
+            SizedBox(height: 200, width: double.infinity, child: liverShade),
+            WwLiveryWaiting(),
+          ],
+        ],
       ),
     );
   }

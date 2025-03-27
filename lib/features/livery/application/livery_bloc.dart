@@ -62,7 +62,7 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
 
     var liveryList = state.getAllLiveryRes.apiData?.data?.toList();
 
-    liveryList?.add(event.newData);
+    liveryList?.insert(0, event.newData);
 
     emit(
       state.copyWith(
