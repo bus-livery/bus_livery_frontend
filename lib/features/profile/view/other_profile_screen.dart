@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:livery/Cfeature/report/application/report_bloc.dart';
 import 'package:livery/Cfeature/report/widget/ww_report_content.dart';
+import 'package:livery/Cmodel/api_response.dart';
 import 'package:livery/Cwidgets/pop_up_menu/profile_menus.dart';
 import 'package:livery/Cwidgets/ww_app_bar.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
@@ -60,7 +61,9 @@ class OtherProfileScreen extends StatelessWidget {
               },
             ),
 
-            Flexible(child: _ProfileGallery(bloc: bloc)),
+            Flexible(
+              child: _ProfileGallery(bloc: bloc, profileData: profileData),
+            ),
           ],
         ),
       ),
@@ -117,17 +120,25 @@ class _ProfileDetail extends StatelessWidget {
 
 class _ProfileGallery extends StatelessWidget {
   final ProfileBloc bloc;
-  const _ProfileGallery({required this.bloc});
+  final ProfileModel? profileData;
+  const _ProfileGallery({required this.bloc, this.profileData});
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<ProfileBloc, ProfileState, List<LiveryModel>?>(
-      selector: (state) => state.getOthersLiveryRes.apiData,
+    return BlocSelector<
+      ProfileBloc,
+      ProfileState,
+      ApiResponse<List<LiveryModel>>
+    >(
+      selector: (state) => state.getOthersLiveryRes,
       builder: (context, state) {
         return WWResponseHandler(
-          data: bloc.state.getOthersLiveryRes,
-          isEmpty: state?.isEmpty,
-          apiCall: () async => bloc.add(GetOthersLiveryApiEvent()),
+          data: state,
+          isEmpty: state.apiData?.isEmpty,
+          apiCall:
+              () async => bloc.add(
+                GetOthersLiveryApiEvent(userId: profileData?.id ?? 0),
+              ),
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
@@ -135,11 +146,12 @@ class _ProfileGallery extends StatelessWidget {
               mainAxisSpacing: 10,
               childAspectRatio: 1,
             ),
-            itemCount: state?.length ?? 0,
+            itemCount: state.apiData?.length ?? 0,
             itemBuilder: (c, i) {
+              var data = state.apiData![i];
               return CachedNetworkImage(
                 width: double.infinity,
-                imageUrl: state![i].postImage?.livertImage600 ?? '',
+                imageUrl: data.postImage?.livertImage600 ?? '',
                 fit: BoxFit.cover,
                 placeholder:
                     (context, url) =>

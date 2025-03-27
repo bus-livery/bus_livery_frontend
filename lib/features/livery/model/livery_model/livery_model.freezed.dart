@@ -41,6 +41,8 @@ mixin _$LiveryModel {
   ProfileModel? get user => throw _privateConstructorUsedError;
   @JsonKey(name: 'livery_image')
   LiveryImageModel? get postImage => throw _privateConstructorUsedError;
+  @JsonKey(name: 'approval_status')
+  String? get approvalStatus => throw _privateConstructorUsedError;
 
   /// Serializes this LiveryModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -71,6 +73,7 @@ abstract class $LiveryModelCopyWith<$Res> {
     @JsonKey(name: 'download_count') int? downloadCount,
     ProfileModel? user,
     @JsonKey(name: 'livery_image') LiveryImageModel? postImage,
+    @JsonKey(name: 'approval_status') String? approvalStatus,
   });
 
   $ProfileModelCopyWith<$Res>? get user;
@@ -103,6 +106,7 @@ class _$LiveryModelCopyWithImpl<$Res, $Val extends LiveryModel>
     Object? downloadCount = freezed,
     Object? user = freezed,
     Object? postImage = freezed,
+    Object? approvalStatus = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -161,6 +165,11 @@ class _$LiveryModelCopyWithImpl<$Res, $Val extends LiveryModel>
                     ? _value.postImage
                     : postImage // ignore: cast_nullable_to_non_nullable
                         as LiveryImageModel?,
+            approvalStatus:
+                freezed == approvalStatus
+                    ? _value.approvalStatus
+                    : approvalStatus // ignore: cast_nullable_to_non_nullable
+                        as String?,
           )
           as $Val,
     );
@@ -216,6 +225,7 @@ abstract class _$$LiveryModelImplCopyWith<$Res>
     @JsonKey(name: 'download_count') int? downloadCount,
     ProfileModel? user,
     @JsonKey(name: 'livery_image') LiveryImageModel? postImage,
+    @JsonKey(name: 'approval_status') String? approvalStatus,
   });
 
   @override
@@ -249,6 +259,7 @@ class __$$LiveryModelImplCopyWithImpl<$Res>
     Object? downloadCount = freezed,
     Object? user = freezed,
     Object? postImage = freezed,
+    Object? approvalStatus = freezed,
   }) {
     return _then(
       _$LiveryModelImpl(
@@ -307,6 +318,11 @@ class __$$LiveryModelImplCopyWithImpl<$Res>
                 ? _value.postImage
                 : postImage // ignore: cast_nullable_to_non_nullable
                     as LiveryImageModel?,
+        approvalStatus:
+            freezed == approvalStatus
+                ? _value.approvalStatus
+                : approvalStatus // ignore: cast_nullable_to_non_nullable
+                    as String?,
       ),
     );
   }
@@ -327,6 +343,7 @@ class _$LiveryModelImpl implements _LiveryModel {
     @JsonKey(name: 'download_count') this.downloadCount,
     this.user,
     @JsonKey(name: 'livery_image') this.postImage,
+    @JsonKey(name: 'approval_status') this.approvalStatus,
   });
 
   factory _$LiveryModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -363,10 +380,13 @@ class _$LiveryModelImpl implements _LiveryModel {
   @override
   @JsonKey(name: 'livery_image')
   final LiveryImageModel? postImage;
+  @override
+  @JsonKey(name: 'approval_status')
+  final String? approvalStatus;
 
   @override
   String toString() {
-    return 'LiveryModel(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, busType: $busType, busModel: $busModel, liveryName: $liveryName, description: $description, downloadCount: $downloadCount, user: $user, postImage: $postImage)';
+    return 'LiveryModel(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, busType: $busType, busModel: $busModel, liveryName: $liveryName, description: $description, downloadCount: $downloadCount, user: $user, postImage: $postImage, approvalStatus: $approvalStatus)';
   }
 
   @override
@@ -391,7 +411,9 @@ class _$LiveryModelImpl implements _LiveryModel {
                 other.downloadCount == downloadCount) &&
             (identical(other.user, user) || other.user == user) &&
             (identical(other.postImage, postImage) ||
-                other.postImage == postImage));
+                other.postImage == postImage) &&
+            (identical(other.approvalStatus, approvalStatus) ||
+                other.approvalStatus == approvalStatus));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -409,6 +431,7 @@ class _$LiveryModelImpl implements _LiveryModel {
     downloadCount,
     user,
     postImage,
+    approvalStatus,
   );
 
   /// Create a copy of LiveryModel
@@ -438,6 +461,7 @@ abstract class _LiveryModel implements LiveryModel {
     @JsonKey(name: 'download_count') final int? downloadCount,
     final ProfileModel? user,
     @JsonKey(name: 'livery_image') final LiveryImageModel? postImage,
+    @JsonKey(name: 'approval_status') final String? approvalStatus,
   }) = _$LiveryModelImpl;
 
   factory _LiveryModel.fromJson(Map<String, dynamic> json) =
@@ -474,6 +498,9 @@ abstract class _LiveryModel implements LiveryModel {
   @override
   @JsonKey(name: 'livery_image')
   LiveryImageModel? get postImage;
+  @override
+  @JsonKey(name: 'approval_status')
+  String? get approvalStatus;
 
   /// Create a copy of LiveryModel
   /// with the given fields replaced by the non-null parameter values.

@@ -33,6 +33,7 @@ _$LiveryModelImpl _$$LiveryModelImplFromJson(Map<String, dynamic> json) =>
               : LiveryImageModel.fromJson(
                 json['livery_image'] as Map<String, dynamic>,
               ),
+      approvalStatus: json['approval_status'] as String?,
     );
 
 Map<String, dynamic> _$$LiveryModelImplToJson(_$LiveryModelImpl instance) =>
@@ -48,4 +49,5 @@ Map<String, dynamic> _$$LiveryModelImplToJson(_$LiveryModelImpl instance) =>
       'download_count': instance.downloadCount,
       'user': instance.user,
       'livery_image': instance.postImage,
+      'approval_status': instance.approvalStatus,
     };

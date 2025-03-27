@@ -12,4 +12,8 @@ class UpdateMyProfileEvent extends ProfileEvent {
 
 class GetMyLiveryApiEvent extends ProfileEvent {}
 
-class GetOthersLiveryApiEvent extends ProfileEvent {}
+class GetOthersLiveryApiEvent extends ProfileEvent {
+  final int userId;
+
+  GetOthersLiveryApiEvent({required this.userId});
+}

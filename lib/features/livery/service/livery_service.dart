@@ -27,6 +27,7 @@ class LiveryService implements ILiveryService {
       final res = await _dioServices.request(
         EndPoints.livery.getAllLivery,
         method: Method.get,
+        queryParam: {"approval_status": "approved"},
       );
       return res.fold(
         (l) => Left(l.message),

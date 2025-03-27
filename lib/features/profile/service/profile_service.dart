@@ -12,7 +12,9 @@ abstract class IProfileService {
 
   Future<Either<String, List<LiveryModel>>> fetchMyLiveryApi();
 
-  Future<Either<String, List<LiveryModel>>> fetchOthersLiveryApi();
+  Future<Either<String, List<LiveryModel>>> fetchOthersLiveryApi({
+    required int userId,
+  });
 }
 
 @LazySingleton(as: IProfileService)
@@ -73,11 +75,14 @@ class ProfileService implements IProfileService {
   }
 
   @override
-  Future<Either<String, List<LiveryModel>>> fetchOthersLiveryApi() async {
+  Future<Either<String, List<LiveryModel>>> fetchOthersLiveryApi({
+    required int userId,
+  }) async {
     try {
       final res = await _dioServices.request(
         EndPoints.livery.getOthersLivery,
         method: Method.get,
+        queryParam: {"user_id": userId},
       );
       return res.fold(
         (l) => Left(l.message),

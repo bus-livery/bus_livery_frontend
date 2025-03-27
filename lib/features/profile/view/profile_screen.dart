@@ -224,12 +224,12 @@ class _ProfileGallery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<ProfileBloc, ProfileState, List<LiveryModel>?>(
-      selector: (state) => state.getMyLiveryRes.apiData,
+    return BlocSelector<ProfileBloc, ProfileState, List<LiveryModel>>(
+      selector: (state) => state.getMyLiveryRes.apiData ?? [],
       builder: (context, state) {
         return WWResponseHandler(
           data: bloc.state.getMyLiveryRes,
-          isEmpty: state?.isEmpty,
+          isEmpty: state.isEmpty,
           apiCall: () async => bloc.add(GetMyLiveryApiEvent()),
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -238,16 +238,60 @@ class _ProfileGallery extends StatelessWidget {
               mainAxisSpacing: 10,
               childAspectRatio: 1,
             ),
-            itemCount: state?.length ?? 0,
+            itemCount: state.length,
             itemBuilder: (c, i) {
-              return CachedNetworkImage(
-                width: double.infinity,
-                imageUrl: state![i].postImage?.livertImage600 ?? '',
-                fit: BoxFit.cover,
-                placeholder:
-                    (context, url) =>
-                        const Center(child: CircularProgressIndicator()),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+              return Stack(
+                fit: StackFit.expand,
+                children: [
+                  CachedNetworkImage(
+                    width: double.infinity,
+                    imageUrl: state[i].postImage?.livertImage600 ?? '',
+                    fit: BoxFit.cover,
+                    placeholder:
+                        (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
+                    errorWidget:
+                        (context, url, error) => const Icon(Icons.error),
+                  ),
+                  if (state[i].approvalStatus ==
+                      ApprovalStatus.rejected.name) ...[
+                    ColoredBox(color: Colors.black.withValues(alpha: 0.8)),
+                    IconButton(
+                      onPressed: () {
+                        wwDialogueBox(
+                          context,
+                          text: 'Rejected',
+                          textSub:
+                              'We noticed that your recent post violates our community guidelines',
+                        );
+                      },
+                      icon: Icon(
+                        Icons.error_outline_outlined,
+                        size: 40,
+                        color: Colors.red[400],
+                      ),
+                    ),
+                  ],
+                  if (state[i].approvalStatus ==
+                      ApprovalStatus.waiting.name) ...[
+                    ColoredBox(color: Colors.black.withValues(alpha: 0.8)),
+                    IconButton(
+                      onPressed: () {
+                        wwDialogueBox(
+                          context,
+                          text: 'Pending',
+                          textSub:
+                              'Waiting for administrator review and approval.',
+                        );
+                      },
+                      icon: Icon(
+                        Icons.timelapse_sharp,
+                        size: 40,
+                        color: Colors.amber[400],
+                      ),
+                    ),
+                  ],
+                ],
               );
             },
           ),

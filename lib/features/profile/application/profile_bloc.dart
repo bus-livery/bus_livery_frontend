@@ -151,7 +151,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> with BlocLifeCycle {
       ),
     );
 
-    final response = await iProfileService.fetchMyLiveryApi();
+    final response = await iProfileService.fetchOthersLiveryApi(
+      userId: event.userId,
+    );
 
     return response.fold(
       //
@@ -161,6 +163,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> with BlocLifeCycle {
             getOthersLiveryRes: ApiResponse(
               status: ApiStatus.failure,
               errorMessage: failure,
+              apiData: null,
             ),
           ),
         );
