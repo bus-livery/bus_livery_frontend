@@ -1,11 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:livery/Cfeature/report/application/report_bloc.dart';
 import 'package:livery/Cfeature/report/widget/ww_report_content.dart';
 import 'package:livery/Cmodel/api_response.dart';
+import 'package:livery/Cmodel/enum.dart';
+import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box.dart';
 import 'package:livery/Cwidgets/pop_up_menu/profile_menus.dart';
 import 'package:livery/Cwidgets/ww_app_bar.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
@@ -17,12 +20,25 @@ import 'package:livery/features/profile/model/profile_model.dart';
 import 'package:livery/features/profile/profile_styles.dart';
 import 'package:livery/utils/app_colors.dart';
 import 'package:livery/utils/app_size.dart';
+import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/styles.dart';
+import 'package:livery/utils/toast.dart';
 
 @RoutePage()
-class OtherProfileScreen extends StatelessWidget {
+class OtherProfileScreen extends StatelessWidget implements AutoRouteWrapper {
   final ProfileModel? profileData;
   const OtherProfileScreen({super.key, required this.profileData});
+
+  @override
+  Widget wrappedRoute(BuildContext ctr) {
+    return BlocProvider.value(
+      value:
+          BlocProvider.of<ProfileBloc>(ctr)
+            ..add(ProfileGetOtherApiEvent(userId: profileData?.id ?? 0))
+            ..add(GetOthersLiveryApiEvent(userId: profileData?.id ?? 0)),
+      child: this,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,27 +61,72 @@ class OtherProfileScreen extends StatelessWidget {
       appBar: WwAppBar(
         title: profileData?.username ?? '',
         centerTitle: false,
-        actions: [WwProfileMenus(reportTap: () => showBottomSheet())],
+        actions: [
+          _ProfileLike(bloc: bloc, profileData: profileData),
+
+          WwProfileMenus(reportTap: () => showBottomSheet()),
+        ],
       ),
 
       body: Padding(
         padding: AppSize.swPadding,
         child: Column(
-          spacing: 10,
+          spacing: 20,
           children: [
             _ProfileDetail(bloc: bloc, profileData: profileData),
-            WWButton(
-              text: 'Like Profile',
-              onPressed: () {
-                // context.router.pushPath(RouterNames.editProfileScreen);
-              },
-            ),
 
             Flexible(
               child: _ProfileGallery(bloc: bloc, profileData: profileData),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _ProfileLike extends StatelessWidget {
+  const _ProfileLike({required this.bloc, required this.profileData});
+
+  final ProfileBloc bloc;
+  final ProfileModel? profileData;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed:
+          () => bloc.add(LikeProfileApiEvent(userId: profileData?.id ?? 0)),
+      icon: BlocConsumer<ProfileBloc, ProfileState>(
+        listenWhen:
+            (p, c) => p.profileLikeRes?.status != c.profileLikeRes?.status,
+        buildWhen:
+            (p, c) => p.profileLikeRes?.status != c.profileLikeRes?.status,
+        listener: (context, state) {
+          final r = state.profileLikeRes;
+          if (r?.status == ApiStatus.failure) {
+            wwDialogueBox(context, textSub: r?.errorMessage);
+            return;
+          }
+        },
+        builder: (context, state) {
+          customPrint('BLOC BUILDER - _ProfileLike');
+          final profileLiked =
+              state.profileLikeRes?.apiData?.profileLiked ?? false;
+          return Row(
+            spacing: 10,
+            children: [
+              WwText(
+                text: profileLiked ? 'DisLike' : 'Like',
+                style: normalText(),
+              ),
+              state.profileLikeRes?.status == ApiStatus.loading
+                  ? CupertinoActivityIndicator()
+                  : profileLiked
+                  ? Icon(Icons.thumb_down_outlined)
+                  : Icon(Icons.thumb_up_outlined),
+            ],
+          );
+        },
       ),
     );
   }
@@ -82,20 +143,26 @@ class _ProfileDetail extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        DecoratedBox(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(width: 2, color: AppColors.primary),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              radius: 30.r,
-              backgroundImage: const NetworkImage(
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz68b1g8MSxSUqvFtuo44MvagkdFGoG7Z7DQ&s',
+        Column(
+          spacing: 10,
+          children: [
+            DecoratedBox(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(width: 2, color: AppColors.primary),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CircleAvatar(
+                  radius: 30.r,
+                  backgroundImage: const NetworkImage(
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz68b1g8MSxSUqvFtuo44MvagkdFGoG7Z7DQ&s',
+                  ),
+                ),
               ),
             ),
-          ),
+            WwText(text: profileData?.username ?? '', style: normalText()),
+          ],
         ),
         Column(
           children: [

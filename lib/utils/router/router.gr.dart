@@ -10,6 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i7;
+import 'package:flutter/cupertino.dart' as _i10;
 import 'package:flutter/material.dart' as _i8;
 import 'package:livery/features/auth/view/login_screen.dart' as _i3;
 import 'package:livery/features/auth/view/otp_screen.dart' as _i6;
@@ -17,7 +18,7 @@ import 'package:livery/features/livery/model/livery_model/livery_model.dart'
     as _i9;
 import 'package:livery/features/livery_create/view/livery_create_screen.dart'
     as _i2;
-import 'package:livery/features/profile/model/profile_model.dart' as _i10;
+import 'package:livery/features/profile/model/profile_model.dart' as _i11;
 import 'package:livery/features/profile/view/edit_profile_screen.dart' as _i1;
 import 'package:livery/features/profile/view/other_profile_screen.dart' as _i5;
 import 'package:livery/main_screen.dart' as _i4;
@@ -115,8 +116,8 @@ class MainRoute extends _i7.PageRouteInfo<void> {
 /// [_i5.OtherProfileScreen]
 class OtherProfileRoute extends _i7.PageRouteInfo<OtherProfileRouteArgs> {
   OtherProfileRoute({
-    _i8.Key? key,
-    required _i10.ProfileModel? profileData,
+    _i10.Key? key,
+    required _i11.ProfileModel? profileData,
     List<_i7.PageRouteInfo>? children,
   }) : super(
          OtherProfileRoute.name,
@@ -130,9 +131,11 @@ class OtherProfileRoute extends _i7.PageRouteInfo<OtherProfileRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<OtherProfileRouteArgs>();
-      return _i5.OtherProfileScreen(
-        key: args.key,
-        profileData: args.profileData,
+      return _i7.WrappedRoute(
+        child: _i5.OtherProfileScreen(
+          key: args.key,
+          profileData: args.profileData,
+        ),
       );
     },
   );
@@ -141,9 +144,9 @@ class OtherProfileRoute extends _i7.PageRouteInfo<OtherProfileRouteArgs> {
 class OtherProfileRouteArgs {
   const OtherProfileRouteArgs({this.key, required this.profileData});
 
-  final _i8.Key? key;
+  final _i10.Key? key;
 
-  final _i10.ProfileModel? profileData;
+  final _i11.ProfileModel? profileData;
 
   @override
   String toString() {
