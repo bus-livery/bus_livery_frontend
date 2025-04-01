@@ -163,9 +163,7 @@ class PostWidget extends StatelessWidget {
           CachedNetworkImage(
             height: 200,
             width: double.infinity,
-            imageUrl:
-                data.postImage?.liveryImage1080 ??
-                '', //   "https://i.pinimg.com/736x/09/a6/d6/09a6d6ff2a65445a72fbf91c746e6dfd.jpg",
+            imageUrl: data.postImage?.liveryImage1080 ?? '',
             fit: BoxFit.cover,
             placeholder:
                 (context, url) =>

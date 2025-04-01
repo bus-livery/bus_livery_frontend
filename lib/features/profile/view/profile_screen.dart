@@ -180,10 +180,13 @@ class ProfileScreen extends StatelessWidget {
                   context.router.push(ProfileListRoute());
                 },
               ),
-              const ListTile(
+              ListTile(
                 leading: Icon(Icons.download_for_offline_outlined),
                 title: WwText(text: 'Downloads'),
                 trailing: Icon(Icons.arrow_forward_ios_rounded),
+                onTap: () {
+                  context.router.push(LiveryDownloadsRoute());
+                },
               ),
               const ListTile(
                 leading: Icon(Icons.security),

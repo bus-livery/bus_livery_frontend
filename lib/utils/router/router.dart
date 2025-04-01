@@ -29,5 +29,10 @@ class AppRouter extends RootStackRouter {
     ),
 
     AutoRoute(page: ProfileListRoute.page, path: RouterNames.profileListScreen),
+
+    AutoRoute(
+      page: LiveryDownloadsRoute.page,
+      path: RouterNames.liveryDownloadsScreen,
+    ),
   ];
 }

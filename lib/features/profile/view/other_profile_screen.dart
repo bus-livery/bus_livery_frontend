@@ -11,7 +11,6 @@ import 'package:livery/Cmodel/enum.dart';
 import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box.dart';
 import 'package:livery/Cwidgets/pop_up_menu/profile_menus.dart';
 import 'package:livery/Cwidgets/ww_app_bar.dart';
-import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/Cwidgets/ww_error_handler.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
@@ -22,7 +21,6 @@ import 'package:livery/utils/app_colors.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/styles.dart';
-import 'package:livery/utils/toast.dart';
 
 @RoutePage()
 class OtherProfileScreen extends StatelessWidget implements AutoRouteWrapper {

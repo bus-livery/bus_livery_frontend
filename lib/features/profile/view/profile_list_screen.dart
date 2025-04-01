@@ -1,12 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:livery/Cmodel/api_response.dart';
 import 'package:livery/Cwidgets/ww_app_bar.dart';
 import 'package:livery/Cwidgets/ww_error_handler.dart';
 import 'package:livery/Cwidgets/ww_profile_tile.dart';
-import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/features/profile/application/profile_bloc.dart';
 import 'package:livery/features/profile/model/profile_model.dart';
 import 'package:livery/utils/router/router.gr.dart';

@@ -232,5 +232,41 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
     );
   }
 
-  _getAllDownloadedLiveryApiEvent(GetAllDownloadedLiveryApiEvent event, emit) {}
+  _getAllDownloadedLiveryApiEvent(
+    GetAllDownloadedLiveryApiEvent event,
+    emit,
+  ) async {
+    emit(
+      state.copyWith(
+        getLiveryDownloads: ApiResponse(status: ApiStatus.loading),
+      ),
+    );
+
+    final response = await liverService.getAllDownloadLiveryApi();
+
+    response.fold(
+      //
+      (failure) {
+        emit(
+          state.copyWith(
+            getLiveryDownloads: ApiResponse(
+              status: ApiStatus.failure,
+              errorMessage: failure,
+            ),
+          ),
+        );
+      },
+      //
+      (success) {
+        emit(
+          state.copyWith(
+            getLiveryDownloads: ApiResponse(
+              status: ApiStatus.success,
+              apiData: success,
+            ),
+          ),
+        );
+      },
+    );
+  }
 }

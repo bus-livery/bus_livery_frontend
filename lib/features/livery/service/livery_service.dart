@@ -2,11 +2,14 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:livery/features/livery/model/download_count_model/download_count_model.dart';
 import 'package:livery/features/livery/model/livery_model/livery_data_model.dart';
+import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/service/dio_service.dart';
 import 'package:livery/utils/end_point.dart';
 
 abstract class ILiveryService {
   Future<Either<String, LiveryDateModel>> getAllLiveryServiceApi();
+
+  Future<Either<String, List<LiveryModel>>> getAllDownloadLiveryApi();
 
   Future<Either<String, String>> deleteLiveryServiceApi(int liveryId);
 
@@ -27,12 +30,32 @@ class LiveryService implements ILiveryService {
       final res = await _dioServices.request(
         EndPoints.livery.getAllLivery,
         method: Method.get,
-        queryParam: {"approval_status": "approved"},
+        queryParam: {"approval_status": "approved", "most_downloaded": "true"},
       );
       return res.fold(
         (l) => Left(l.message),
         (r) async =>
             Right(LiveryDateModel.fromJson(r.data as Map<String, dynamic>)),
+      );
+    } catch (e) {
+      return Left("$e");
+    }
+  }
+
+  @override
+  Future<Either<String, List<LiveryModel>>> getAllDownloadLiveryApi() async {
+    try {
+      final res = await _dioServices.request(
+        EndPoints.livery.getDownloadedLivery,
+        method: Method.get,
+      );
+      return res.fold(
+        (l) => Left(l.message),
+        (r) async => Right(
+          (r.data as List)
+              .map((e) => LiveryModel.fromJson(e as Map<String, dynamic>))
+              .toList(),
+        ),
       );
     } catch (e) {
       return Left("$e");
