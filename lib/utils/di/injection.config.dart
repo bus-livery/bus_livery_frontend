@@ -59,11 +59,11 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i923.ProfileService(gh<_i833.DioService>()),
     );
     gh.factory<_i632.AuthBloc>(() => _i632.AuthBloc(gh<_i148.IAuthService>()));
-    gh.factory<_i366.LiveryBloc>(
-      () => _i366.LiveryBloc(gh<_i1027.ILiveryService>()),
-    );
     gh.factory<_i469.ProfileBloc>(
       () => _i469.ProfileBloc(gh<_i923.IProfileService>()),
+    );
+    gh.factory<_i366.LiveryBloc>(
+      () => _i366.LiveryBloc(gh<_i1027.ILiveryService>(), gh<_i14.AppRouter>()),
     );
     gh.factory<_i473.ReportBloc>(
       () => _i473.ReportBloc(gh<_i67.IReportService>()),

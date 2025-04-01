@@ -8,9 +8,18 @@ class InsetNewLiveryEvent extends LiveryEvent {
   InsetNewLiveryEvent({required this.newData});
 }
 
+class FilterLiveryEvent extends LiveryEvent {
+  final LiveryFilter filter;
+
+  FilterLiveryEvent({required this.filter});
+}
 // API EVENTS
 
-class GetAllLiveryApiEvent extends LiveryEvent {}
+class GetAllLiveryApiEvent extends LiveryEvent {
+  final bool? mostDownload;
+
+  GetAllLiveryApiEvent({this.mostDownload});
+}
 
 class GetSinglelLiveryApiEvent extends LiveryEvent {}
 

@@ -7,7 +7,9 @@ import 'package:livery/service/dio_service.dart';
 import 'package:livery/utils/end_point.dart';
 
 abstract class ILiveryService {
-  Future<Either<String, LiveryDateModel>> getAllLiveryServiceApi();
+  Future<Either<String, LiveryDateModel>> getAllLiveryServiceApi({
+    bool? downloads,
+  });
 
   Future<Either<String, List<LiveryModel>>> getAllDownloadLiveryApi();
 
@@ -25,12 +27,17 @@ class LiveryService implements ILiveryService {
   LiveryService(this._dioServices);
 
   @override
-  Future<Either<String, LiveryDateModel>> getAllLiveryServiceApi() async {
+  Future<Either<String, LiveryDateModel>> getAllLiveryServiceApi({
+    bool? downloads,
+  }) async {
     try {
       final res = await _dioServices.request(
         EndPoints.livery.getAllLivery,
         method: Method.get,
-        queryParam: {"approval_status": "approved", "most_downloaded": "true"},
+        queryParam: {
+          "approval_status": "approved",
+          "most_downloaded": downloads ?? false,
+        },
       );
       return res.fold(
         (l) => Left(l.message),

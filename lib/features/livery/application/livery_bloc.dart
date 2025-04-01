@@ -9,6 +9,7 @@ import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/features/livery/service/livery_service.dart';
 import 'package:livery/utils/bloc_life_cycle.dart';
 import 'package:livery/utils/custom_print.dart';
+import 'package:livery/utils/router/router.dart';
 
 part 'livery_event.dart';
 part 'livery_state.dart';
@@ -16,6 +17,7 @@ part 'livery_state.dart';
 @injectable
 class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
   final ILiveryService liverService;
+  final AppRouter router;
 
   @override
   void initstate() {
@@ -30,12 +32,14 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
     return super.close();
   }
 
-  LiveryBloc(this.liverService) : super(LiveryState.initial()) {
+  LiveryBloc(this.liverService, this.router) : super(LiveryState.initial()) {
     //
     initstate();
     //
 
     on<InsetNewLiveryEvent>(_insetNewLiveryEvent);
+
+    on<FilterLiveryEvent>(_filterLiveryEvent);
 
     // API EVENTS
     on<LiveryEvent>((event, emit) {});
@@ -49,6 +53,18 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
     on<DownloadLiveryApiEvent>(_downloadLiveryApiEvent);
 
     on<GetAllDownloadedLiveryApiEvent>(_getAllDownloadedLiveryApiEvent);
+  }
+
+  _filterLiveryEvent(FilterLiveryEvent event, emit) {
+    emit(state.copyWith(filter: event.filter));
+
+    add(
+      GetAllLiveryApiEvent(
+        mostDownload: event.filter == LiveryFilter.mostDownloaded,
+      ),
+    );
+
+    router.maybePop();
   }
 
   _insetNewLiveryEvent(InsetNewLiveryEvent event, emit) {
@@ -81,7 +97,9 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
       state.copyWith(getAllLiveryRes: ApiResponse(status: ApiStatus.loading)),
     );
 
-    final response = await liverService.getAllLiveryServiceApi();
+    final response = await liverService.getAllLiveryServiceApi(
+      downloads: event.mostDownload,
+    );
 
     response.fold(
       //

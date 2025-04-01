@@ -30,6 +30,7 @@ class FeedScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Image.asset('assets/images/buss_logo.png', height: 70),
+        actions: [filterOptions(context)],
       ),
       body: Padding(
         padding: AppSize.swPadding,
@@ -61,6 +62,73 @@ class FeedScreen extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  IconButton filterOptions(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        final bloc = context.read<LiveryBloc>();
+
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return SafeArea(
+              child: BlocSelector<LiveryBloc, LiveryState, LiveryFilter>(
+                selector: (state) => state.filter,
+                builder: (context, state) {
+                  return Column(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      AppSize.sizedBox3h,
+                      ListTile(
+                        leading: Icon(Icons.new_label_outlined),
+                        title: WwText(text: 'Latest'),
+                        onTap: () {
+                          bloc.add(
+                            FilterLiveryEvent(filter: LiveryFilter.latest),
+                          );
+                        },
+                        trailing: Checkbox(
+                          value: state == LiveryFilter.latest,
+                          onChanged: (v) {
+                            bloc.add(
+                              FilterLiveryEvent(filter: LiveryFilter.latest),
+                            );
+                          },
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.download_for_offline_outlined),
+                        title: WwText(text: 'Most Downloaded'),
+                        onTap: () {
+                          bloc.add(
+                            FilterLiveryEvent(
+                              filter: LiveryFilter.mostDownloaded,
+                            ),
+                          );
+                        },
+                        trailing: Checkbox(
+                          value: state == LiveryFilter.mostDownloaded,
+                          onChanged: (v) {
+                            bloc.add(
+                              FilterLiveryEvent(
+                                filter: LiveryFilter.mostDownloaded,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            );
+          },
+        );
+      },
+      icon: const Icon(Icons.filter_alt_outlined, color: AppColors.primary),
     );
   }
 }

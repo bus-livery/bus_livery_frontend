@@ -1,6 +1,7 @@
 part of 'livery_bloc.dart';
 
 class LiveryState {
+  final LiveryFilter filter;
   // API STATES
   final ApiResponse<LiveryDateModel> getAllLiveryRes;
   final ApiResponse<List<LiveryModel>> getLiveryDownloads;
@@ -8,6 +9,7 @@ class LiveryState {
   final ApiResponse<DownloadCountModel> downloadCountRes;
   final ApiResponse<String> deleteLiveryRes;
   LiveryState({
+    required this.filter,
     // API STATES
     required this.getAllLiveryRes,
     required this.getLiveryDownloads,
@@ -18,6 +20,7 @@ class LiveryState {
 
   factory LiveryState.initial() {
     return LiveryState(
+      filter: LiveryFilter.latest,
       // API STATES
       getAllLiveryRes: ApiResponse<LiveryDateModel>(),
       getLiveryDownloads: ApiResponse<List<LiveryModel>>(),
@@ -29,6 +32,7 @@ class LiveryState {
 
   LiveryState copyWith({
     List<String>? busModels,
+    LiveryFilter? filter,
 
     // API STATES
     ApiResponse<LiveryDateModel>? getAllLiveryRes,
@@ -38,6 +42,7 @@ class LiveryState {
     ApiResponse<String>? deleteLiveryRes,
   }) {
     return LiveryState(
+      filter: filter ?? this.filter,
       // API STATES
       getSingleLiveryRes: getSingleLiveryRes ?? this.getSingleLiveryRes,
       getAllLiveryRes: getAllLiveryRes ?? this.getAllLiveryRes,

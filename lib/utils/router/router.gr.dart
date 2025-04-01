@@ -94,7 +94,7 @@ class LiveryDownloadsRoute extends _i9.PageRouteInfo<void> {
   static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
-      return const _i3.LiveryDownloadsScreen();
+      return _i9.WrappedRoute(child: const _i3.LiveryDownloadsScreen());
     },
   );
 }
