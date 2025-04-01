@@ -27,6 +27,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> with BlocLifeCycle {
 
     on<ProfileGetOtherApiEvent>(_profileGetOtherApiEvent);
 
+    on<GetLikedProfilesApi>(_getLikedProfilesApi);
+
     on<UpdateMyProfileEvent>(_updatesMyProfileEvent);
 
     on<GetMyLiveryApiEvent>(_getMyLiveryApiEvent);
@@ -118,6 +120,39 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> with BlocLifeCycle {
             profileLikeRes: ApiResponse(
               status: ApiStatus.success,
               apiData: ProfileLikeModel(profileLiked: success.profileLiked),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  _getLikedProfilesApi(GetLikedProfilesApi event, emit) async {
+    emit(
+      state.copyWith(getLikedProfiles: ApiResponse(status: ApiStatus.loading)),
+    );
+
+    final response = await iProfileService.getLikedProfilesApi();
+
+    return response.fold(
+      //
+      (failure) {
+        emit(
+          state.copyWith(
+            getLikedProfiles: ApiResponse(
+              status: ApiStatus.failure,
+              errorMessage: failure,
+            ),
+          ),
+        );
+      },
+      //
+      (success) {
+        emit(
+          state.copyWith(
+            getLikedProfiles: ApiResponse(
+              status: ApiStatus.success,
+              apiData: success,
             ),
           ),
         );

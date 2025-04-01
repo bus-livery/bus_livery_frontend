@@ -172,7 +172,19 @@ class ProfileScreen extends StatelessWidget {
             // mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              AppSize.sizedBox3h,
+              ListTile(
+                leading: Icon(Icons.person),
+                title: WwText(text: 'Liked Profiles'),
+                trailing: Icon(Icons.arrow_forward_ios_rounded),
+                onTap: () {
+                  context.router.push(ProfileListRoute());
+                },
+              ),
+              const ListTile(
+                leading: Icon(Icons.download_for_offline_outlined),
+                title: WwText(text: 'Downloads'),
+                trailing: Icon(Icons.arrow_forward_ios_rounded),
+              ),
               const ListTile(
                 leading: Icon(Icons.security),
                 title: WwText(text: 'Privacy'),

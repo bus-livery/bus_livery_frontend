@@ -15,6 +15,7 @@ final class AuthEndPoint {
 final class ProfileEndPoints {
   final getMy = '/v1/profile/fetch-my';
   final getOther = '/v1/profile/fetch-other';
+  final getLikedProfiles = '/v1/profile/fetch-liked-profiles';
   final updateMy = '/v1/profile/update';
   final likeProfile = '/v1/profile/like-dislike';
 }

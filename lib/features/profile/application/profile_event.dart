@@ -10,6 +10,8 @@ class ProfileGetOtherApiEvent extends ProfileEvent {
   ProfileGetOtherApiEvent({required this.userId});
 }
 
+class GetLikedProfilesApi extends ProfileEvent {}
+
 class UpdateMyProfileEvent extends ProfileEvent {
   final ProfileModel data;
 

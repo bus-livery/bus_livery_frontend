@@ -13,6 +13,8 @@ abstract class IProfileService {
     required int userId,
   });
 
+  Future<Either<String, List<ProfileModel>>> getLikedProfilesApi();
+
   Future<Either<String, String>> updateMyProfileApi(ProfileModel data);
 
   Future<Either<String, List<LiveryModel>>> fetchMyLiveryApi();
@@ -63,6 +65,26 @@ class ProfileService implements IProfileService {
         (l) => Left(l.message),
         (r) async =>
             Right(ProfileModel.fromJson(r.data as Map<String, dynamic>)),
+      );
+    } catch (e) {
+      return Left("$e");
+    }
+  }
+
+  @override
+  Future<Either<String, List<ProfileModel>>> getLikedProfilesApi() async {
+    try {
+      final res = await _dioServices.request(
+        EndPoints.profile.getLikedProfiles,
+        method: Method.get,
+      );
+      return res.fold(
+        (l) => Left(l.message),
+        (r) async => Right(
+          (r.data as List)
+              .map((e) => ProfileModel.fromJson(e as Map<String, dynamic>))
+              .toList(),
+        ),
       );
     } catch (e) {
       return Left("$e");

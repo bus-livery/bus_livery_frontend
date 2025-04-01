@@ -27,5 +27,7 @@ class AppRouter extends RootStackRouter {
       page: LiveryCreateRoute.page,
       path: RouterNames.liveryCreateScreen,
     ),
+
+    AutoRoute(page: ProfileListRoute.page, path: RouterNames.profileListScreen),
   ];
 }
