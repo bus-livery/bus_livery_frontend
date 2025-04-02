@@ -52,6 +52,7 @@ abstract class WWTextFieldBase extends StatelessWidget {
             controller: controller,
             autofocus: autofocus,
             keyboardType: keyboardType,
+
             // cursorColor: Theme.of(context).colorScheme.onPrimaryContainer,
             expands: description,
             obscureText: obscureText,
@@ -59,11 +60,11 @@ abstract class WWTextFieldBase extends StatelessWidget {
             minLines: minLines,
             inputFormatters: inputFormatters,
             validator: validator,
-
+            maxLength: 50,
             style: textFieldStyle(),
             // style: const TextStyle(color: Colors.black),
             decoration: InputDecoration(
-              // counterText: '',
+              counterText: '',
 
               // filled: true,
               hintText: hintText,

@@ -191,7 +191,10 @@ class _SubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LiveryCreateBloc, LiveryCreateState>(
-      buildWhen: (p, c) => p.liveryCreateRes.status != c.liveryCreateRes.status,
+      buildWhen:
+          (p, c) =>
+              p.liveryCreateRes.status != c.liveryCreateRes.status ||
+              p.storeImage != c.storeImage, // for image state update
       listenWhen:
           (p, c) => p.liveryCreateRes.status != c.liveryCreateRes.status,
       listener: (context, state) {

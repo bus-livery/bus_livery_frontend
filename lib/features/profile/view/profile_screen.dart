@@ -302,7 +302,8 @@ void violationPop(BuildContext context, {int? count}) {
     subtitle =
         'This is your final warning. If another violation occurs, your account may be suspended. Please ensure all content follows our guidelines. If no further violations occur, warnings will reset after 30 days';
   } else {
-    subtitle = '';
+    subtitle = '''Your account has been terminated.
+If you believe this was a mistake or need assistance, please contact our support team.''';
   }
 
   if ((count ?? 0) > 0) {

@@ -30,22 +30,25 @@ abstract class WWButtonBase extends StatelessWidget {
         : buildButton();
   }
 
-  SizedBox buildButton() {
-    return SizedBox(
-      width: widthFull ? double.infinity : null, // Full width if enabled
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(surfaceTintColor: buttonColor),
-        child:
-            loader == true
-                ? CircularProgressIndicator()
-                : widgets.length > 1
-                ? Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: widgets,
-                )
-                : widgets.first,
+  IgnorePointer buildButton() {
+    return IgnorePointer(
+      ignoring: loader == true,
+      child: SizedBox(
+        width: widthFull ? double.infinity : null, // Full width if enabled
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(surfaceTintColor: buttonColor),
+          child:
+              loader == true
+                  ? CircularProgressIndicator()
+                  : widgets.length > 1
+                  ? Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: widgets,
+                  )
+                  : widgets.first,
+        ),
       ),
     );
   }
