@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
@@ -12,6 +14,8 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final IAuthService iAuthService;
   AuthBloc(this.iAuthService) : super(AuthState.initial()) {
+    customPrint('AUTH BLOC INITIALIZED');
+    otpTimer();
     //
     on<AuthEvent>((event, emit) {});
 
@@ -26,6 +30,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   final TextEditingController emailCtr = TextEditingController();
   final TextEditingController otpCtr = TextEditingController();
+
+  Timer? timer;
+
+  int otpTimOut = 30;
+
+  Stream<int> otpTimer() async* {
+    final timerController = StreamController<int>();
+
+    Timer.periodic(const Duration(seconds: 1), (callback) {
+      if (otpTimOut > 0) {
+        otpTimOut--;
+        timerController.add(otpTimOut);
+      } else {
+        callback.cancel();
+        timerController.add(0);
+        timerController.close();
+      }
+    });
+
+    yield* timerController.stream;
+  }
 
   //  +-+ +-+ +-+ +-+ +-+
   //  |C| |L| |O| |S| |E|

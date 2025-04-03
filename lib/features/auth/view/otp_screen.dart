@@ -10,6 +10,7 @@ import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/features/auth/application/auth_bloc.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/router/router_names.dart';
+import 'package:livery/utils/styles.dart';
 import 'package:livery/utils/toast.dart';
 
 @RoutePage()
@@ -58,14 +59,35 @@ class OtpScreen extends StatelessWidget {
                 },
                 onChanged: (x) {},
               ),
+
               AppSize.sizedBox2h,
               // LOGIN BUTTON----------------------------
               _LoginButton(bloc: bloc),
               AppSize.sizedBox6h,
-              const WwText(text: 'Didn\'t receive code?'),
-              AppSize.sizedBox1h,
-              // RESEND BUTTON----------------------------
-              _ResendButton(),
+              StreamBuilder<int>(
+                stream: bloc.otpTimer(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData && snapshot.data! > 0) {
+                    return Column(
+                      children: [
+                        WwText(text: 'Resend Otp in'),
+                        WwText(
+                          text:
+                              '00:${snapshot.data.toString().padLeft(2, '0')}',
+                          style: normalText(),
+                        ),
+                      ],
+                    );
+                  }
+                  return Column(
+                    children: [
+                      const WwText(text: 'Didn\'t receive code?'),
+                      // RESEND BUTTON----------------------------
+                      _ResendButton(),
+                    ],
+                  );
+                },
+              ),
             ],
           ),
         ),
