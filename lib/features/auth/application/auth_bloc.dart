@@ -28,12 +28,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthCreateUserApi>(_authCreateUserApi);
   }
 
-  final TextEditingController emailCtr = TextEditingController();
+  final TextEditingController phoneCtr = TextEditingController();
   final TextEditingController otpCtr = TextEditingController();
 
   Timer? timer;
 
-  int otpTimOut = 30;
+  int otpTimOut = 60;
 
   Stream<int> otpTimer() async* {
     final timerController = StreamController<int>();
@@ -59,7 +59,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> close() async {
     // dispose();
     customPrint('AUTH BLOC CLOSED');
-    emailCtr.dispose();
+    phoneCtr.dispose();
     otpCtr.dispose();
     super.close();
   }
@@ -80,7 +80,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ),
     );
 
-    final response = await iAuthService.otpGenerate(email: event.email);
+    final response = await iAuthService.otpGenerate(phone: event.phone);
 
     return response.fold(
       //

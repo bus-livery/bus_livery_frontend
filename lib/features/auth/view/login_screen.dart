@@ -6,6 +6,7 @@ import 'package:livery/Cmodel/enum.dart';
 import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
+import 'package:livery/Cwidgets/ww_textfield/ww_text_field.dart';
 import 'package:livery/Cwidgets/ww_textfield/ww_text_field_email.dart';
 import 'package:livery/features/auth/application/auth_bloc.dart';
 import 'package:livery/utils/app_images.dart';
@@ -30,8 +31,8 @@ class LoginScreen extends StatelessWidget {
             children: [
               Image.asset('assets/images/buss_logo.png', height: 150),
               WWTextFieldEmail(
-                controller: bloc.emailCtr,
-                hintText: 'Enter your email',
+                controller: bloc.phoneCtr,
+                hintText: 'Enter your phone',
               ),
               // BUTTON GENERATE OTP-------------------------------
               _ButtonGenerateOtp(bloc: bloc),
@@ -55,11 +56,11 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              WWButtonPrefixSvg(
-                text: 'Continue with Google',
-                icon: AppImages.google,
-                onPressed: () {},
-              ),
+              // WWButtonPrefixSvg(
+              //   text: 'Continue with Google',
+              //   icon: AppImages.google,
+              //   onPressed: () {},
+              // ),
             ],
           ),
         ),
@@ -103,7 +104,7 @@ class _ButtonGenerateOtp extends StatelessWidget {
               context.read<AuthBloc>().add(
                 AuthOtpGenerateApi(
                   isFromLoginScreen: true,
-                  email: bloc.emailCtr.text,
+                  phone: bloc.phoneCtr.text,
                 ),
               );
             },

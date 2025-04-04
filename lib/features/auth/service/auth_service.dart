@@ -12,7 +12,7 @@ class LoginResModel {
 }
 
 abstract class IAuthService {
-  Future<Either<String, String>> otpGenerate({required String email});
+  Future<Either<String, String>> otpGenerate({required String phone});
 
   Future<Either<String, LoginResModel>> loginApi({
     required String email,
@@ -30,16 +30,16 @@ class AuthService implements IAuthService {
   AuthService(this._dioServices, this.sharedPrefService);
 
   @override
-  Future<Either<String, String>> otpGenerate({required String email}) async {
+  Future<Either<String, String>> otpGenerate({required String phone}) async {
     try {
       final res = await _dioServices.request(
         EndPoints.auth.otpRegister,
         method: Method.post,
-        data: {"email": email},
+        data: {"phone": phone},
       );
       return res.fold(
         (l) => Left(l.message),
-        (r) async => Right(r.data['otp']),
+        (r) async => Right(r.data['message']),
       );
     } catch (e) {
       return Left("$e");
@@ -55,7 +55,7 @@ class AuthService implements IAuthService {
       final res = await _dioServices.request(
         EndPoints.auth.login,
         method: Method.post,
-        data: {"email": email, "otp": otp},
+        data: {"phone": email, "otp": otp},
       );
       return res.fold(
         (l) => Left(l.message),

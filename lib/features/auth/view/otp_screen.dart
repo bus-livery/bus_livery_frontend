@@ -36,12 +36,12 @@ class OtpScreen extends StatelessWidget {
               ),
               AppSize.sizedBox4h,
               WwText(
-                text: 'Enter the code sent to the email',
+                text: 'Enter the code sent to the phone',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               AppSize.sizedBox2h,
               WwText(
-                text: bloc.emailCtr.text,
+                text: bloc.phoneCtr.text,
                 style: Theme.of(
                   context,
                 ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
@@ -64,27 +64,31 @@ class OtpScreen extends StatelessWidget {
               // LOGIN BUTTON----------------------------
               _LoginButton(bloc: bloc),
               AppSize.sizedBox6h,
-              StreamBuilder<int>(
-                stream: bloc.otpTimer(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData && snapshot.data! > 0) {
-                    return Column(
-                      children: [
-                        WwText(text: 'Resend Otp in'),
-                        WwText(
-                          text:
-                              '00:${snapshot.data.toString().padLeft(2, '0')}',
-                          style: normalText(),
-                        ),
-                      ],
-                    );
-                  }
-                  return Column(
-                    children: [
-                      const WwText(text: 'Didn\'t receive code?'),
-                      // RESEND BUTTON----------------------------
-                      _ResendButton(),
-                    ],
+              BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) {
+                  return StreamBuilder<int>(
+                    stream: bloc.otpTimer(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data! > 0) {
+                        return Column(
+                          children: [
+                            WwText(text: 'Resend Otp in'),
+                            WwText(
+                              text:
+                                  '00:${snapshot.data.toString().padLeft(2, '0')}',
+                              style: normalText(),
+                            ),
+                          ],
+                        );
+                      }
+                      return Column(
+                        children: [
+                          const WwText(text: 'Didn\'t receive code?'),
+                          // RESEND BUTTON----------------------------
+                          _ResendButton(),
+                        ],
+                      );
+                    },
                   );
                 },
               ),
@@ -121,10 +125,11 @@ class _ResendButton extends StatelessWidget {
               child: TextButton(
                 onPressed: () {
                   final bloc = context.read<AuthBloc>();
+                  bloc.otpTimOut = 60;
                   bloc.add(
                     AuthOtpGenerateApi(
                       isFromLoginScreen: false,
-                      email: bloc.emailCtr.text,
+                      phone: bloc.phoneCtr.text,
                     ),
                   );
                 },
@@ -175,7 +180,7 @@ class _LoginButton extends StatelessWidget {
               textSub: logRes.apiData?.message ?? '',
               firstTap: () => context.router.back(),
               secondTap: () {
-                bloc.add(AuthCreateUserApi(email: bloc.emailCtr.text));
+                bloc.add(AuthCreateUserApi(email: bloc.phoneCtr.text));
                 context.router.maybePop();
               },
             );
@@ -192,7 +197,7 @@ class _LoginButton extends StatelessWidget {
             loader: state.loginResponse.status == ApiStatus.loading,
             onPressed: () {
               bloc.add(
-                AuthLoginApi(email: bloc.emailCtr.text, otp: bloc.otpCtr.text),
+                AuthLoginApi(email: bloc.phoneCtr.text, otp: bloc.otpCtr.text),
               );
             },
           ),
