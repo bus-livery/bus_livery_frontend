@@ -23,7 +23,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<AuthOtpGenerateApi>(_authOtpGenerateApi);
 
-    on<AuthLoginApi>(_authLoginApi);
+    on<AuthloginOtpApi>(_authloginOtpApi);
 
     on<AuthCreateUserApi>(_authCreateUserApi);
   }
@@ -108,10 +108,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  _authLoginApi(AuthLoginApi event, emit) async {
+  _authloginOtpApi(AuthloginOtpApi event, emit) async {
     emit(state.copyWith(loginResponse: ApiResponse(status: ApiStatus.loading)));
 
-    final response = await iAuthService.loginApi(
+    final response = await iAuthService.loginOtpApi(
       email: event.email,
       otp: event.otp,
     );

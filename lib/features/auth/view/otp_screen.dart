@@ -197,7 +197,10 @@ class _LoginButton extends StatelessWidget {
             loader: state.loginResponse.status == ApiStatus.loading,
             onPressed: () {
               bloc.add(
-                AuthLoginApi(email: bloc.phoneCtr.text, otp: bloc.otpCtr.text),
+                AuthloginOtpApi(
+                  email: bloc.phoneCtr.text,
+                  otp: bloc.otpCtr.text,
+                ),
               );
             },
           ),

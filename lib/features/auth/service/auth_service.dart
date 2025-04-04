@@ -14,7 +14,7 @@ class LoginResModel {
 abstract class IAuthService {
   Future<Either<String, String>> otpGenerate({required String phone});
 
-  Future<Either<String, LoginResModel>> loginApi({
+  Future<Either<String, LoginResModel>> loginOtpApi({
     required String email,
     required String otp,
   });
@@ -47,13 +47,13 @@ class AuthService implements IAuthService {
   }
 
   @override
-  Future<Either<String, LoginResModel>> loginApi({
+  Future<Either<String, LoginResModel>> loginOtpApi({
     required String email,
     required String otp,
   }) async {
     try {
       final res = await _dioServices.request(
-        EndPoints.auth.login,
+        EndPoints.auth.loginOtp,
         method: Method.post,
         data: {"phone": email, "otp": otp},
       );

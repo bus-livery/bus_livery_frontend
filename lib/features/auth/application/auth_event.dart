@@ -17,10 +17,10 @@ class AuthOtpGenerateApi extends AuthEvent {
   AuthOtpGenerateApi({required this.phone, required this.isFromLoginScreen});
 }
 
-class AuthLoginApi extends AuthEvent {
+class AuthloginOtpApi extends AuthEvent {
   final String email;
   final String otp;
-  AuthLoginApi({required this.email, required this.otp});
+  AuthloginOtpApi({required this.email, required this.otp});
 }
 
 class AuthCreateUserApi extends AuthEvent {
