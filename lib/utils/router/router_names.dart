@@ -1,7 +1,11 @@
 abstract class RouterNames {
   // AUTHENTICATION SCREENS
-  static const loginScreen = '/login_screen';
+  static const loginWithOtpScreen = '/login_with_otp_screen';
   static const otpScreen = '/otp_screen';
+  static const loginScreen = '/login_Screen';
+  static const signUpScreen = '/sign_up_screen';
+
+  // MAIN SCREENS
   static const mainScreen = '/main_screen';
 
   // PROFILE SCREENS

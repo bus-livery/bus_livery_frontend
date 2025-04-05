@@ -9,9 +9,10 @@ class AuthGuard extends AutoRouteGuard {
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
     String? token = getIt<SharedPrefService>().getString("token");
-    final isAuthenticated = (token != null && token.isNotEmpty)
-        ? jwtTokenChecker(Jwt.parseJwt(token))
-        : false;
+    final isAuthenticated =
+        (token != null && token.isNotEmpty)
+            ? jwtTokenChecker(Jwt.parseJwt(token))
+            : false;
 
     if (isAuthenticated) {
       resolver.next(true);

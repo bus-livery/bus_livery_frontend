@@ -19,7 +19,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     //
     on<AuthEvent>((event, emit) {});
 
-    on<AuthPassVisible>(_authPassVisible);
+    on<AuthPassVisibleEvent>(_authPassVisible);
 
     on<AuthOtpGenerateApi>(_authOtpGenerateApi);
 
@@ -64,12 +64,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     super.close();
   }
 
-  _authPassVisible(AuthPassVisible event, emit) {
-    emit(state.copyWith(showPassword: !state.showPassword));
-
-    // Handle other events here
-
-    customPrint('print2');
+  _authPassVisible(AuthPassVisibleEvent event, emit) {
+    switch (event.state) {
+      case PassVisibleEnum.loginPass:
+        emit(state.copyWith(showLoginPass: !state.showLoginPass));
+        break;
+      case PassVisibleEnum.signUpPass:
+        emit(state.copyWith(showSignUpPass: !state.showSignUpPass));
+        break;
+      case PassVisibleEnum.signUpPassCon:
+        emit(state.copyWith(showSignupConPass: !state.showSignupConPass));
+        break;
+    }
   }
 
   _authOtpGenerateApi(AuthOtpGenerateApi event, emit) async {
@@ -109,7 +115,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   _authloginOtpApi(AuthloginOtpApi event, emit) async {
-    emit(state.copyWith(loginResponse: ApiResponse(status: ApiStatus.loading)));
+    emit(
+      state.copyWith(loginOtpResponse: ApiResponse(status: ApiStatus.loading)),
+    );
 
     final response = await iAuthService.loginOtpApi(
       email: event.email,
@@ -121,7 +129,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (failure) {
         emit(
           state.copyWith(
-            loginResponse: ApiResponse(
+            loginOtpResponse: ApiResponse(
               status: ApiStatus.failure,
               errorMessage: failure,
             ),
@@ -132,7 +140,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (success) {
         emit(
           state.copyWith(
-            loginResponse: ApiResponse(
+            loginOtpResponse: ApiResponse(
               status: ApiStatus.success,
               apiData: success,
             ),
@@ -143,7 +151,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   _authCreateUserOtpApi(AuthCreateUserOtpApi event, emit) async {
-    emit(state.copyWith(loginResponse: ApiResponse(status: ApiStatus.loading)));
+    emit(
+      state.copyWith(loginOtpResponse: ApiResponse(status: ApiStatus.loading)),
+    );
 
     final response = await iAuthService.userRegisterOtpApi(phone: event.phone);
 
@@ -152,7 +162,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (failure) {
         emit(
           state.copyWith(
-            loginResponse: ApiResponse(
+            loginOtpResponse: ApiResponse(
               status: ApiStatus.failure,
               errorMessage: failure,
             ),
@@ -163,7 +173,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (success) {
         emit(
           state.copyWith(
-            loginResponse: ApiResponse(
+            loginOtpResponse: ApiResponse(
               status: ApiStatus.success,
               apiData: null,
             ),

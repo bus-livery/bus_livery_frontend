@@ -27,7 +27,7 @@ class EditProfileScreen extends StatelessWidget {
           spacing: 20,
           children: [
             WWTextField(controller: data?.usernameCtr, title: 'Username'),
-            WWTextFieldPhone(
+            WwTextFieldPhone(
               controller: data?.phoneNoCtr,
               title: 'Phone number',
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
+import 'package:livery/utils/app_colors.dart';
 import 'package:livery/utils/styles.dart';
 
 abstract class WWTextFieldBase extends StatelessWidget {
@@ -84,7 +85,7 @@ abstract class WWTextFieldBase extends StatelessWidget {
                         onTap: () => suffixTap!(),
                         child: Icon(
                           suffixIcon ?? Icons.search,
-                          color: Colors.black,
+                          color: AppColors.primary,
                         ),
                       ),
             ),

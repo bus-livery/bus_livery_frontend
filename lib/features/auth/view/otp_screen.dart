@@ -164,10 +164,12 @@ class _LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
-      buildWhen: (p, c) => p.loginResponse.status != c.loginResponse.status,
-      listenWhen: (p, c) => p.loginResponse.status != c.loginResponse.status,
+      buildWhen:
+          (p, c) => p.loginOtpResponse.status != c.loginOtpResponse.status,
+      listenWhen:
+          (p, c) => p.loginOtpResponse.status != c.loginOtpResponse.status,
       listener: (context, state) {
-        var logRes = state.loginResponse;
+        var logRes = state.loginOtpResponse;
         if (logRes.status == ApiStatus.failure) {
           wwDialogueBox(context, textSub: logRes.errorMessage ?? '');
         }
@@ -194,7 +196,7 @@ class _LoginButton extends StatelessWidget {
           (context, state) => WWButton(
             text: 'Continue',
             widthFull: true,
-            loader: state.loginResponse.status == ApiStatus.loading,
+            loader: state.loginOtpResponse.status == ApiStatus.loading,
             onPressed: () {
               bloc.add(
                 AuthloginOtpApi(

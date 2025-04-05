@@ -2,40 +2,50 @@ part of 'auth_bloc.dart';
 
 // State
 class AuthState {
-  final bool showPassword;
+  final bool showLoginPass;
+  final bool showSignUpPass;
+  final bool showSignupConPass;
   final bool isFromLoginScreen;
   final ApiResponse<String> otpResponse;
-  final ApiResponse<LoginResModel> loginResponse;
+  final ApiResponse<LoginResModel> loginOtpResponse;
 
   AuthState({
-    required this.showPassword,
+    required this.showLoginPass,
+    required this.showSignUpPass,
+    required this.showSignupConPass,
     required this.isFromLoginScreen,
     required this.otpResponse,
-    required this.loginResponse,
+    required this.loginOtpResponse,
   });
 
   factory AuthState.initial() {
     return AuthState(
-      showPassword: false,
+      showLoginPass: false,
+      showSignUpPass: false,
+      showSignupConPass: false,
       isFromLoginScreen: false,
       otpResponse: ApiResponse<String>(),
-      loginResponse: ApiResponse<LoginResModel>(),
+      loginOtpResponse: ApiResponse<LoginResModel>(),
     );
   }
 
   AuthState copyWith({
-    bool? showPassword,
+    bool? showLoginPass,
+    bool? showSignUpPass,
+    bool? showSignupConPass,
     bool? isFromLoginScreen,
     TextEditingController? emailCtr,
     TextEditingController? otpCtr,
     ApiResponse<String>? otpResponse,
-    ApiResponse<LoginResModel>? loginResponse,
+    ApiResponse<LoginResModel>? loginOtpResponse,
   }) {
     return AuthState(
-      showPassword: showPassword ?? this.showPassword,
+      showLoginPass: showLoginPass ?? this.showLoginPass,
+      showSignUpPass: showSignUpPass ?? this.showSignUpPass,
+      showSignupConPass: showSignupConPass ?? this.showSignupConPass,
       isFromLoginScreen: isFromLoginScreen ?? this.isFromLoginScreen,
       otpResponse: otpResponse ?? this.otpResponse,
-      loginResponse: loginResponse ?? this.loginResponse,
+      loginOtpResponse: loginOtpResponse ?? this.loginOtpResponse,
     );
   }
 }

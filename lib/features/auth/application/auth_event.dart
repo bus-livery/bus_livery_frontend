@@ -6,9 +6,9 @@ abstract class AuthEvent {}
 
 class AuthStarted extends AuthEvent {}
 
-class AuthPassVisible extends AuthEvent {
-  final bool isVisible;
-  AuthPassVisible({required this.isVisible});
+class AuthPassVisibleEvent extends AuthEvent {
+  final PassVisibleEnum state;
+  AuthPassVisibleEvent({required this.state});
 }
 
 class AuthOtpGenerateApi extends AuthEvent {
