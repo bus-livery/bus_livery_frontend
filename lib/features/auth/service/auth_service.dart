@@ -19,7 +19,7 @@ abstract class IAuthService {
     required String otp,
   });
 
-  Future<Either<String, String>> userRegisterApi({required String email});
+  Future<Either<String, String>> userRegisterOtpApi({required String phone});
 }
 
 @LazySingleton(as: IAuthService)
@@ -69,14 +69,14 @@ class AuthService implements IAuthService {
   }
 
   @override
-  Future<Either<String, String>> userRegisterApi({
-    required String email,
+  Future<Either<String, String>> userRegisterOtpApi({
+    required String phone,
   }) async {
     try {
       final res = await _dioServices.request(
         EndPoints.auth.createUser,
         method: Method.post,
-        data: {"email": email},
+        data: {"phone": phone},
       );
       return res.fold(
         (l) => Left(l.message),

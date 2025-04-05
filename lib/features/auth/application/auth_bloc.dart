@@ -25,7 +25,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<AuthloginOtpApi>(_authloginOtpApi);
 
-    on<AuthCreateUserApi>(_authCreateUserApi);
+    on<AuthCreateUserOtpApi>(_authCreateUserOtpApi);
   }
 
   final TextEditingController phoneCtr = TextEditingController();
@@ -142,10 +142,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  _authCreateUserApi(AuthCreateUserApi event, emit) async {
+  _authCreateUserOtpApi(AuthCreateUserOtpApi event, emit) async {
     emit(state.copyWith(loginResponse: ApiResponse(status: ApiStatus.loading)));
 
-    final response = await iAuthService.userRegisterApi(email: event.email);
+    final response = await iAuthService.userRegisterOtpApi(phone: event.phone);
 
     return response.fold(
       //

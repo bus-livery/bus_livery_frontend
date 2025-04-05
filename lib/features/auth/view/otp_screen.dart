@@ -180,7 +180,7 @@ class _LoginButton extends StatelessWidget {
               textSub: logRes.apiData?.message ?? '',
               firstTap: () => context.router.back(),
               secondTap: () {
-                bloc.add(AuthCreateUserApi(email: bloc.phoneCtr.text));
+                bloc.add(AuthCreateUserOtpApi(phone: bloc.phoneCtr.text));
                 context.router.maybePop();
               },
             );

@@ -23,7 +23,7 @@ class AuthloginOtpApi extends AuthEvent {
   AuthloginOtpApi({required this.email, required this.otp});
 }
 
-class AuthCreateUserApi extends AuthEvent {
-  final String email;
-  AuthCreateUserApi({required this.email});
+class AuthCreateUserOtpApi extends AuthEvent {
+  final String phone;
+  AuthCreateUserOtpApi({required this.phone});
 }
