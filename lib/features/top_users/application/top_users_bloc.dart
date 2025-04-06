@@ -29,24 +29,35 @@ class TopUsersBloc extends Bloc<TopUsersEvent, TopUsersState> {
       ),
     );
 
-    final result = await _topUsersService.fetchTopUsers();
-    result.fold(
-      (error) => emit(
+    try {
+      final result = await _topUsersService.fetchTopUsers();
+      result.fold(
+        (error) => emit(
+          state.copyWith(
+            getTopUsersRes: state.getTopUsersRes.copyWith(
+              status: ApiStatus.failure,
+              errorMessage: error,
+            ),
+          ),
+        ),
+        (users) => emit(
+          state.copyWith(
+            getTopUsersRes: ApiResponse<List<ProfileModel>>(
+              status: ApiStatus.success,
+              apiData: users,
+            ),
+          ),
+        ),
+      );
+    } catch (e) {
+      emit(
         state.copyWith(
           getTopUsersRes: state.getTopUsersRes.copyWith(
             status: ApiStatus.failure,
-            errorMessage: error,
+            errorMessage: e.toString(),
           ),
         ),
-      ),
-      (users) => emit(
-        state.copyWith(
-          getTopUsersRes: ApiResponse<List<ProfileModel>>(
-            status: ApiStatus.success,
-            apiData: users,
-          ),
-        ),
-      ),
-    );
+      );
+    }
   }
 }

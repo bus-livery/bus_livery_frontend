@@ -50,7 +50,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1027.ILiveryService>(
       () => _i1027.LiveryService(gh<_i833.DioService>()),
     );
-    gh.factory<_i638.TopUsersService>(
+    gh.lazySingleton<_i638.ITopUsersService>(
       () => _i638.TopUsersService(gh<_i833.DioService>()),
     );
     gh.lazySingleton<_i67.IReportService>(
@@ -66,6 +66,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i923.ProfileService(gh<_i833.DioService>()),
     );
     gh.factory<_i632.AuthBloc>(() => _i632.AuthBloc(gh<_i148.IAuthService>()));
+    gh.factory<_i721.TopUsersBloc>(
+      () => _i721.TopUsersBloc(gh<_i638.ITopUsersService>()),
+    );
     gh.factory<_i469.ProfileBloc>(
       () => _i469.ProfileBloc(gh<_i923.IProfileService>()),
     );
@@ -74,9 +77,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i473.ReportBloc>(
       () => _i473.ReportBloc(gh<_i67.IReportService>()),
-    );
-    gh.factory<_i721.TopUsersBloc>(
-      () => _i721.TopUsersBloc(gh<_i638.TopUsersService>()),
     );
     return this;
   }
