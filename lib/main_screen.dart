@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box_violation.dart';
 import 'package:livery/features/livery/view/feed_screen.dart';
 import 'package:livery/features/profile/view/profile_screen.dart';
+import 'package:livery/features/top_users/view/top_users_screen.dart';
 import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/router/router_names.dart';
@@ -21,6 +22,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _tabs = [
     const Center(child: FeedScreen()),
+    const Center(child: TopUsersScreen()),
     const Center(child: ProfileScreen()),
   ];
 
@@ -83,16 +85,14 @@ Would you like to add a confirmation button like "I Agree" or "Continue"
               if (_currentIndex != index) {
                 _currentIndex = index;
               }
-              // if (index == 1 && _currentIndex != index) {
-              //   wwLoginDialog(context, onTap: () {});
-              // } else {
-              //   _currentIndex = index;
-              //   print(_currentIndex);
-              // }
             });
           },
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Feed'),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.people),
+              label: 'Top Users',
+            ),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
           ],
         ),
@@ -126,14 +126,10 @@ class PageTransitionAnimation extends StatelessWidget {
           animation: animation,
           secondaryAnimation: secondaryAnimation,
           transitionType: SharedAxisTransitionType.scaled,
-
-          //  _currentIndex == 1
-          //     ? SharedAxisTransitionType.scaled
-          //     : SharedAxisTransitionType.horizontal,
           child: child,
         );
       },
-      child: _tabs[_currentIndex], //_buildPage(_currentIndex),
+      child: _tabs[_currentIndex],
     );
   }
 }

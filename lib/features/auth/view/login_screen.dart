@@ -32,6 +32,7 @@ class LoginScreen extends StatelessWidget {
               Image.asset('assets/images/buss_logo.png', height: 150),
               WwText(text: 'Login'),
               WwTextFieldUsername(
+                context: context,
                 controller: bloc.usernameCtr,
                 hintText: 'Enter Username',
               ),

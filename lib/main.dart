@@ -7,6 +7,7 @@ import 'package:livery/features/auth/application/auth_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/profile/application/profile_bloc.dart';
+import 'package:livery/features/top_users/application/top_users_bloc.dart';
 import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/router/router.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => getIt<ProfileBloc>()),
         BlocProvider(create: (context) => getIt<LiveryBloc>()),
         BlocProvider(create: (context) => getIt<ReportBloc>()),
+        BlocProvider(create: (context) => getIt<TopUsersBloc>()),
       ],
       child: ScreenUtilInit(
         minTextAdapt: true,

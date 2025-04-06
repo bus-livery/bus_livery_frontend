@@ -23,6 +23,10 @@ import 'package:livery/features/livery_create/service/livery_create_service.dart
     as _i154;
 import 'package:livery/features/profile/application/profile_bloc.dart' as _i469;
 import 'package:livery/features/profile/service/profile_service.dart' as _i923;
+import 'package:livery/features/top_users/application/top_users_bloc.dart'
+    as _i721;
+import 'package:livery/features/top_users/service/top_users_service.dart'
+    as _i638;
 import 'package:livery/service/dio_service.dart' as _i833;
 import 'package:livery/service/shared_pref_service.dart' as _i552;
 import 'package:livery/utils/router/router.dart' as _i14;
@@ -46,6 +50,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1027.ILiveryService>(
       () => _i1027.LiveryService(gh<_i833.DioService>()),
     );
+    gh.factory<_i638.TopUsersService>(
+      () => _i638.TopUsersService(gh<_i833.DioService>()),
+    );
     gh.lazySingleton<_i67.IReportService>(
       () => _i67.ReportService(gh<_i833.DioService>()),
     );
@@ -67,6 +74,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i473.ReportBloc>(
       () => _i473.ReportBloc(gh<_i67.IReportService>()),
+    );
+    gh.factory<_i721.TopUsersBloc>(
+      () => _i721.TopUsersBloc(gh<_i638.TopUsersService>()),
     );
     return this;
   }

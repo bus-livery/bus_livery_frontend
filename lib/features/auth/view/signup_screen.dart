@@ -37,10 +37,10 @@ class SignUpScreen extends StatelessWidget {
                 WwText(text: 'SignUp'),
                 // USER NAME
                 WwTextFieldUsername(
+                  context: context,
                   controller: bloc.usernameSignupCtr,
                   hintText: 'Enter Username',
                   showValidator: true,
-                  suffixTap: () {},
                 ),
 
                 Row(
