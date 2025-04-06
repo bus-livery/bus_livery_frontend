@@ -130,6 +130,7 @@ class _ResendButton extends StatelessWidget {
                     AuthOtpGenerateApi(
                       isFromLoginScreen: false,
                       phone: bloc.phoneCtr.text,
+                      code: bloc.countryCodeOtpLogin,
                     ),
                   );
                 },

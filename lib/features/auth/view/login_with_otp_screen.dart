@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:livery/Cmodel/enum.dart';
 import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
+import 'package:livery/Cwidgets/ww_county_code.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/Cwidgets/ww_textfield/ww_text_field.dart';
 import 'package:livery/Cwidgets/ww_textfield/ww_text_field_email.dart';
@@ -29,32 +30,47 @@ class LoginWithOtpScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset('assets/images/buss_logo.png', height: 150),
-              WWTextFieldEmail(
-                controller: bloc.phoneCtr,
-                hintText: 'Enter your phone',
-              ),
-              // BUTTON GENERATE OTP-------------------------------
-              _ButtonGenerateOtp(bloc: bloc),
               Row(
                 children: [
                   Flexible(
-                    child: Divider(
-                      color:
-                          Theme.of(context).colorScheme.surfaceContainerHighest,
+                    flex: 1,
+                    child: WwCountryCode(
+                      onChanged: (v) {
+                        bloc.countryCodeOtpLogin = v.dialCode ?? '';
+                      },
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: WwText(text: 'Or connect with'),
-                  ),
-                  Flexible(
-                    child: Divider(
-                      color:
-                          Theme.of(context).colorScheme.surfaceContainerHighest,
+                  Expanded(
+                    flex: 2,
+                    child: WwTextFieldPhone(
+                      controller: bloc.phoneCtr,
+                      hintText: 'Enter your phone',
                     ),
                   ),
                 ],
               ),
+              // BUTTON GENERATE OTP-------------------------------
+              _ButtonGenerateOtp(bloc: bloc),
+              // Row(
+              //   children: [
+              //     Flexible(
+              //       child: Divider(
+              //         color:
+              //             Theme.of(context).colorScheme.surfaceContainerHighest,
+              //       ),
+              //     ),
+              //     const Padding(
+              //       padding: EdgeInsets.symmetric(horizontal: 15),
+              //       child: WwText(text: 'Or connect with'),
+              //     ),
+              //     Flexible(
+              //       child: Divider(
+              //         color:
+              //             Theme.of(context).colorScheme.surfaceContainerHighest,
+              //       ),
+              //     ),
+              //   ],
+              // ),
               // WWButtonPrefixSvg(
               //   text: 'Continue with Google',
               //   icon: AppImages.google,
@@ -103,6 +119,7 @@ class _ButtonGenerateOtp extends StatelessWidget {
               context.read<AuthBloc>().add(
                 AuthOtpGenerateApi(
                   isFromLoginScreen: true,
+                  code: bloc.countryCodeOtpLogin,
                   phone: bloc.phoneCtr.text,
                 ),
               );

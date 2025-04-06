@@ -7,8 +7,10 @@ final class EndPoints {
 }
 
 final class AuthEndPoint {
+  final login = '/v1/auth/user-login';
+  final signUp = '/v1/auth/user-signup';
   final loginOtp = '/v1/auth/user-otp-login';
-  final createUser = '/v1/auth/create-user';
+  final createOtpUser = '/v1/auth/create-user';
   final otpRegister = '/v1/auth/generate-otp';
 }
 

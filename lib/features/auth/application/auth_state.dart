@@ -8,6 +8,8 @@ class AuthState {
   final bool isFromLoginScreen;
   final ApiResponse<String> otpResponse;
   final ApiResponse<LoginResModel> loginOtpResponse;
+  final ApiResponse<String> loginResponse;
+  final ApiResponse<String> signUpResponse;
 
   AuthState({
     required this.showLoginPass,
@@ -16,6 +18,8 @@ class AuthState {
     required this.isFromLoginScreen,
     required this.otpResponse,
     required this.loginOtpResponse,
+    required this.loginResponse,
+    required this.signUpResponse,
   });
 
   factory AuthState.initial() {
@@ -26,6 +30,8 @@ class AuthState {
       isFromLoginScreen: false,
       otpResponse: ApiResponse<String>(),
       loginOtpResponse: ApiResponse<LoginResModel>(),
+      loginResponse: ApiResponse<String>(),
+      signUpResponse: ApiResponse<String>(),
     );
   }
 
@@ -38,6 +44,8 @@ class AuthState {
     TextEditingController? otpCtr,
     ApiResponse<String>? otpResponse,
     ApiResponse<LoginResModel>? loginOtpResponse,
+    ApiResponse<String>? loginResponse,
+    ApiResponse<String>? signUpResponse,
   }) {
     return AuthState(
       showLoginPass: showLoginPass ?? this.showLoginPass,
@@ -46,6 +54,8 @@ class AuthState {
       isFromLoginScreen: isFromLoginScreen ?? this.isFromLoginScreen,
       otpResponse: otpResponse ?? this.otpResponse,
       loginOtpResponse: loginOtpResponse ?? this.loginOtpResponse,
+      loginResponse: loginResponse ?? this.loginResponse,
+      signUpResponse: signUpResponse ?? this.signUpResponse,
     );
   }
 }

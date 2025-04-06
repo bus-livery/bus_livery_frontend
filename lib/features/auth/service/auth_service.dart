@@ -19,6 +19,15 @@ abstract class IAuthService {
     required String otp,
   });
 
+  Future<Either<String, String>> loginApi({
+    required String username,
+    required String password,
+  });
+
+  Future<Either<String, String>> signUpApi({
+    required Map<String, dynamic> data,
+  });
+
   Future<Either<String, String>> userRegisterOtpApi({required String phone});
 }
 
@@ -74,9 +83,48 @@ class AuthService implements IAuthService {
   }) async {
     try {
       final res = await _dioServices.request(
-        EndPoints.auth.createUser,
+        EndPoints.auth.createOtpUser,
         method: Method.post,
         data: {"phone": phone},
+      );
+      return res.fold(
+        (l) => Left(l.message),
+        (r) async => Right(r.data['message']),
+      );
+    } catch (e) {
+      return Left("$e");
+    }
+  }
+
+  @override
+  Future<Either<String, String>> loginApi({
+    required String username,
+    required String password,
+  }) async {
+    try {
+      final res = await _dioServices.request(
+        EndPoints.auth.login,
+        method: Method.post,
+        data: {"username": username, "password": password},
+      );
+      return res.fold(
+        (l) => Left(l.message),
+        (r) async => Right(r.data['message']),
+      );
+    } catch (e) {
+      return Left("$e");
+    }
+  }
+
+  @override
+  Future<Either<String, String>> signUpApi({
+    required Map<String, dynamic> data,
+  }) async {
+    try {
+      final res = await _dioServices.request(
+        EndPoints.auth.signUp,
+        method: Method.post,
+        data: data,
       );
       return res.fold(
         (l) => Left(l.message),

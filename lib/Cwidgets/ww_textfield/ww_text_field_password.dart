@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:livery/Cwidgets/ww_textfield/text_field_base.dart';
 
 class WwTextFieldPassword extends WWTextFieldBase {
-  const WwTextFieldPassword({
+  final bool showValidator;
+  WwTextFieldPassword({
     super.key,
+    this.showValidator = false,
     super.title,
     super.controller,
     super.hintText,
@@ -13,5 +15,12 @@ class WwTextFieldPassword extends WWTextFieldBase {
   }) : super(
          keyboardType: TextInputType.text,
          maxLines: 1, // mandatory field
+         validator: (p0) {
+           return showValidator
+               ? p0?.isEmpty == true
+                   ? ''
+                   : null
+               : null;
+         },
        );
 }

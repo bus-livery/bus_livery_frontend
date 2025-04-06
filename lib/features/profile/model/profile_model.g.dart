@@ -21,7 +21,7 @@ _$ProfileModelImpl _$$ProfileModelImplFromJson(Map<String, dynamic> json) =>
       username: json['username'] as String?,
       dp: json['dp'] as String?,
       phone: json['phone'] as String?,
-      countryCode: (json['county_code'] as num?)?.toInt(),
+      countryCode: json['county_code'] as String?,
       email: json['email'] as String?,
       description: json['description'] as String?,
       profileCompleted: json['profile_completed'] as bool?,

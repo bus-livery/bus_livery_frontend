@@ -33,7 +33,7 @@ mixin _$ProfileModel {
   String? get dp => throw _privateConstructorUsedError;
   String? get phone => throw _privateConstructorUsedError;
   @JsonKey(name: 'county_code')
-  int? get countryCode => throw _privateConstructorUsedError;
+  String? get countryCode => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: 'profile_completed')
@@ -84,7 +84,7 @@ abstract class $ProfileModelCopyWith<$Res> {
     String? username,
     String? dp,
     String? phone,
-    @JsonKey(name: 'county_code') int? countryCode,
+    @JsonKey(name: 'county_code') String? countryCode,
     String? email,
     String? description,
     @JsonKey(name: 'profile_completed') bool? profileCompleted,
@@ -182,7 +182,7 @@ class _$ProfileModelCopyWithImpl<$Res, $Val extends ProfileModel>
                 freezed == countryCode
                     ? _value.countryCode
                     : countryCode // ignore: cast_nullable_to_non_nullable
-                        as int?,
+                        as String?,
             email:
                 freezed == email
                     ? _value.email
@@ -266,7 +266,7 @@ abstract class _$$ProfileModelImplCopyWith<$Res>
     String? username,
     String? dp,
     String? phone,
-    @JsonKey(name: 'county_code') int? countryCode,
+    @JsonKey(name: 'county_code') String? countryCode,
     String? email,
     String? description,
     @JsonKey(name: 'profile_completed') bool? profileCompleted,
@@ -363,7 +363,7 @@ class __$$ProfileModelImplCopyWithImpl<$Res>
             freezed == countryCode
                 ? _value.countryCode
                 : countryCode // ignore: cast_nullable_to_non_nullable
-                    as int?,
+                    as String?,
         email:
             freezed == email
                 ? _value.email
@@ -478,7 +478,7 @@ class _$ProfileModelImpl implements _ProfileModel {
   final String? phone;
   @override
   @JsonKey(name: 'county_code')
-  final int? countryCode;
+  final String? countryCode;
   @override
   final String? email;
   @override
@@ -615,7 +615,7 @@ abstract class _ProfileModel implements ProfileModel {
     final String? username,
     final String? dp,
     final String? phone,
-    @JsonKey(name: 'county_code') final int? countryCode,
+    @JsonKey(name: 'county_code') final String? countryCode,
     final String? email,
     final String? description,
     @JsonKey(name: 'profile_completed') final bool? profileCompleted,
@@ -658,7 +658,7 @@ abstract class _ProfileModel implements ProfileModel {
   String? get phone;
   @override
   @JsonKey(name: 'county_code')
-  int? get countryCode;
+  String? get countryCode;
   @override
   String? get email;
   @override

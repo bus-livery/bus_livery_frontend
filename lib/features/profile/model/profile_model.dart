@@ -14,7 +14,7 @@ class ProfileModel with _$ProfileModel {
     String? username,
     String? dp,
     String? phone,
-    @JsonKey(name: 'county_code') int? countryCode,
+    @JsonKey(name: 'county_code') String? countryCode,
     String? email,
     String? description,
     @JsonKey(name: 'profile_completed') bool? profileCompleted,
@@ -73,7 +73,7 @@ extension ProfileModelUpdates on ProfileModel {
   ProfileModel profileToApi() {
     return ProfileModel(
       username: usernameCtr?.text,
-      countryCode: int.tryParse(countryCodeCtr?.text ?? ''),
+      countryCode: countryCodeCtr?.text,
       phone: phoneNoCtr?.text,
       email: emailCtr?.text,
       description: descriptionCtr?.text,
