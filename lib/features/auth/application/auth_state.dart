@@ -9,7 +9,7 @@ class AuthState {
   final ApiResponse<String> otpResponse;
   final ApiResponse<LoginResModel> loginOtpResponse;
   final ApiResponse<String> loginResponse;
-  final ApiResponse<String> signUpResponse;
+  final ApiResponse<String> signupResponse;
 
   AuthState({
     required this.showLoginPass,
@@ -19,7 +19,7 @@ class AuthState {
     required this.otpResponse,
     required this.loginOtpResponse,
     required this.loginResponse,
-    required this.signUpResponse,
+    required this.signupResponse,
   });
 
   factory AuthState.initial() {
@@ -31,7 +31,7 @@ class AuthState {
       otpResponse: ApiResponse<String>(),
       loginOtpResponse: ApiResponse<LoginResModel>(),
       loginResponse: ApiResponse<String>(),
-      signUpResponse: ApiResponse<String>(),
+      signupResponse: ApiResponse<String>(),
     );
   }
 
@@ -45,7 +45,7 @@ class AuthState {
     ApiResponse<String>? otpResponse,
     ApiResponse<LoginResModel>? loginOtpResponse,
     ApiResponse<String>? loginResponse,
-    ApiResponse<String>? signUpResponse,
+    ApiResponse<String>? signupResponse,
   }) {
     return AuthState(
       showLoginPass: showLoginPass ?? this.showLoginPass,
@@ -55,7 +55,7 @@ class AuthState {
       otpResponse: otpResponse ?? this.otpResponse,
       loginOtpResponse: loginOtpResponse ?? this.loginOtpResponse,
       loginResponse: loginResponse ?? this.loginResponse,
-      signUpResponse: signUpResponse ?? this.signUpResponse,
+      signupResponse: signupResponse ?? this.signupResponse,
     );
   }
 }

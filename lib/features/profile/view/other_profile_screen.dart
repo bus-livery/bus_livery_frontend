@@ -175,7 +175,17 @@ class _ProfileDetail extends StatelessWidget {
         Column(
           children: [
             WwText(text: 'Livery', style: normalText()),
-            WwText(text: '100', style: ProfileStyles.count()),
+            BlocSelector<ProfileBloc, ProfileState, int?>(
+              selector: (state) {
+                return state.getOtherProfileRes.apiData?.totalLivery;
+              },
+              builder: (context, state) {
+                return WwText(
+                  text: state?.toString() ?? '0',
+                  style: ProfileStyles.count(),
+                );
+              },
+            ),
           ],
         ),
       ],

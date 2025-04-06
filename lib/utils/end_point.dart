@@ -20,7 +20,7 @@ final class ProfileEndPoints {
   final getLikedProfiles = '/v1/profile/fetch-liked-profiles';
   final updateMy = '/v1/profile/update';
   final likeProfile = '/v1/profile/like-dislike';
-  final getAll = '/v1/profile/fetch-all';
+  final topLiked = '/v1/profile/top-liked';
 }
 
 final class LiveryEndPoints {

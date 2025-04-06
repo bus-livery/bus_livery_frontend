@@ -22,6 +22,7 @@ class ProfileModel with _$ProfileModel {
     @JsonKey(name: 'violation_count') int? violationCount,
     @JsonKey(name: 'like_count') int? likeCount,
     @JsonKey(name: 'profile_liked') bool? profileLiked,
+    @JsonKey(name: 'total_livery') int? totalLivery,
 
     // Username Controller
     @JsonKey(includeFromJson: false, includeToJson: false)

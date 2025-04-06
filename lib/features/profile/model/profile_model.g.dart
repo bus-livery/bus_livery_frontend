@@ -29,6 +29,7 @@ _$ProfileModelImpl _$$ProfileModelImplFromJson(Map<String, dynamic> json) =>
       violationCount: (json['violation_count'] as num?)?.toInt(),
       likeCount: (json['like_count'] as num?)?.toInt(),
       profileLiked: json['profile_liked'] as bool?,
+      totalLivery: (json['total_livery'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$ProfileModelImplToJson(_$ProfileModelImpl instance) =>
@@ -48,4 +49,5 @@ Map<String, dynamic> _$$ProfileModelImplToJson(_$ProfileModelImpl instance) =>
       'violation_count': instance.violationCount,
       'like_count': instance.likeCount,
       'profile_liked': instance.profileLiked,
+      'total_livery': instance.totalLivery,
     };

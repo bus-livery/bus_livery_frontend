@@ -159,7 +159,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   _authSignUpApi(AuthSignUpApi event, emit) async {
     emit(
-      state.copyWith(signUpResponse: ApiResponse(status: ApiStatus.loading)),
+      state.copyWith(signupResponse: ApiResponse(status: ApiStatus.loading)),
     );
 
     final response = await iAuthService.signUpApi(
@@ -175,7 +175,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (failure) {
         emit(
           state.copyWith(
-            signUpResponse: ApiResponse(
+            signupResponse: ApiResponse(
               status: ApiStatus.failure,
               errorMessage: failure,
             ),
@@ -186,7 +186,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (success) {
         emit(
           state.copyWith(
-            signUpResponse: ApiResponse(
+            signupResponse: ApiResponse(
               status: ApiStatus.success,
               apiData: success,
             ),

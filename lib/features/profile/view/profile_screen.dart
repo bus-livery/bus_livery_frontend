@@ -86,9 +86,16 @@ class ProfileScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        WwText(
-                          text: '29',
-                          style: Theme.of(context).textTheme.bodyLarge,
+                        BlocSelector<ProfileBloc, ProfileState, int?>(
+                          selector: (state) {
+                            return state.getProfileRes.apiData?.totalLivery;
+                          },
+                          builder: (context, state) {
+                            return WwText(
+                              text: state?.toString() ?? '0',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            );
+                          },
                         ),
                         const WwText(text: 'Posts'),
                       ],

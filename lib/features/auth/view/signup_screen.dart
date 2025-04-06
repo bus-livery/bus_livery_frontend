@@ -129,21 +129,21 @@ class _SignUpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
-      listenWhen: (p, c) => p.signUpResponse.status != c.signUpResponse.status,
-      buildWhen: (p, c) => p.signUpResponse.status != c.signUpResponse.status,
+      listenWhen: (p, c) => p.signupResponse.status != c.signupResponse.status,
+      buildWhen: (p, c) => p.signupResponse.status != c.signupResponse.status,
       listener: (context, state) {
-        if (state.signUpResponse.status == ApiStatus.success) {
+        if (state.signupResponse.status == ApiStatus.success) {
           context.router.replaceAll([LoginRoute()]);
           successToast('Acccount created');
         }
-        if (state.signUpResponse.status == ApiStatus.failure) {
-          wwDialogueBox(context, textSub: state.signUpResponse.errorMessage);
+        if (state.signupResponse.status == ApiStatus.failure) {
+          wwDialogueBox(context, textSub: state.signupResponse.errorMessage);
         }
       },
       builder: (context, state) {
         return WWButton(
           widthFull: true,
-          loader: state.signUpResponse.status == ApiStatus.loading,
+          loader: state.signupResponse.status == ApiStatus.loading,
           text: 'Sign Up',
           onPressed: () {
             if (!(bloc.signUpFormKey.currentState?.validate() ?? false)) {

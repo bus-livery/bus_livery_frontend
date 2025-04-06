@@ -45,7 +45,9 @@ mixin _$ProfileModel {
   @JsonKey(name: 'like_count')
   int? get likeCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'profile_liked')
-  bool? get profileLiked => throw _privateConstructorUsedError; // Username Controller
+  bool? get profileLiked => throw _privateConstructorUsedError;
+  @JsonKey(name: 'total_livery')
+  int? get totalLivery => throw _privateConstructorUsedError; // Username Controller
   @JsonKey(includeFromJson: false, includeToJson: false)
   TextEditingController? get usernameCtr => throw _privateConstructorUsedError; // Country code Controller
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -92,6 +94,7 @@ abstract class $ProfileModelCopyWith<$Res> {
     @JsonKey(name: 'violation_count') int? violationCount,
     @JsonKey(name: 'like_count') int? likeCount,
     @JsonKey(name: 'profile_liked') bool? profileLiked,
+    @JsonKey(name: 'total_livery') int? totalLivery,
     @JsonKey(includeFromJson: false, includeToJson: false)
     TextEditingController? usernameCtr,
     @JsonKey(includeFromJson: false, includeToJson: false)
@@ -135,6 +138,7 @@ class _$ProfileModelCopyWithImpl<$Res, $Val extends ProfileModel>
     Object? violationCount = freezed,
     Object? likeCount = freezed,
     Object? profileLiked = freezed,
+    Object? totalLivery = freezed,
     Object? usernameCtr = freezed,
     Object? countryCodeCtr = freezed,
     Object? phoneNoCtr = freezed,
@@ -218,6 +222,11 @@ class _$ProfileModelCopyWithImpl<$Res, $Val extends ProfileModel>
                     ? _value.profileLiked
                     : profileLiked // ignore: cast_nullable_to_non_nullable
                         as bool?,
+            totalLivery:
+                freezed == totalLivery
+                    ? _value.totalLivery
+                    : totalLivery // ignore: cast_nullable_to_non_nullable
+                        as int?,
             usernameCtr:
                 freezed == usernameCtr
                     ? _value.usernameCtr
@@ -274,6 +283,7 @@ abstract class _$$ProfileModelImplCopyWith<$Res>
     @JsonKey(name: 'violation_count') int? violationCount,
     @JsonKey(name: 'like_count') int? likeCount,
     @JsonKey(name: 'profile_liked') bool? profileLiked,
+    @JsonKey(name: 'total_livery') int? totalLivery,
     @JsonKey(includeFromJson: false, includeToJson: false)
     TextEditingController? usernameCtr,
     @JsonKey(includeFromJson: false, includeToJson: false)
@@ -316,6 +326,7 @@ class __$$ProfileModelImplCopyWithImpl<$Res>
     Object? violationCount = freezed,
     Object? likeCount = freezed,
     Object? profileLiked = freezed,
+    Object? totalLivery = freezed,
     Object? usernameCtr = freezed,
     Object? countryCodeCtr = freezed,
     Object? phoneNoCtr = freezed,
@@ -399,6 +410,11 @@ class __$$ProfileModelImplCopyWithImpl<$Res>
                 ? _value.profileLiked
                 : profileLiked // ignore: cast_nullable_to_non_nullable
                     as bool?,
+        totalLivery:
+            freezed == totalLivery
+                ? _value.totalLivery
+                : totalLivery // ignore: cast_nullable_to_non_nullable
+                    as int?,
         usernameCtr:
             freezed == usernameCtr
                 ? _value.usernameCtr
@@ -448,6 +464,7 @@ class _$ProfileModelImpl implements _ProfileModel {
     @JsonKey(name: 'violation_count') this.violationCount,
     @JsonKey(name: 'like_count') this.likeCount,
     @JsonKey(name: 'profile_liked') this.profileLiked,
+    @JsonKey(name: 'total_livery') this.totalLivery,
     @JsonKey(includeFromJson: false, includeToJson: false) this.usernameCtr,
     @JsonKey(includeFromJson: false, includeToJson: false) this.countryCodeCtr,
     @JsonKey(includeFromJson: false, includeToJson: false) this.phoneNoCtr,
@@ -498,6 +515,9 @@ class _$ProfileModelImpl implements _ProfileModel {
   @override
   @JsonKey(name: 'profile_liked')
   final bool? profileLiked;
+  @override
+  @JsonKey(name: 'total_livery')
+  final int? totalLivery;
   // Username Controller
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -521,7 +541,7 @@ class _$ProfileModelImpl implements _ProfileModel {
 
   @override
   String toString() {
-    return 'ProfileModel(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, username: $username, dp: $dp, phone: $phone, countryCode: $countryCode, email: $email, description: $description, profileCompleted: $profileCompleted, activeStatus: $activeStatus, violationCount: $violationCount, likeCount: $likeCount, profileLiked: $profileLiked, usernameCtr: $usernameCtr, countryCodeCtr: $countryCodeCtr, phoneNoCtr: $phoneNoCtr, emailCtr: $emailCtr, descriptionCtr: $descriptionCtr)';
+    return 'ProfileModel(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, username: $username, dp: $dp, phone: $phone, countryCode: $countryCode, email: $email, description: $description, profileCompleted: $profileCompleted, activeStatus: $activeStatus, violationCount: $violationCount, likeCount: $likeCount, profileLiked: $profileLiked, totalLivery: $totalLivery, usernameCtr: $usernameCtr, countryCodeCtr: $countryCodeCtr, phoneNoCtr: $phoneNoCtr, emailCtr: $emailCtr, descriptionCtr: $descriptionCtr)';
   }
 
   @override
@@ -554,6 +574,8 @@ class _$ProfileModelImpl implements _ProfileModel {
                 other.likeCount == likeCount) &&
             (identical(other.profileLiked, profileLiked) ||
                 other.profileLiked == profileLiked) &&
+            (identical(other.totalLivery, totalLivery) ||
+                other.totalLivery == totalLivery) &&
             (identical(other.usernameCtr, usernameCtr) ||
                 other.usernameCtr == usernameCtr) &&
             (identical(other.countryCodeCtr, countryCodeCtr) ||
@@ -585,6 +607,7 @@ class _$ProfileModelImpl implements _ProfileModel {
     violationCount,
     likeCount,
     profileLiked,
+    totalLivery,
     usernameCtr,
     countryCodeCtr,
     phoneNoCtr,
@@ -623,6 +646,7 @@ abstract class _ProfileModel implements ProfileModel {
     @JsonKey(name: 'violation_count') final int? violationCount,
     @JsonKey(name: 'like_count') final int? likeCount,
     @JsonKey(name: 'profile_liked') final bool? profileLiked,
+    @JsonKey(name: 'total_livery') final int? totalLivery,
     @JsonKey(includeFromJson: false, includeToJson: false)
     final TextEditingController? usernameCtr,
     @JsonKey(includeFromJson: false, includeToJson: false)
@@ -677,7 +701,10 @@ abstract class _ProfileModel implements ProfileModel {
   int? get likeCount;
   @override
   @JsonKey(name: 'profile_liked')
-  bool? get profileLiked; // Username Controller
+  bool? get profileLiked;
+  @override
+  @JsonKey(name: 'total_livery')
+  int? get totalLivery; // Username Controller
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   TextEditingController? get usernameCtr; // Country code Controller

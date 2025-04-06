@@ -18,7 +18,7 @@ class TopUsersService implements ITopUsersService {
   Future<Either<String, List<ProfileModel>>> fetchTopUsers() async {
     try {
       final res = await _dioService.request(
-        EndPoints.profile.getAll,
+        EndPoints.profile.topLiked,
         method: Method.get,
       );
       return res.fold((l) => Left(l.message), (r) {
