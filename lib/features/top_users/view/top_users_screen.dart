@@ -26,7 +26,9 @@ class TopUsersScreen extends StatelessWidget {
                 final user = state.getTopUsersRes.apiData![index];
                 return ListTile(
                   leading: CircleAvatar(
-                    backgroundImage: NetworkImage(user.dp ?? ''),
+                    backgroundImage: NetworkImage(
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz68b1g8MSxSUqvFtuo44MvagkdFGoG7Z7DQ&s',
+                    ),
                     radius: 25.r,
                   ),
                   title: WwText(text: user.username ?? ''),
