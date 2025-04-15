@@ -32,7 +32,7 @@ mixin _$ProfileModel {
   String? get username => throw _privateConstructorUsedError;
   String? get dp => throw _privateConstructorUsedError;
   String? get phone => throw _privateConstructorUsedError;
-  @JsonKey(name: 'county_code')
+  @JsonKey(name: 'country_code')
   String? get countryCode => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
@@ -86,7 +86,7 @@ abstract class $ProfileModelCopyWith<$Res> {
     String? username,
     String? dp,
     String? phone,
-    @JsonKey(name: 'county_code') String? countryCode,
+    @JsonKey(name: 'country_code') String? countryCode,
     String? email,
     String? description,
     @JsonKey(name: 'profile_completed') bool? profileCompleted,
@@ -275,7 +275,7 @@ abstract class _$$ProfileModelImplCopyWith<$Res>
     String? username,
     String? dp,
     String? phone,
-    @JsonKey(name: 'county_code') String? countryCode,
+    @JsonKey(name: 'country_code') String? countryCode,
     String? email,
     String? description,
     @JsonKey(name: 'profile_completed') bool? profileCompleted,
@@ -456,7 +456,7 @@ class _$ProfileModelImpl implements _ProfileModel {
     this.username,
     this.dp,
     this.phone,
-    @JsonKey(name: 'county_code') this.countryCode,
+    @JsonKey(name: 'country_code') this.countryCode,
     this.email,
     this.description,
     @JsonKey(name: 'profile_completed') this.profileCompleted,
@@ -494,7 +494,7 @@ class _$ProfileModelImpl implements _ProfileModel {
   @override
   final String? phone;
   @override
-  @JsonKey(name: 'county_code')
+  @JsonKey(name: 'country_code')
   final String? countryCode;
   @override
   final String? email;
@@ -638,7 +638,7 @@ abstract class _ProfileModel implements ProfileModel {
     final String? username,
     final String? dp,
     final String? phone,
-    @JsonKey(name: 'county_code') final String? countryCode,
+    @JsonKey(name: 'country_code') final String? countryCode,
     final String? email,
     final String? description,
     @JsonKey(name: 'profile_completed') final bool? profileCompleted,
@@ -681,7 +681,7 @@ abstract class _ProfileModel implements ProfileModel {
   @override
   String? get phone;
   @override
-  @JsonKey(name: 'county_code')
+  @JsonKey(name: 'country_code')
   String? get countryCode;
   @override
   String? get email;

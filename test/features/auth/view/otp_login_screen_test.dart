@@ -21,7 +21,7 @@ void main() {
     registerFallbackValue(
       AuthOtpGenerateApi(phone: '', code: '', isFromLoginScreen: true),
     );
-    registerFallbackValue(AuthloginOtpApi(email: '', otp: ''));
+    registerFallbackValue(AuthloginOtpApi(email: '', otp: '', code: ''));
   });
 
   setUp(() {

@@ -14,7 +14,7 @@ class ProfileModel with _$ProfileModel {
     String? username,
     String? dp,
     String? phone,
-    @JsonKey(name: 'county_code') String? countryCode,
+    @JsonKey(name: 'country_code') String? countryCode,
     String? email,
     String? description,
     @JsonKey(name: 'profile_completed') bool? profileCompleted,
