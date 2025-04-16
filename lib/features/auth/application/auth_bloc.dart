@@ -127,8 +127,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(loginResponse: ApiResponse(status: ApiStatus.loading)));
 
     final response = await iAuthService.loginApi(
-      username: event.username,
-      password: event.password,
+      username: event.username.trim(),
+      password: event.password.trim(),
     );
     return response.fold(
       //
@@ -164,10 +164,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     final response = await iAuthService.signUpApi(
       data: {
-        "username": event.username,
-        "password": event.password,
-        "country_code": event.code,
-        "phone": event.phone,
+        "username": event.username.trim(),
+        "password": event.password.trim(),
+        "phone": event.code + event.phone.trim(),
       },
     );
     return response.fold(
@@ -241,7 +240,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     final response = await iAuthService.loginOtpApi(
-      email: event.code + event.email,
+      email: event.code + event.email.trim(),
       otp: event.otp,
     );
     otpCtr.clear();
@@ -277,7 +276,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     final response = await iAuthService.userRegisterOtpApi(
-      phone: event.code + event.phone,
+      phone: event.code + event.phone.trim(),
     );
 
     return response.fold(

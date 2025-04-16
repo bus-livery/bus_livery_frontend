@@ -12,7 +12,9 @@ class WwTextFieldPhone extends WWTextFieldBase {
     super.onChanged,
   }) : super(
          keyboardType: TextInputType.phone,
-         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+         inputFormatters: [
+           FilteringTextInputFormatter.allow(RegExp(r'[0-9+]')),
+         ],
          validator: (p0) {
            return showValidator
                ? p0?.isEmpty == true

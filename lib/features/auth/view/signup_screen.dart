@@ -41,6 +41,7 @@ class SignUpScreen extends StatelessWidget {
                   controller: bloc.usernameSignupCtr,
                   hintText: 'Enter Username',
                   showValidator: true,
+                  showSuffix: true,
                 ),
 
                 Row(
