@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +23,8 @@ import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/extensions.dart';
 import 'package:livery/utils/router/router.gr.dart';
 import 'package:livery/utils/styles.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class FeedScreen extends StatelessWidget {
   const FeedScreen({super.key});
@@ -207,8 +212,8 @@ class PostWidget extends StatelessWidget {
       builder: (context, count) {
         customPrint('BLOC BUILDER - postDownload');
         return IconButton(
-          onPressed: () {
-            bloc.add(DownloadLiveryApiEvent(liveryId: data.id));
+          onPressed: () async {
+            downloadAndSaveImageWithDio(bloc, data);
           },
           icon: Row(
             children: [
@@ -373,5 +378,64 @@ class _MoreOptons extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+Future<void> downloadAndSaveImageWithDio(
+  LiveryBloc bloc,
+  LiveryModel data,
+) async {
+  try {
+    bloc.add(DownloadLiveryApiEvent(liveryId: data.id));
+
+    final imageUrl = data.postImage?.liveryImageOriginal;
+
+    if (imageUrl == null || imageUrl.isEmpty) {
+      throw Exception("Image URL is empty");
+    }
+
+    final dio = Dio();
+
+    // Extract filename from URL
+    final uri = Uri.parse(imageUrl);
+    final fileName =
+        uri.pathSegments.isNotEmpty
+            ? uri.pathSegments.last
+            : "downloaded_image.png";
+    final sanitizedFileName = fileName.replaceAll(RegExp(r'[\\/:*?"<>|]'), '_');
+
+    Directory? directory;
+
+    if (Platform.isAndroid) {
+      if (await Permission.storage.request().isGranted ||
+          await Permission.manageExternalStorage.request().isGranted) {
+        directory = Directory("/storage/emulated/0/Download");
+      } else {
+        throw Exception("Storage permission denied");
+      }
+    } else if (Platform.isIOS) {
+      directory = await getApplicationDocumentsDirectory();
+    } else {
+      directory = await getDownloadsDirectory();
+    }
+
+    if (directory == null) {
+      throw Exception("Could not find a directory to save the file");
+    }
+
+    final filePath = "${directory.path}/$sanitizedFileName";
+
+    // Download image using Dio and save to file
+    await dio.download(
+      imageUrl,
+      filePath,
+      options: Options(responseType: ResponseType.bytes),
+    );
+
+    showSuccessToast(message: 'File downloaded successfully');
+
+    customPrint("File downloaded successfully to: $filePath");
+  } catch (e) {
+    customPrint("Error downloading or saving file: $e");
   }
 }
