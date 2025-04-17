@@ -42,5 +42,7 @@ class AppRouter extends RootStackRouter {
       page: LiveryDownloadsRoute.page,
       path: RouterNames.liveryDownloadsScreen,
     ),
+
+    AutoRoute(page: WebContentRoute.page, path: RouterNames.webContentScreen),
   ];
 }

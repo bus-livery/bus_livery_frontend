@@ -19,6 +19,7 @@ import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/router/router.gr.dart';
 import 'package:livery/utils/router/router_names.dart';
+import 'package:livery/features/profile/view/web_content_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -195,15 +196,27 @@ class ProfileScreen extends StatelessWidget {
                   context.router.push(LiveryDownloadsRoute());
                 },
               ),
-              const ListTile(
+              ListTile(
                 leading: Icon(Icons.security),
                 title: WwText(text: 'Privacy'),
                 trailing: Icon(Icons.arrow_forward_ios_rounded),
+                onTap: () {
+                  context.router.push(
+                    WebContentRoute(contentType: WebContentType.privacyPolicy),
+                  );
+                },
               ),
-              const ListTile(
+              ListTile(
                 leading: Icon(Icons.privacy_tip),
                 title: WwText(text: 'Terms & Condition'),
                 trailing: Icon(Icons.arrow_forward_ios_rounded),
+                onTap: () {
+                  context.router.push(
+                    WebContentRoute(
+                      contentType: WebContentType.termsAndConditions,
+                    ),
+                  );
+                },
               ),
               ListTile(
                 leading: Icon(Icons.remove_circle_outline_outlined),

@@ -16,4 +16,7 @@ abstract class RouterNames {
   // LIVERY SCREEN
   static const liveryCreateScreen = '/livery_create_screen';
   static const liveryDownloadsScreen = '/livery_downloads_screen';
+
+  // WEB CONTENT SCREENS
+  static const webContentScreen = '/web_content_screen';
 }

@@ -1,0 +1,72 @@
+TERMS AND CONDITIONS
+
+Last Updated: [Current Date]
+
+1. ACCEPTANCE OF TERMS
+
+By downloading, installing, or using the Livery application ("App"), you agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use the App.
+
+2. DESCRIPTION OF SERVICE
+
+Livery is a platform that allows users to browse, create, share, and download bus livery designs. The App enables users to follow other creators, like their work, and participate in the livery design community.
+
+3. USER ACCOUNTS
+
+3.1 Account Creation: To access certain features of the App, you must create an account. You agree to provide accurate, current, and complete information during registration.
+
+3.2 Account Security: You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.
+
+3.3 Account Termination: We reserve the right to suspend or terminate your account if you violate these Terms or for any other reason at our discretion.
+
+4. USER CONDUCT
+
+4.1 You agree not to:
+   - Upload or share content that is illegal, harmful, threatening, abusive, defamatory, or otherwise objectionable
+   - Impersonate any person or entity
+   - Upload content that infringes upon the intellectual property rights of others
+   - Use the App for any illegal purpose
+   - Interfere with the proper working of the App
+
+4.2 Violation Count: The App tracks violations of our content guidelines. Multiple violations may result in account suspension or termination.
+
+5. CONTENT AND INTELLECTUAL PROPERTY
+
+5.1 User Content: By uploading content to the App, you grant us a non-exclusive, worldwide, royalty-free license to use, reproduce, modify, adapt, publish, and display such content in connection with providing and promoting the App.
+
+5.2 Ownership: You retain ownership of the content you create and upload to the App.
+
+5.3 Reporting Content: If you believe content on the App violates these Terms or your rights, please use the in-app reporting feature.
+
+6. DOWNLOADS AND SHARING
+
+6.1 Personal Use: Livery designs downloaded from the App are for personal use unless otherwise specified by the creator.
+
+6.2 Commercial Use: Commercial use of designs may require additional permissions from the creator.
+
+7. MODIFICATIONS TO THE APP
+
+We reserve the right to modify or discontinue, temporarily or permanently, the App or any features or portions thereof without prior notice.
+
+8. LIMITATION OF LIABILITY
+
+8.1 The App is provided "as is" and "as available" without warranties of any kind, either express or implied.
+
+8.2 We shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use the App.
+
+9. INDEMNIFICATION
+
+You agree to indemnify and hold harmless the App owners, operators, affiliates, and partners from any claims, damages, liabilities, costs, or expenses arising from your use of the App or violation of these Terms.
+
+10. GOVERNING LAW
+
+These Terms shall be governed by and construed in accordance with the laws of [Your Jurisdiction], without regard to its conflict of law provisions.
+
+11. CHANGES TO TERMS
+
+We reserve the right to update or modify these Terms at any time without prior notice. Your continued use of the App after any changes indicates your acceptance of the new Terms.
+
+12. CONTACT US
+
+If you have any questions about these Terms, please contact us at [contact email].
+
+By using the Livery App, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions. 
