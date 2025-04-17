@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:livery/Cwidgets/ww_error_handler.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/features/top_users/application/top_users_bloc.dart';
+import 'package:livery/utils/router/router.gr.dart';
 
 class TopUsersScreen extends StatelessWidget {
   const TopUsersScreen({super.key});
@@ -39,6 +41,9 @@ class TopUsersScreen extends StatelessWidget {
                       WwText(text: '${user.violationCount ?? 0} violations'),
                     ],
                   ),
+                  onTap: () {
+                    context.router.push(OtherProfileRoute(profileData: user));
+                  },
                 );
               },
             ),
