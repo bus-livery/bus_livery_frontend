@@ -11,9 +11,12 @@ import 'package:livery/Cmodel/enum.dart';
 import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box.dart';
 import 'package:livery/Cwidgets/pop_up_menu/profile_menus.dart';
 import 'package:livery/Cwidgets/ww_app_bar.dart';
+import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/Cwidgets/ww_error_handler.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
+import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
+import 'package:livery/features/livery/view/feed_screen.dart';
 import 'package:livery/features/profile/application/profile_bloc.dart';
 import 'package:livery/features/profile/model/profile_model.dart';
 import 'package:livery/features/profile/profile_styles.dart';
@@ -21,6 +24,8 @@ import 'package:livery/utils/app_colors.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/styles.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 @RoutePage()
 class OtherProfileScreen extends StatelessWidget implements AutoRouteWrapper {
@@ -197,6 +202,60 @@ class _ProfileGallery extends StatelessWidget {
   final ProfileBloc bloc;
   final ProfileModel? profileData;
   const _ProfileGallery({required this.bloc, this.profileData});
+  void _showEnlargedImage(BuildContext context, LiveryModel data) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+          child: Container(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        data.postImage?.liveryImage1080 ??
+                        data.postImage?.liveryImage200 ??
+                        '',
+                    fit: BoxFit.contain,
+                    placeholder:
+                        (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
+                    errorWidget:
+                        (context, url, error) => const Icon(Icons.error),
+                  ),
+                ),
+                SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    WWButton(
+                      text: 'Download',
+                      onPressed: () {
+                        downloadAndSaveImageWithDio(
+                          context.read<LiveryBloc>(),
+                          data,
+                        );
+                      },
+                    ),
+                    SizedBox(width: 8),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Close'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -224,14 +283,17 @@ class _ProfileGallery extends StatelessWidget {
             itemCount: state.apiData?.length ?? 0,
             itemBuilder: (c, i) {
               var data = state.apiData![i];
-              return CachedNetworkImage(
-                width: double.infinity,
-                imageUrl: data.postImage?.liveryImage200 ?? '',
-                fit: BoxFit.cover,
-                placeholder:
-                    (context, url) =>
-                        const Center(child: CircularProgressIndicator()),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+              return GestureDetector(
+                onTap: () => _showEnlargedImage(context, data),
+                child: CachedNetworkImage(
+                  width: double.infinity,
+                  imageUrl: data.postImage?.liveryImage200 ?? '',
+                  fit: BoxFit.cover,
+                  placeholder:
+                      (context, url) =>
+                          const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
               );
             },
           ),
