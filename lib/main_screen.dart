@@ -10,7 +10,6 @@ import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/router/router.gr.dart';
 import 'package:livery/utils/router/router_names.dart';
-import 'package:livery/utils/toast.dart';
 
 @RoutePage()
 class MainScreen extends StatefulWidget {
