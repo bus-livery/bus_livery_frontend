@@ -24,8 +24,6 @@ import 'package:livery/utils/app_colors.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/styles.dart';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 
 @RoutePage()
 class OtherProfileScreen extends StatelessWidget implements AutoRouteWrapper {
