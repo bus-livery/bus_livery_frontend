@@ -8,6 +8,9 @@ import 'package:injectable/injectable.dart';
 import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/di/injection.dart';
+import 'package:livery/utils/router/router.dart';
+import 'package:livery/utils/router/router.gr.dart';
+import 'package:livery/utils/toast.dart';
 
 enum Method { get, post, put, patch, delete }
 
@@ -16,8 +19,8 @@ class DioService {
   final Dio dio;
 
   SharedPrefService sharedPS = getIt<SharedPrefService>();
-  static const baseUrl = "http://18.212.92.48/api";
-  // static const baseUrl = "http://localhost:8080/api";
+  // static const baseUrl = "http://18.212.92.48/api";
+  static const baseUrl = "http://localhost:8080/api";
   DioService() : dio = Dio(BaseOptions(baseUrl: baseUrl)) {
     dio.interceptors.add(DioInterceptor());
   }
@@ -164,8 +167,9 @@ class DioInterceptor extends Interceptor {
     await Future.delayed(Duration(seconds: 1));
 
     if (err.response?.statusCode == 401) {
-      // getIt<AppRouter>().pushNamed(RouteMobileNames.loginScreen);
-      // getIt<SharedPrefService>().remove("token");
+      getIt<AppRouter>().replaceAll([const LoginRoute()]);
+      getIt<SharedPrefService>().remove("token");
+      successToast('Token expired. Please login again.');
     }
     super.onError(err, handler);
   }

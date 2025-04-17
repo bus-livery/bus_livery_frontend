@@ -1,13 +1,16 @@
 import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box2_buttons.dart';
 import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box_violation.dart';
 import 'package:livery/features/livery/view/feed_screen.dart';
 import 'package:livery/features/profile/view/profile_screen.dart';
 import 'package:livery/features/top_users/view/top_users_screen.dart';
 import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/utils/di/injection.dart';
+import 'package:livery/utils/router/router.gr.dart';
 import 'package:livery/utils/router/router_names.dart';
+import 'package:livery/utils/toast.dart';
 
 @RoutePage()
 class MainScreen extends StatefulWidget {
@@ -60,6 +63,8 @@ Would you like to add a confirmation button like "I Agree" or "Continue"
 
   @override
   Widget build(BuildContext context) {
+    final sharedPS = getIt<SharedPrefService>();
+
     return WillPopScope(
       onWillPop: () async {
         if (_currentIndex == 0) return true;
@@ -70,31 +75,59 @@ Would you like to add a confirmation button like "I Agree" or "Continue"
 
         return false;
       },
-      child: Scaffold(
-        body: PageTransitionAnimation(currentIndex: _currentIndex, tabs: _tabs),
-        floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          onPressed: () {
-            context.router.pushPath(RouterNames.liveryCreateScreen);
-          },
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap: (index) {
-            setState(() {
-              if (_currentIndex != index) {
-                _currentIndex = index;
-              }
-            });
-          },
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Feed'),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.people),
-              label: 'Top Users',
+      child: Material(
+        child: InkWell(
+          onTap:
+              sharedPS.getString('token') == null
+                  ? () {
+                    wwDialogueBox2Button(
+                      context,
+                      textSub: 'Please login to continue',
+                      secondTap: () {
+                        context.router.replaceAll([const LoginRoute()]);
+                      },
+                    );
+                  }
+                  : null,
+          child: IgnorePointer(
+            ignoring: sharedPS.getString('token') == null,
+            child: Scaffold(
+              body: PageTransitionAnimation(
+                currentIndex: _currentIndex,
+                tabs: _tabs,
+              ),
+              floatingActionButton: FloatingActionButton(
+                child: const Icon(Icons.add),
+                onPressed: () {
+                  context.router.pushPath(RouterNames.liveryCreateScreen);
+                },
+              ),
+              bottomNavigationBar: BottomNavigationBar(
+                currentIndex: _currentIndex,
+                onTap: (index) {
+                  setState(() {
+                    if (_currentIndex != index) {
+                      _currentIndex = index;
+                    }
+                  });
+                },
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'Feed',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.people),
+                    label: 'Top Users',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.person),
+                    label: 'Profile',
+                  ),
+                ],
+              ),
             ),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-          ],
+          ),
         ),
       ),
     );

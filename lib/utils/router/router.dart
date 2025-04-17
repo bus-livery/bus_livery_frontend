@@ -20,7 +20,7 @@ class AppRouter extends RootStackRouter {
 
     AutoRoute(
       initial: true,
-      guards: [AuthGuard()],
+      // guards: [AuthGuard()],
       page: MainRoute.page,
       path: RouterNames.mainScreen,
     ),

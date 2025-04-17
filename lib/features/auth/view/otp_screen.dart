@@ -9,7 +9,7 @@ import 'package:livery/Cwidgets/ww_pin_code_text_field.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/features/auth/application/auth_bloc.dart';
 import 'package:livery/utils/app_size.dart';
-import 'package:livery/utils/router/router_names.dart';
+import 'package:livery/utils/router/router.gr.dart';
 import 'package:livery/utils/styles.dart';
 import 'package:livery/utils/toast.dart';
 
@@ -195,7 +195,7 @@ class _LoginButton extends StatelessWidget {
             return;
           }
           successToast(logRes.apiData?.message ?? '');
-          context.router.pushPath(RouterNames.mainScreen);
+          context.router.replaceAll([MainRoute()]);
         }
       },
       builder:

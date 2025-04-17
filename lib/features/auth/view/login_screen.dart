@@ -10,6 +10,7 @@ import 'package:livery/Cwidgets/ww_textfield/ww_text_field_password.dart';
 import 'package:livery/Cwidgets/ww_textfield/ww_text_field_username.dart';
 import 'package:livery/features/auth/application/auth_bloc.dart';
 import 'package:livery/utils/app_size.dart';
+import 'package:livery/utils/router/router.gr.dart';
 import 'package:livery/utils/router/router_names.dart';
 import 'package:livery/utils/toast.dart';
 
@@ -62,7 +63,7 @@ class LoginScreen extends StatelessWidget {
                     (p, c) => p.loginResponse.status != c.loginResponse.status,
                 listener: (context, state) {
                   if (state.loginResponse.status == ApiStatus.success) {
-                    context.router.pushPath(RouterNames.mainScreen);
+                    context.router.replaceAll([MainRoute()]);
                     successToast('Acccount logged');
                   }
                   if (state.loginResponse.status == ApiStatus.failure) {
