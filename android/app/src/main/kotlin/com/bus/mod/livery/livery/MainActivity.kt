@@ -1,4 +1,4 @@
-package com.bus.mod.livery.livery
+package com.bus.mod.livery
 
 import io.flutter.embedding.android.FlutterActivity
 
