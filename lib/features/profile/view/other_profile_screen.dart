@@ -201,121 +201,6 @@ class _ProfileGallery extends StatelessWidget {
   final ProfileModel? profileData;
   const _ProfileGallery({required this.bloc, this.profileData});
 
-  void _showEnlargedImage(BuildContext context, LiveryModel data) {
-    showDialog(
-      context: context,
-      builder: (BuildContext _) {
-        return Dialog(
-          insetPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-          child: Container(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Header with title and actions
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: WwText(
-                        text: data.liveryName ?? "Untitled Livery",
-                        style: Theme.of(context).textTheme.titleMedium,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    buildMoreOptions(context, data),
-                  ],
-                ),
-
-                SizedBox(height: 05),
-
-                // Creator info
-                if (data.user?.username != null)
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: WwText(
-                      text: "by ${data.user?.username}",
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
-
-                SizedBox(height: 05),
-
-                // Image display
-                Flexible(
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        data.postImage?.liveryImage1080 ??
-                        data.postImage?.liveryImage200 ??
-                        '',
-                    fit: BoxFit.contain,
-                    placeholder:
-                        (context, url) =>
-                            const Center(child: CircularProgressIndicator()),
-                    errorWidget:
-                        (context, url, error) => const Icon(Icons.error),
-                  ),
-                ),
-
-                SizedBox(height: 16),
-
-                // Bus details
-                if (data.busModel != null || data.busType != null)
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: WwText(
-                      text: "${data.busType ?? ''} ${data.busModel ?? ''}",
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
-
-                // Download count
-                Row(
-                  children: [
-                    Icon(Icons.download, size: 16),
-                    SizedBox(width: 4),
-                    WwText(
-                      text: "${data.downloadCount ?? 0} downloads",
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 16),
-
-                // Actions
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: WWButton(
-                        text: 'Download',
-                        onPressed: () {
-                          downloadAndSaveImageWithDio(
-                            context.read<LiveryBloc>(),
-                            data,
-                          );
-                        },
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text('Close'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocSelector<
@@ -343,7 +228,7 @@ class _ProfileGallery extends StatelessWidget {
             itemBuilder: (c, i) {
               var data = state.apiData![i];
               return GestureDetector(
-                onTap: () => _showEnlargedImage(context, data),
+                onTap: () => showEnlargedImage(context, data),
                 child: CachedNetworkImage(
                   width: double.infinity,
                   imageUrl: data.postImage?.liveryImage200 ?? '',
@@ -360,4 +245,118 @@ class _ProfileGallery extends StatelessWidget {
       },
     );
   }
+}
+
+void showEnlargedImage(BuildContext context, LiveryModel data) {
+  showDialog(
+    context: context,
+    builder: (BuildContext _) {
+      return Dialog(
+        insetPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+        child: Container(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Header with title and actions
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: WwText(
+                      text: data.liveryName ?? "Untitled Livery",
+                      style: Theme.of(context).textTheme.titleMedium,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  buildMoreOptions(context, data),
+                ],
+              ),
+
+              SizedBox(height: 05),
+
+              // Creator info
+              if (data.user?.username != null)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: WwText(
+                    text: "by ${data.user?.username}",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
+
+              SizedBox(height: 05),
+
+              // Image display
+              Flexible(
+                child: CachedNetworkImage(
+                  imageUrl:
+                      data.postImage?.liveryImage1080 ??
+                      data.postImage?.liveryImage200 ??
+                      '',
+                  fit: BoxFit.contain,
+                  placeholder:
+                      (context, url) =>
+                          const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+              ),
+
+              SizedBox(height: 16),
+
+              // Bus details
+              if (data.busModel != null || data.busType != null)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: WwText(
+                    text: "${data.busType ?? ''} ${data.busModel ?? ''}",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
+
+              // Download count
+              Row(
+                children: [
+                  Icon(Icons.download, size: 16),
+                  SizedBox(width: 4),
+                  WwText(
+                    text: "${data.downloadCount ?? 0} downloads",
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 16),
+
+              // Actions
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: WWButton(
+                      text: 'Download',
+                      onPressed: () {
+                        downloadAndSaveImageWithDio(
+                          context.read<LiveryBloc>(),
+                          data,
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Close'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }
