@@ -1,9 +1,10 @@
-import 'dart:typed_data';
 import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:livery/Cmodel/api_response.dart';
 import 'package:livery/Cmodel/enum.dart';
+import 'package:livery/Cmodel/image_picker_model/image_picker_model.dart';
 import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box.dart';
 import 'package:livery/Cwidgets/ww_app_bar.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
@@ -14,7 +15,6 @@ import 'package:livery/Cwidgets/ww_textfield/ww_text_field.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/features/livery_create/application/livery_create_bloc.dart';
 import 'package:livery/features/livery_create/widget/bus_type_dropdown.dart';
-import 'package:livery/service/image_picker_service.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/extensions.dart';
@@ -50,6 +50,7 @@ class LiveryCreateScreen extends StatelessWidget implements AutoRouteWrapper {
       body: Padding(
         padding: AppSize.swPadding,
         child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           child: Form(
             key: bloc.formKey,
             child: Column(
@@ -146,8 +147,7 @@ class _ImagePicker extends StatelessWidget {
       child: InkWell(
         onTap: () async {
           final bloc = context.read<LiveryCreateBloc>();
-          final selectedImage = await ImagePickerService.imagePicker();
-          bloc.add(LiveryImageStore(image: selectedImage));
+          bloc.add(LiveryImageStore());
         },
         child: Container(
           width: double.infinity,
@@ -155,25 +155,35 @@ class _ImagePicker extends StatelessWidget {
           padding: EdgeInsets.all(10.0),
           child: AspectRatio(
             aspectRatio: 1 / 1,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Icon(
-                  Icons.filter_none_rounded,
-                  size: 40,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                ),
-                BlocSelector<LiveryCreateBloc, LiveryCreateState, Uint8List?>(
-                  selector: (state) {
-                    return state.storeImage?.imageUint8List1080;
-                  },
-                  builder: (context, image) {
-                    return image == null
-                        ? SizedBox()
-                        : Image.memory(image, fit: BoxFit.contain);
-                  },
-                ),
-              ],
+            child: BlocSelector<
+              LiveryCreateBloc,
+              LiveryCreateState,
+              ApiResponse<ImagePickerModel>?
+            >(
+              selector: (state) {
+                return state.storeImage;
+              },
+              builder: (context, state) {
+                return Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    if (state?.status == ApiStatus.initial)
+                      Icon(
+                        Icons.filter_none_rounded,
+                        size: 40,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                    if (state?.status == ApiStatus.loading)
+                      const CircularProgressIndicator(),
+                    if (state?.status == ApiStatus.success &&
+                        state?.apiData?.imageUint8List != null)
+                      Image.memory(
+                        state!.apiData!.imageUint8List!,
+                        fit: BoxFit.contain,
+                      ),
+                  ],
+                );
+              },
             ),
           ),
         ),
@@ -232,28 +242,36 @@ class _SubmitButton extends StatelessWidget {
                         if (bloc.busType.isNotEmpty) 'bus_type': bloc.busType,
                         if (bloc.busModel.isNotEmpty)
                           'bus_model': bloc.busModel,
-                        if (state.storeImage?.imageUint8List != null)
+                        if (state.storeImage?.apiData?.imageUint8List != null)
                           'livery_image': MultipartFile.fromBytes(
-                            state.storeImage!.imageUint8List!,
-                            filename: state.storeImage!.fileName ?? 'image.jpg',
+                            state.storeImage!.apiData!.imageUint8List!,
+                            filename:
+                                state.storeImage!.apiData!.fileName ??
+                                'image.jpg',
                           ),
-                        if (state.storeImage?.imageUint8List1080 != null)
+                        if (state.storeImage?.apiData?.imageUint8List1080 !=
+                            null)
                           'livery_image_1080': MultipartFile.fromBytes(
-                            state.storeImage!.imageUint8List1080!,
+                            state.storeImage!.apiData!.imageUint8List1080!,
                             filename:
-                                state.storeImage!.fileName ?? 'image_1080.jpg',
+                                state.storeImage!.apiData!.fileName ??
+                                'image_1080.jpg',
                           ),
-                        if (state.storeImage?.imageUint8List600 != null)
+                        if (state.storeImage?.apiData?.imageUint8List600 !=
+                            null)
                           'livery_image_600': MultipartFile.fromBytes(
-                            state.storeImage!.imageUint8List600!,
+                            state.storeImage!.apiData!.imageUint8List600!,
                             filename:
-                                state.storeImage!.fileName ?? 'image_600.jpg',
+                                state.storeImage!.apiData!.fileName ??
+                                'image_600.jpg',
                           ),
-                        if (state.storeImage?.imageUint8List200 != null)
+                        if (state.storeImage?.apiData?.imageUint8List200 !=
+                            null)
                           'livery_image_200': MultipartFile.fromBytes(
-                            state.storeImage!.imageUint8List200!,
+                            state.storeImage!.apiData!.imageUint8List200!,
                             filename:
-                                state.storeImage!.fileName ?? 'image_200.jpg',
+                                state.storeImage!.apiData!.fileName ??
+                                'image_200.jpg',
                           ),
                       }),
                     ),

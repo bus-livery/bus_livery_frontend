@@ -28,6 +28,7 @@ import 'package:livery/features/top_users/application/top_users_bloc.dart'
 import 'package:livery/features/top_users/service/top_users_service.dart'
     as _i638;
 import 'package:livery/service/dio_service.dart' as _i833;
+import 'package:livery/service/image_picker_service.dart' as _i449;
 import 'package:livery/service/shared_pref_service.dart' as _i552;
 import 'package:livery/utils/router/router.dart' as _i14;
 
@@ -47,6 +48,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i552.SharedPrefService>(),
       ),
     );
+    gh.lazySingleton<_i449.ImagePickerService>(
+      () => _i449.ImagePickerServiceImpl(),
+    );
     gh.lazySingleton<_i1027.ILiveryService>(
       () => _i1027.LiveryService(gh<_i833.DioService>()),
     );
@@ -58,9 +62,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i154.ILiveryCreateService>(
       () => _i154.LiveryCreateService(gh<_i833.DioService>()),
-    );
-    gh.factory<_i117.LiveryCreateBloc>(
-      () => _i117.LiveryCreateBloc(gh<_i154.ILiveryCreateService>()),
     );
     gh.lazySingleton<_i923.IProfileService>(
       () => _i923.ProfileService(gh<_i833.DioService>()),
@@ -77,6 +78,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i473.ReportBloc>(
       () => _i473.ReportBloc(gh<_i67.IReportService>()),
+    );
+    gh.factory<_i117.LiveryCreateBloc>(
+      () => _i117.LiveryCreateBloc(
+        gh<_i154.ILiveryCreateService>(),
+        gh<_i449.ImagePickerService>(),
+      ),
     );
     return this;
   }

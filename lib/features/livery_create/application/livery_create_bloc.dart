@@ -12,6 +12,7 @@ import 'package:livery/features/livery_create/model/bus_type_model/bus_type_mode
 import 'package:livery/features/livery_create/model/livery_req_model/livery_req_model.dart';
 import 'package:livery/features/livery_create/service/livery_create_service.dart';
 import 'package:livery/main.dart';
+import 'package:livery/service/image_picker_service.dart';
 import 'package:livery/utils/bloc_life_cycle.dart';
 import 'package:livery/utils/custom_print.dart';
 
@@ -21,6 +22,7 @@ part 'livery_create_state.dart';
 @injectable
 class LiveryCreateBloc extends Bloc<LiveryCreateEvent, LiveryCreateState>
     with BlocLifeCycle {
+  final ImagePickerService imagePickerService;
   final ILiveryCreateService liverCreateService;
 
   final liveryName = TextEditingController();
@@ -44,7 +46,7 @@ class LiveryCreateBloc extends Bloc<LiveryCreateEvent, LiveryCreateState>
     return super.close();
   }
 
-  LiveryCreateBloc(this.liverCreateService)
+  LiveryCreateBloc(this.liverCreateService, this.imagePickerService)
     : super(LiveryCreateState.initial()) {
     //
 
@@ -80,8 +82,18 @@ class LiveryCreateBloc extends Bloc<LiveryCreateEvent, LiveryCreateState>
     emit(state.copyWith(busModels: event.busModels));
   }
 
-  _liveryCreateStore(LiveryImageStore event, emit) {
-    emit(state.copyWith(storeImage: event.image));
+  _liveryCreateStore(LiveryImageStore event, emit) async {
+    emit(state.copyWith(storeImage: ApiResponse(status: ApiStatus.loading)));
+    final selectedImage = await imagePickerService.imagePicker();
+
+    emit(
+      state.copyWith(
+        storeImage: ApiResponse(
+          status: ApiStatus.success,
+          apiData: selectedImage,
+        ),
+      ),
+    );
   }
 
   // API

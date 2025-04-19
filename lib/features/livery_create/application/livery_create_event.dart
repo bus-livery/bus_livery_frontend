@@ -8,11 +8,7 @@ class StoreBusModelEvent extends LiveryCreateEvent {
   StoreBusModelEvent({required this.busModels});
 }
 
-class LiveryImageStore extends LiveryCreateEvent {
-  final ImagePickerModel? image;
-
-  LiveryImageStore({required this.image});
-}
+class LiveryImageStore extends LiveryCreateEvent {}
 
 class LiveryAssignValuesEvent extends LiveryCreateEvent {
   final LiveryModel? data;

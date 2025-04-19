@@ -38,7 +38,7 @@ class TopUsersScreen extends StatelessWidget {
                     children: [
                       WwText(text: '${user.likeCount ?? 0} likes'),
                       SizedBox(width: 10.w),
-                      WwText(text: '${user.violationCount ?? 0} violations'),
+                      WwText(text: '${user.totalLivery ?? 0} Livery'),
                     ],
                   ),
                   onTap: () {

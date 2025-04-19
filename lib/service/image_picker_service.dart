@@ -1,6 +1,7 @@
-import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
+import 'package:injectable/injectable.dart';
 import 'package:livery/Cmodel/image_picker_model/image_picker_model.dart';
 
 // class ImagePickerService {
@@ -27,41 +28,79 @@ import 'package:livery/Cmodel/image_picker_model/image_picker_model.dart';
 //   }
 // }
 
-class ImagePickerService {
-  static Future<ImagePickerModel?> imagePicker({
+abstract class ImagePickerService {
+  Future<ImagePickerModel?> imagePicker({
+    ImageSource source = ImageSource.gallery,
+  });
+}
+
+@LazySingleton(as: ImagePickerService)
+class ImagePickerServiceImpl extends ImagePickerService {
+  @override
+  Future<ImagePickerModel?> imagePicker({
     ImageSource source = ImageSource.gallery,
   }) async {
     XFile? imageFile = await ImagePicker().pickImage(
       source: source,
-      imageQuality: 100, // Keep the original quality
+      imageQuality: 90, // Slightly reduce initial quality to speed up loading
     );
 
     if (imageFile == null) return null;
 
-    Uint8List imageBytes = await imageFile.readAsBytes();
+    // Read the file bytes - this operation is I/O bound and doesn't need an isolate
+    Uint8List originalBytes = await imageFile.readAsBytes();
 
-    // Convert Uint8List to Image for resizing
-    img.Image? originalImage = img.decodeImage(imageBytes);
-    if (originalImage == null) return null;
+    // Process the image in a separate isolate
+    final processedImages = await compute(_processImage, originalBytes);
 
-    // Resize images to different resolutions
-    Uint8List resized1080 = _resizeImage(originalImage, 1080);
-    Uint8List resized600 = _resizeImage(originalImage, 600);
-    Uint8List resized200 = _resizeImage(originalImage, 200);
+    if (processedImages == null) return null;
 
     return ImagePickerModel(
-      imageUint8List: imageBytes, // Original image
-      imageUint8List1080: resized1080,
-      imageUint8List600: resized600,
-      imageUint8List200: resized200,
+      imageUint8List: originalBytes, // Original image
+      imageUint8List1080: processedImages[0],
+      imageUint8List600: processedImages[1],
+      imageUint8List200: processedImages[2],
       imagePath: imageFile.path,
       imageFileName: imageFile.name,
     );
   }
 
+  /// Process image in isolate - this function will run in a separate isolate
+  static List<Uint8List>? _processImage(Uint8List bytes) {
+    // Decode the image
+    img.Image? originalImage = img.decodeImage(bytes);
+    if (originalImage == null) return null;
+
+    // Resize to different sizes
+    final resized1080 = _resizeImage(originalImage, 1080);
+    final resized600 = _resizeImage(originalImage, 600);
+    final resized200 = _resizeImage(originalImage, 200);
+
+    return [resized1080, resized600, resized200];
+  }
+
   /// Helper function to resize an image
   static Uint8List _resizeImage(img.Image image, int size) {
-    img.Image resized = img.copyResize(image, width: size);
-    return Uint8List.fromList(img.encodeJpg(resized));
+    // Preserve aspect ratio
+    int? width, height;
+    if (image.width > image.height) {
+      width = size;
+      height = (size * image.height / image.width).round();
+    } else {
+      height = size;
+      width = (size * image.width / image.height).round();
+    }
+
+    // Resize the image
+    img.Image resized = img.copyResize(
+      image,
+      width: width,
+      height: height,
+      interpolation: img.Interpolation.average, // Better quality resizing
+    );
+
+    // Encode the image with slightly better quality for the larger sizes
+    int quality = size >= 1000 ? 85 : (size >= 500 ? 80 : 75);
+    return Uint8List.fromList(img.encodeJpg(resized, quality: quality));
   }
 }

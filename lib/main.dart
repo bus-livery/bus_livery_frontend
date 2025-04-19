@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
         designSize: const Size(376, 814),
         builder: (context, snapshot) {
           return MaterialApp.router(
-            title: 'Flutter Demo',
+            title: 'Livery',
             routerConfig: _appRouter.config(),
             scaffoldMessengerKey: smKey,
             themeMode: ThemeMode.dark,
