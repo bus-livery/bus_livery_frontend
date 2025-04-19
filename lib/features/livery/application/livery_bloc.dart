@@ -43,6 +43,10 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
 
     on<ToggleGridViewEvent>(_toggleGridViewEvent);
 
+    on<StartUploadEvent>(_startUploadEvent);
+
+    on<CompleteUploadEvent>(_completeUploadEvent);
+
     // API EVENTS
     on<LiveryEvent>((event, emit) {});
 
@@ -94,6 +98,18 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
 
   _toggleGridViewEvent(ToggleGridViewEvent event, emit) {
     emit(state.copyWith(gridColumns: event.columns));
+  }
+
+  _startUploadEvent(StartUploadEvent event, emit) {
+    final updatedUploads = Map<String, bool>.from(state.uploadsInProgress);
+    updatedUploads[event.uploadId] = true;
+    emit(state.copyWith(uploadsInProgress: updatedUploads));
+  }
+
+  _completeUploadEvent(CompleteUploadEvent event, emit) {
+    final updatedUploads = Map<String, bool>.from(state.uploadsInProgress);
+    updatedUploads.remove(event.uploadId);
+    emit(state.copyWith(uploadsInProgress: updatedUploads));
   }
 
   // API EVENT

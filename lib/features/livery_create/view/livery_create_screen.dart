@@ -12,9 +12,10 @@ import 'package:livery/Cwidgets/ww_dashed_border.dart';
 import 'package:livery/Cwidgets/ww_popup_error_success.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/Cwidgets/ww_textfield/ww_text_field.dart';
-import 'package:livery/features/livery/model/livery_model/livery_model.dart';
+import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/livery_create/application/livery_create_bloc.dart';
 import 'package:livery/features/livery_create/widget/bus_type_dropdown.dart';
+import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/extensions.dart';
@@ -213,7 +214,6 @@ class _SubmitButton extends StatelessWidget {
         }
         if (state.liveryCreateRes.status == ApiStatus.success) {
           showSuccessToast(message: 'Livery Created Successfully');
-          context.router.back();
         }
       },
       builder:
@@ -230,8 +230,24 @@ class _SubmitButton extends StatelessWidget {
                     return;
                   }
 
+                  // Generate a unique upload ID
+                  final uploadId =
+                      DateTime.now().millisecondsSinceEpoch.toString();
+
+                  // Tell the LiveryBloc that an upload is starting
+                  context.read<LiveryBloc>().add(
+                    StartUploadEvent(uploadId: uploadId),
+                  );
+
+                  // Navigate back to the main screen immediately
+                  context.router.back();
+
+                  // Show a temporary toast
+                  showSuccessToast(message: 'Your livery is uploading...');
+
                   bloc.add(
                     CreateLiveryApiEvent(
+                      uploadId: uploadId, // Pass the upload ID
                       liveryId: bloc.liveryId,
                       data: FormData.fromMap({
                         if (bloc.liveryId != null) 'livery_id': bloc.liveryId,

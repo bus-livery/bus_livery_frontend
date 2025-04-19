@@ -125,6 +125,13 @@ class LiveryCreateBloc extends Bloc<LiveryCreateEvent, LiveryCreateState>
             ),
           ),
         );
+
+        // If upload failed and we have an uploadId, notify LiveryBloc
+        if (event.uploadId != null) {
+          smKey.currentState!.context.read<LiveryBloc>().add(
+            CompleteUploadEvent(uploadId: event.uploadId!),
+          );
+        }
       },
       //
       (success) {
@@ -134,8 +141,14 @@ class LiveryCreateBloc extends Bloc<LiveryCreateEvent, LiveryCreateState>
           ),
         );
 
-        // updating list it inserts new data
+        // Notify LiveryBloc that the upload is complete
+        if (event.uploadId != null) {
+          smKey.currentState!.context.read<LiveryBloc>().add(
+            CompleteUploadEvent(uploadId: event.uploadId!),
+          );
+        }
 
+        // updating list it inserts new data
         smKey.currentState!.context.read<LiveryBloc>().add(
           InsetNewLiveryEvent(newData: success),
         );

@@ -39,54 +39,114 @@ class FeedScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: AppSize.swPadding,
-        child: BlocBuilder<LiveryBloc, LiveryState>(
-          buildWhen:
-              (p, c) =>
-                  p.getAllLiveryRes.status != c.getAllLiveryRes.status ||
-                  p.gridColumns != c.gridColumns,
-          builder: (context, state) {
-            customPrint('BLOC BUILDER - FeedScreen');
-            List<LiveryModel>? liveryData = state.getAllLiveryRes.apiData?.data;
-            return WWResponseHandler(
-              data: state.getAllLiveryRes,
-              apiCall: () async {
-                context.read<LiveryBloc>().add(GetAllLiveryApiEvent());
-              },
-              isEmpty: liveryData?.isEmpty ?? true,
-              child:
-                  state.gridColumns == 1
-                      ? ListView.separated(
-                        separatorBuilder:
-                            (context, index) => AppSize.sizedBox1h,
-                        itemCount: liveryData?.length ?? 0,
-                        physics: AlwaysScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context, index) {
-                          return PostWidget(
-                            index: index,
-                            bloc: bloc,
-                            data: liveryData![index],
-                          );
-                        },
-                      )
-                      : GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: state.gridColumns,
-                          childAspectRatio: 0.75,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
+        child: Column(
+          children: [
+            // Upload progress indicator
+            BlocSelector<LiveryBloc, LiveryState, Map<String, bool>>(
+              selector: (state) => state.uploadsInProgress,
+              builder: (context, uploadsInProgress) {
+                if (uploadsInProgress.isEmpty) {
+                  return const SizedBox.shrink();
+                }
+
+                return Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  decoration: BoxDecoration(
+                    color: Colors.blue.shade50,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.blue.shade200),
+                  ),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.blue,
+                          ),
                         ),
-                        itemCount: liveryData?.length ?? 0,
-                        physics: AlwaysScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context, index) {
-                          return GridItemWidget(
-                            index: index,
-                            bloc: bloc,
-                            data: liveryData![index],
-                          );
-                        },
                       ),
-            );
-          },
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: WwText(
+                          text: 'Uploading livery design...',
+                          style: TextStyle(
+                            color: Colors.blue.shade700,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      WwText(
+                        text: '${uploadsInProgress.length} in progress',
+                        style: TextStyle(
+                          color: Colors.blue.shade700,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+
+            // Main content
+            Expanded(
+              child: BlocBuilder<LiveryBloc, LiveryState>(
+                buildWhen:
+                    (p, c) =>
+                        p.getAllLiveryRes.status != c.getAllLiveryRes.status ||
+                        p.gridColumns != c.gridColumns,
+                builder: (context, state) {
+                  customPrint('BLOC BUILDER - FeedScreen');
+                  List<LiveryModel>? liveryData =
+                      state.getAllLiveryRes.apiData?.data;
+                  return WWResponseHandler(
+                    data: state.getAllLiveryRes,
+                    apiCall: () async {
+                      context.read<LiveryBloc>().add(GetAllLiveryApiEvent());
+                    },
+                    isEmpty: liveryData?.isEmpty ?? true,
+                    child:
+                        state.gridColumns == 1
+                            ? ListView.separated(
+                              separatorBuilder:
+                                  (context, index) => AppSize.sizedBox1h,
+                              itemCount: liveryData?.length ?? 0,
+                              physics: AlwaysScrollableScrollPhysics(),
+                              itemBuilder: (BuildContext context, index) {
+                                return PostWidget(
+                                  index: index,
+                                  bloc: bloc,
+                                  data: liveryData![index],
+                                );
+                              },
+                            )
+                            : GridView.builder(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: state.gridColumns,
+                                    childAspectRatio: 0.75,
+                                    crossAxisSpacing: 10,
+                                    mainAxisSpacing: 10,
+                                  ),
+                              itemCount: liveryData?.length ?? 0,
+                              physics: AlwaysScrollableScrollPhysics(),
+                              itemBuilder: (BuildContext context, index) {
+                                return GridItemWidget(
+                                  index: index,
+                                  bloc: bloc,
+                                  data: liveryData![index],
+                                );
+                              },
+                            ),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -275,26 +335,32 @@ class PostWidget extends StatelessWidget {
   ClipRRect postImage(BuildContext context) {
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(10)),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          CachedNetworkImage(
-            // height: 200,
-            width: double.infinity,
-            imageUrl: data.postImage?.liveryImage1080 ?? '',
-            fit: BoxFit.cover,
-            placeholder:
-                (context, url) =>
-                    const Center(child: CircularProgressIndicator()),
-            errorWidget:
-                (context, url, error) =>
-                    const Icon(Icons.error, color: AppColors.primary),
-          ),
-          if (data.approvalStatus == ApprovalStatus.waiting.name) ...[
-            SizedBox(height: 200, width: double.infinity, child: liverShade),
-            WwLiveryWaiting(),
+      child: AspectRatio(
+        aspectRatio: 1 / 1,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            CachedNetworkImage(
+              width: double.infinity,
+              imageUrl: data.postImage?.liveryImage1080 ?? '',
+              fit: BoxFit.cover,
+              placeholder:
+                  (context, url) =>
+                      const Center(child: CircularProgressIndicator()),
+              errorWidget:
+                  (context, url, error) =>
+                      const Icon(Icons.error, color: AppColors.primary),
+            ),
+            if (data.approvalStatus == ApprovalStatus.waiting.name) ...[
+              SizedBox(
+                height: double.infinity,
+                width: double.infinity,
+                child: liverShade,
+              ),
+              WwLiveryWaiting(),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

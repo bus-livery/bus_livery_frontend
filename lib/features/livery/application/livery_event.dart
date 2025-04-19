@@ -20,6 +20,18 @@ class ToggleGridViewEvent extends LiveryEvent {
   ToggleGridViewEvent({required this.columns});
 }
 
+class StartUploadEvent extends LiveryEvent {
+  final String uploadId;
+
+  StartUploadEvent({required this.uploadId});
+}
+
+class CompleteUploadEvent extends LiveryEvent {
+  final String uploadId;
+
+  CompleteUploadEvent({required this.uploadId});
+}
+
 // API EVENTS
 
 class GetAllLiveryApiEvent extends LiveryEvent {

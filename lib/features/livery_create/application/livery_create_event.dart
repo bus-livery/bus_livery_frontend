@@ -22,8 +22,14 @@ class CreateLiveryApiEvent extends LiveryCreateEvent {
   final FormData data;
   final int? liveryId;
   final int? index;
+  final String? uploadId;
 
-  CreateLiveryApiEvent({required this.data, this.liveryId, this.index});
+  CreateLiveryApiEvent({
+    required this.data,
+    this.liveryId,
+    this.index,
+    this.uploadId,
+  });
 }
 
 class GetBusTypeApiEvent extends LiveryCreateEvent {}
