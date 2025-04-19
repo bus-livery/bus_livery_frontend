@@ -41,6 +41,8 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
 
     on<FilterLiveryEvent>(_filterLiveryEvent);
 
+    on<ToggleGridViewEvent>(_toggleGridViewEvent);
+
     // API EVENTS
     on<LiveryEvent>((event, emit) {});
 
@@ -88,6 +90,10 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
         ),
       ),
     );
+  }
+
+  _toggleGridViewEvent(ToggleGridViewEvent event, emit) {
+    emit(state.copyWith(gridColumns: event.columns));
   }
 
   // API EVENT

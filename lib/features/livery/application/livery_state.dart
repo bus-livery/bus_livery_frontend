@@ -2,6 +2,7 @@ part of 'livery_bloc.dart';
 
 class LiveryState {
   final LiveryFilter filter;
+  final int gridColumns; // 1 for list view, 2 for grid view
   // API STATES
   final ApiResponse<LiveryDateModel> getAllLiveryRes;
   final ApiResponse<List<LiveryModel>> getLiveryDownloads;
@@ -10,6 +11,7 @@ class LiveryState {
   final ApiResponse<String> deleteLiveryRes;
   LiveryState({
     required this.filter,
+    required this.gridColumns,
     // API STATES
     required this.getAllLiveryRes,
     required this.getLiveryDownloads,
@@ -21,6 +23,7 @@ class LiveryState {
   factory LiveryState.initial() {
     return LiveryState(
       filter: LiveryFilter.latest,
+      gridColumns: 1, // Default to list view
       // API STATES
       getAllLiveryRes: ApiResponse<LiveryDateModel>(),
       getLiveryDownloads: ApiResponse<List<LiveryModel>>(),
@@ -33,7 +36,7 @@ class LiveryState {
   LiveryState copyWith({
     List<String>? busModels,
     LiveryFilter? filter,
-
+    int? gridColumns,
     // API STATES
     ApiResponse<LiveryDateModel>? getAllLiveryRes,
     ApiResponse<List<LiveryModel>>? getLiveryDownloads,
@@ -43,6 +46,7 @@ class LiveryState {
   }) {
     return LiveryState(
       filter: filter ?? this.filter,
+      gridColumns: gridColumns ?? this.gridColumns,
       // API STATES
       getSingleLiveryRes: getSingleLiveryRes ?? this.getSingleLiveryRes,
       getAllLiveryRes: getAllLiveryRes ?? this.getAllLiveryRes,

@@ -35,13 +35,15 @@ class FeedScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Image.asset('assets/images/buss_logo.png', height: 70),
-        actions: [filterOptions(context)],
+        actions: [gridViewToggle(context), filterOptions(context)],
       ),
       body: Padding(
         padding: AppSize.swPadding,
         child: BlocBuilder<LiveryBloc, LiveryState>(
           buildWhen:
-              (p, c) => p.getAllLiveryRes.status != c.getAllLiveryRes.status,
+              (p, c) =>
+                  p.getAllLiveryRes.status != c.getAllLiveryRes.status ||
+                  p.gridColumns != c.gridColumns,
           builder: (context, state) {
             customPrint('BLOC BUILDER - FeedScreen');
             List<LiveryModel>? liveryData = state.getAllLiveryRes.apiData?.data;
@@ -51,22 +53,64 @@ class FeedScreen extends StatelessWidget {
                 context.read<LiveryBloc>().add(GetAllLiveryApiEvent());
               },
               isEmpty: liveryData?.isEmpty ?? true,
-              child: ListView.separated(
-                separatorBuilder: (context, index) => AppSize.sizedBox1h,
-                itemCount: liveryData?.length ?? 0,
-                physics: AlwaysScrollableScrollPhysics(),
-                itemBuilder: (BuildContext context, index) {
-                  return PostWidget(
-                    index: index,
-                    bloc: bloc,
-                    data: liveryData![index],
-                  );
-                },
-              ),
+              child:
+                  state.gridColumns == 1
+                      ? ListView.separated(
+                        separatorBuilder:
+                            (context, index) => AppSize.sizedBox1h,
+                        itemCount: liveryData?.length ?? 0,
+                        physics: AlwaysScrollableScrollPhysics(),
+                        itemBuilder: (BuildContext context, index) {
+                          return PostWidget(
+                            index: index,
+                            bloc: bloc,
+                            data: liveryData![index],
+                          );
+                        },
+                      )
+                      : GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: state.gridColumns,
+                          childAspectRatio: 0.75,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                        ),
+                        itemCount: liveryData?.length ?? 0,
+                        physics: AlwaysScrollableScrollPhysics(),
+                        itemBuilder: (BuildContext context, index) {
+                          return GridItemWidget(
+                            index: index,
+                            bloc: bloc,
+                            data: liveryData![index],
+                          );
+                        },
+                      ),
             );
           },
         ),
       ),
+    );
+  }
+
+  Widget gridViewToggle(BuildContext context) {
+    return BlocSelector<LiveryBloc, LiveryState, int>(
+      selector: (state) => state.gridColumns,
+      builder: (context, gridColumns) {
+        return IconButton(
+          onPressed: () {
+            // Toggle between 1 (list) and 2 (grid)
+            final newColumns = gridColumns == 1 ? 2 : 1;
+            context.read<LiveryBloc>().add(
+              ToggleGridViewEvent(columns: newColumns),
+            );
+          },
+          icon: Icon(
+            gridColumns == 1 ? Icons.grid_view : Icons.view_list,
+            color: AppColors.primary,
+          ),
+          tooltip: gridColumns == 1 ? 'Grid View' : 'List View',
+        );
+      },
     );
   }
 
@@ -153,6 +197,7 @@ class PostWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: const EdgeInsets.all(10),
@@ -234,7 +279,7 @@ class PostWidget extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           CachedNetworkImage(
-            height: 200,
+            // height: 200,
             width: double.infinity,
             imageUrl: data.postImage?.liveryImage1080 ?? '',
             fit: BoxFit.cover,
@@ -271,7 +316,7 @@ class PostWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               WwText(
-                text: data.user?.username ?? '',
+                text: data.user?.username ?? '--',
                 style: LiveryStyles.profileName(),
               ),
               WwText(
@@ -439,5 +484,104 @@ Future<void> downloadAndSaveImageWithDio(
     customPrint("File downloaded successfully to: $filePath");
   } catch (e) {
     customPrint("Error downloading or saving file: $e");
+  }
+}
+
+class GridItemWidget extends StatelessWidget {
+  final LiveryBloc bloc;
+  final LiveryModel data;
+  final int index;
+
+  const GridItemWidget({
+    super.key,
+    required this.data,
+    required this.bloc,
+    required this.index,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                // Show full post details
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Dialog(
+                      child: PostWidget(index: index, bloc: bloc, data: data),
+                    );
+                  },
+                );
+              },
+              child: CachedNetworkImage(
+                imageUrl: data.postImage?.liveryImage200 ?? '',
+                width: double.infinity,
+                fit: BoxFit.cover,
+                placeholder:
+                    (context, url) =>
+                        const Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
+            ),
+          ),
+
+          // Title and Actions
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Livery name
+                WwText(
+                  text: data.liveryName ?? '',
+                  style: LiveryStyles.liveryName(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+
+                SizedBox(height: 4),
+
+                // Owner name
+                if (data.user?.username != null)
+                  WwText(
+                    text: 'by ${data.user?.username}',
+                    style: LiveryStyles.profileName(),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+
+                SizedBox(height: 4),
+
+                // Actions
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Downloads count
+                    Row(
+                      children: [
+                        Icon(Icons.download_outlined, size: 16),
+                        SizedBox(width: 4),
+                        WwText(
+                          text: '${data.downloadCount ?? 0}',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                    // More options
+                    buildMoreOptions(context, data),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

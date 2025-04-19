@@ -13,6 +13,13 @@ class FilterLiveryEvent extends LiveryEvent {
 
   FilterLiveryEvent({required this.filter});
 }
+
+class ToggleGridViewEvent extends LiveryEvent {
+  final int columns; // 1 for list view, 2 for grid view
+
+  ToggleGridViewEvent({required this.columns});
+}
+
 // API EVENTS
 
 class GetAllLiveryApiEvent extends LiveryEvent {
