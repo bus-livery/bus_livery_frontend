@@ -200,10 +200,11 @@ class _ProfileGallery extends StatelessWidget {
   final ProfileBloc bloc;
   final ProfileModel? profileData;
   const _ProfileGallery({required this.bloc, this.profileData});
+
   void _showEnlargedImage(BuildContext context, LiveryModel data) {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (BuildContext _) {
         return Dialog(
           insetPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           child: Container(
@@ -211,6 +212,37 @@ class _ProfileGallery extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                // Header with title and actions
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: WwText(
+                        text: data.liveryName ?? "Untitled Livery",
+                        style: Theme.of(context).textTheme.titleMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    buildMoreOptions(context, data),
+                  ],
+                ),
+
+                SizedBox(height: 05),
+
+                // Creator info
+                if (data.user?.username != null)
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: WwText(
+                      text: "by ${data.user?.username}",
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+
+                SizedBox(height: 05),
+
+                // Image display
                 Flexible(
                   child: CachedNetworkImage(
                     imageUrl:
@@ -225,18 +257,47 @@ class _ProfileGallery extends StatelessWidget {
                         (context, url, error) => const Icon(Icons.error),
                   ),
                 ),
+
                 SizedBox(height: 16),
+
+                // Bus details
+                if (data.busModel != null || data.busType != null)
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: WwText(
+                      text: "${data.busType ?? ''} ${data.busModel ?? ''}",
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+
+                // Download count
+                Row(
+                  children: [
+                    Icon(Icons.download, size: 16),
+                    SizedBox(width: 4),
+                    WwText(
+                      text: "${data.downloadCount ?? 0} downloads",
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 16),
+
+                // Actions
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    WWButton(
-                      text: 'Download',
-                      onPressed: () {
-                        downloadAndSaveImageWithDio(
-                          context.read<LiveryBloc>(),
-                          data,
-                        );
-                      },
+                    Expanded(
+                      child: WWButton(
+                        text: 'Download',
+                        onPressed: () {
+                          downloadAndSaveImageWithDio(
+                            context.read<LiveryBloc>(),
+                            data,
+                          );
+                        },
+                      ),
                     ),
                     SizedBox(width: 8),
                     TextButton(

@@ -317,68 +317,70 @@ class _MoreOptons extends StatelessWidget {
         customPrint('LIVERY BLOC BUILDER - _MoreOptons');
         return deleteStatus.deleteLiveryRes.status == ApiStatus.loading
             ? CupertinoActivityIndicator()
-            : buildMoreOptions(context);
+            : buildMoreOptions(context, data);
       },
     );
   }
+}
 
-  IconButton buildMoreOptions(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        showModalBottomSheet<void>(
-          context: context,
-          builder: (BuildContext context) {
-            return SafeArea(
-              child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  AppSize.sizedBox3h,
-                  ListTile(
-                    leading: Icon(Icons.edit),
-                    title: WwText(text: 'Edit Livery'),
-                    onTap: () {
-                      context.router.push(LiveryCreateRoute(data: data));
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.report),
-                    title: WwText(text: 'Report Livery'),
-                    onTap: () {
-                      showBottomSheet();
-                      // context.router.maybePop();
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.delete),
-                    title: WwText(text: 'Delete Livery'),
-                    onTap: () {
-                      context.router.maybePop();
-                      bloc.add(DeleteLiveryApiEvent(liveryId: data.id!));
-                    },
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
-      icon: const Icon(Icons.more_horiz, color: AppColors.primary),
-    );
-  }
+IconButton buildMoreOptions(BuildContext context, LiveryModel data) {
+  final liveryBloc = context.read<LiveryBloc>();
 
-  showBottomSheet() {
-    return showModalBottomSheet<void>(
-      context: context,
-      builder: (BuildContext _) {
-        return WwReportContent(
-          context,
-          contentId: data.id,
-          type: ReportType.livery,
-        );
-      },
-    );
-  }
+  return IconButton(
+    onPressed: () {
+      showModalBottomSheet<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return SafeArea(
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                AppSize.sizedBox3h,
+                ListTile(
+                  leading: Icon(Icons.edit),
+                  title: WwText(text: 'Edit Livery'),
+                  onTap: () {
+                    context.router.push(LiveryCreateRoute(data: data));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.report),
+                  title: WwText(text: 'Report Livery'),
+                  onTap: () {
+                    showBottomSheet(context, data);
+                    // context.router.maybePop();
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.delete),
+                  title: WwText(text: 'Delete Livery'),
+                  onTap: () {
+                    context.router.maybePop();
+                    liveryBloc.add(DeleteLiveryApiEvent(liveryId: data.id!));
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+    icon: const Icon(Icons.more_horiz, color: AppColors.primary),
+  );
+}
+
+showBottomSheet(BuildContext context, LiveryModel data) {
+  return showModalBottomSheet<void>(
+    context: context,
+    builder: (BuildContext _) {
+      return WwReportContent(
+        context,
+        contentId: data.id,
+        type: ReportType.livery,
+      );
+    },
+  );
 }
 
 Future<void> downloadAndSaveImageWithDio(
