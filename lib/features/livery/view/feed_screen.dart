@@ -53,9 +53,9 @@ class FeedScreen extends StatelessWidget {
                   margin: EdgeInsets.only(bottom: 10),
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
+                    color: Colors.transparent,
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.blue.shade200),
+                    border: Border.all(color: Colors.transparent),
                   ),
                   child: Row(
                     children: [
@@ -65,7 +65,7 @@ class FeedScreen extends StatelessWidget {
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            Colors.blue,
+                            AppColors.primary,
                           ),
                         ),
                       ),
@@ -74,7 +74,7 @@ class FeedScreen extends StatelessWidget {
                         child: WwText(
                           text: 'Uploading livery design...',
                           style: TextStyle(
-                            color: Colors.blue.shade700,
+                            color: AppColors.primary,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -82,7 +82,7 @@ class FeedScreen extends StatelessWidget {
                       WwText(
                         text: '${uploadsInProgress.length} in progress',
                         style: TextStyle(
-                          color: Colors.blue.shade700,
+                          color: AppColors.primary,
                           fontSize: 12,
                         ),
                       ),
