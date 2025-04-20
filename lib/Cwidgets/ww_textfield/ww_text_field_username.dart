@@ -4,6 +4,15 @@ import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box.dart';
 import 'package:livery/Cwidgets/ww_textfield/text_field_base.dart';
 
 class WwTextFieldUsername extends WWTextFieldBase {
+  static const String _usernameRequirementsTitle = 'Username Requirements';
+  static const String _usernameRequirementsText = '''
+• Username must be between 3-30 characters
+• Can only contain letters, numbers, underscores (_), and hyphens (-)
+• Cannot start or end with a hyphen or underscore
+• Cannot contain consecutive hyphens or underscores
+• Must be unique and not already taken
+''';
+
   final bool showValidator;
   final BuildContext context;
   final bool showSuffix;
@@ -31,14 +40,8 @@ class WwTextFieldUsername extends WWTextFieldBase {
                      builder:
                          (context) => AlertDialog(
                            content: WWDialogueBox(
-                             text: 'Username Requirements',
-                             textSub: '''
-• Username must be between 3-30 characters
-• Can only contain letters, numbers, underscores (_), and hyphens (-)
-• Cannot start or end with a hyphen or underscore
-• Cannot contain consecutive hyphens or underscores
-• Must be unique and not already taken
-''',
+                             text: _usernameRequirementsTitle,
+                             textSub: _usernameRequirementsText,
                            ),
                          ),
                    );

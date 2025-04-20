@@ -32,7 +32,7 @@ void main() {
 
       when(
         () => mockDioService.request(
-          EndPoints.profile.getAll,
+          EndPoints.profile.topLiked,
           method: Method.get,
         ),
       ).thenAnswer(
@@ -58,7 +58,7 @@ void main() {
       // Arrange
       when(
         () => mockDioService.request(
-          EndPoints.profile.getAll,
+          EndPoints.profile.topLiked,
           method: Method.get,
         ),
       ).thenAnswer(
@@ -81,7 +81,7 @@ void main() {
       // Arrange
       when(
         () => mockDioService.request(
-          EndPoints.profile.getAll,
+          EndPoints.profile.topLiked,
           method: Method.get,
         ),
       ).thenAnswer(
@@ -104,7 +104,7 @@ void main() {
       // Arrange
       when(
         () => mockDioService.request(
-          EndPoints.profile.getAll,
+          EndPoints.profile.topLiked,
           method: Method.get,
         ),
       ).thenThrow(Exception('Network error'));

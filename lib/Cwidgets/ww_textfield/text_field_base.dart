@@ -72,17 +72,26 @@ abstract class WWTextFieldBase extends StatelessWidget {
               labelText: labelText,
               border: InputBorder.none,
 
-              contentPadding: const EdgeInsets.all(10),
+              // This ensures vertical centering of hint text
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 16,
+                horizontal: 10,
+              ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: const BorderSide(color: Colors.red),
               ),
               errorStyle: TextStyle(fontSize: 0, height: 0),
+
+              // Center hint text vertically
+              alignLabelWithHint: true,
+
+              // Properly configure the suffix icon
               suffixIcon:
                   suffixTap == null
                       ? null
                       : GestureDetector(
-                        onTap: () => suffixTap!(),
+                        onTap: () => suffixTap?.call(),
                         child: Icon(
                           suffixIcon ?? Icons.search,
                           color: AppColors.primary,
