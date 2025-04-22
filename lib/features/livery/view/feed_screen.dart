@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:livery/Cfeature/report/application/report_bloc.dart';
 import 'package:livery/Cfeature/report/widget/ww_report_content.dart';
 import 'package:livery/Cmodel/enum.dart';
@@ -23,7 +24,6 @@ import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/extensions.dart';
 import 'package:livery/utils/router/router.gr.dart';
 import 'package:livery/utils/styles.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class FeedScreen extends StatelessWidget {
@@ -507,47 +507,30 @@ Future<void> downloadAndSaveImageWithDio(
       throw Exception("Image URL is empty");
     }
 
-    final dio = Dio();
+    final status = await Permission.photos.request(); // For Android 13+
+    final storageStatus = await Permission.storage.request();
 
-    // Extract filename from URL
-    final uri = Uri.parse(imageUrl);
-    final fileName =
-        uri.pathSegments.isNotEmpty
-            ? uri.pathSegments.last
-            : "downloaded_image.png";
-    final sanitizedFileName = fileName.replaceAll(RegExp(r'[\\/:*?"<>|]'), '_');
-
-    Directory? directory;
-
-    if (Platform.isAndroid) {
-      if (await Permission.storage.request().isGranted ||
-          await Permission.manageExternalStorage.request().isGranted) {
-        directory = Directory("/storage/emulated/0/Download");
-      } else {
-        throw Exception("Storage permission denied");
-      }
-    } else if (Platform.isIOS) {
-      directory = await getApplicationDocumentsDirectory();
-    } else {
-      directory = await getDownloadsDirectory();
+    if (!status.isGranted && !storageStatus.isGranted) {
+      throw Exception("Permission denied");
     }
 
-    if (directory == null) {
-      throw Exception("Could not find a directory to save the file");
-    }
-
-    final filePath = "${directory.path}/$sanitizedFileName";
-
-    // Download image using Dio and save to file
-    await dio.download(
+    final response = await Dio().get<List<int>>(
       imageUrl,
-      filePath,
       options: Options(responseType: ResponseType.bytes),
     );
 
-    showSuccessToast(message: 'File downloaded successfully');
+    final result = await ImageGallerySaver.saveImage(
+      Uint8List.fromList(response.data!),
+      quality: 100,
+      name: "livery_${DateTime.now().millisecondsSinceEpoch}",
+    );
 
-    customPrint("File downloaded successfully to: $filePath");
+    if (result['isSuccess']) {
+      showSuccessToast(message: 'File downloaded to gallery');
+      customPrint("Saved to gallery: ${result['filePath']}");
+    } else {
+      throw Exception("Failed to save image");
+    }
   } catch (e) {
     customPrint("Error downloading or saving file: $e");
   }
