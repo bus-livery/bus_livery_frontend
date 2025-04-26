@@ -321,11 +321,19 @@ class PostWidget extends StatelessWidget {
         return IconButton(
           onPressed: () async {
             final adService = getIt<AdService>();
-            // Show rewarded ad before download
-            final bool wasAdShown = await adService.showRewardedAd();
-            if (wasAdShown) {
-              // Only download if ad was successfully shown and completed
-              await downloadAndSaveImageWithDio(bloc, data);
+
+            await downloadAndSaveImageWithDio(bloc, data);
+            // Check if this is the first download (show rewarded video ad)
+            if (adService.isFirstDownload()) {
+              // Show rewarded ad for the first download
+              final bool wasAdCompleted = await adService.showRewardedAd();
+              if (wasAdCompleted) {
+                // Download the livery after watching the ad
+              }
+            } else {
+              // Not first download - download first, then show interstitial
+              // Show interstitial ad after downloading
+              await adService.showInterstitialAd();
             }
           },
           icon: Row(

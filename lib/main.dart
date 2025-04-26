@@ -2,13 +2,13 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:livery/Cfeature/report/application/report_bloc.dart';
 import 'package:livery/features/auth/application/auth_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/profile/application/profile_bloc.dart';
 import 'package:livery/features/top_users/application/top_users_bloc.dart';
+import 'package:livery/service/ad_service.dart';
 import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/router/router.dart';
@@ -18,9 +18,12 @@ final GlobalKey<ScaffoldMessengerState> smKey =
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await MobileAds.instance.initialize();
   await configureDependencies();
+
+  // Initialize services
   await getIt<SharedPrefService>().init();
+  await getIt<AdService>().initAds(); // Initialize ad service
+
   await ScreenUtil.ensureScreenSize();
   runApp(MyApp());
 }
