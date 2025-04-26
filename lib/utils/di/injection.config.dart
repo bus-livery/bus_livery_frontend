@@ -27,6 +27,7 @@ import 'package:livery/features/top_users/application/top_users_bloc.dart'
     as _i721;
 import 'package:livery/features/top_users/service/top_users_service.dart'
     as _i638;
+import 'package:livery/service/ad_service.dart' as _i891;
 import 'package:livery/service/dio_service.dart' as _i833;
 import 'package:livery/service/image_picker_service.dart' as _i449;
 import 'package:livery/service/shared_pref_service.dart' as _i552;
@@ -39,6 +40,7 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.singleton<_i891.AdService>(() => _i891.AdService());
     gh.lazySingleton<_i14.AppRouter>(() => _i14.AppRouter());
     gh.lazySingleton<_i833.DioService>(() => _i833.DioService());
     gh.lazySingleton<_i552.SharedPrefService>(() => _i552.SharedPrefService());

@@ -25,6 +25,8 @@ import 'package:livery/utils/extensions.dart';
 import 'package:livery/utils/router/router.gr.dart';
 import 'package:livery/utils/styles.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:livery/service/ad_service.dart';
+import 'package:livery/utils/di/injection.dart';
 
 class FeedScreen extends StatelessWidget {
   const FeedScreen({super.key});
@@ -318,7 +320,13 @@ class PostWidget extends StatelessWidget {
         customPrint('BLOC BUILDER - postDownload');
         return IconButton(
           onPressed: () async {
-            downloadAndSaveImageWithDio(bloc, data);
+            final adService = getIt<AdService>();
+            // Show rewarded ad before download
+            final bool wasAdShown = await adService.showRewardedAd();
+            if (wasAdShown) {
+              // Only download if ad was successfully shown and completed
+              await downloadAndSaveImageWithDio(bloc, data);
+            }
           },
           icon: Row(
             children: [
