@@ -19,6 +19,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     //
     on<AuthEvent>((event, emit) {});
 
+    on<PhoneMaxLengthEvent>(_phoneMaxLengthEvent);
+
     on<AuthloginApi>(_authLoginApi);
 
     on<AuthSignUpApi>(_authSignUpApi);
@@ -39,6 +41,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   // SIGN UP SCREEN
 
   GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> loginWithOtpFormKey = GlobalKey<FormState>();
+
   final usernameSignupCtr = TextEditingController();
   final phoneSignUpCtr = TextEditingController();
   final passSignUpCtr = TextEditingController();
@@ -107,6 +111,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     phoneCtr.clear();
     otpCtr.clear();
+  }
+
+  _phoneMaxLengthEvent(PhoneMaxLengthEvent event, emit) {
+    emit(state.copyWith(phoneMaxLength: event.length));
   }
 
   _authPassVisible(AuthPassVisibleEvent event, emit) {

@@ -77,12 +77,15 @@ abstract class WWTextFieldBase extends StatelessWidget {
                 vertical: 16,
                 horizontal: 10,
               ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(color: Colors.red),
+              ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: const BorderSide(color: Colors.red),
               ),
               errorStyle: TextStyle(fontSize: 0, height: 0),
-
               // Center hint text vertically
               alignLabelWithHint: true,
 

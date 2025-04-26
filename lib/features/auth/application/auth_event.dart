@@ -11,6 +11,12 @@ class AuthPassVisibleEvent extends AuthEvent {
   AuthPassVisibleEvent({required this.state});
 }
 
+class PhoneMaxLengthEvent extends AuthEvent {
+  final int length;
+
+  PhoneMaxLengthEvent(this.length);
+}
+
 // API EVENTS
 
 class AuthloginApi extends AuthEvent {

@@ -50,19 +50,27 @@ class SignUpScreen extends StatelessWidget {
                     Flexible(
                       flex: 1,
                       child: WwCountryCode(
-                        onChanged: (v) {
-                          bloc.countryCodeSignUp = v.dialCode ?? '';
+                        onChanged: (countryCode, maxLength) {
+                          bloc.countryCodeSignUp = countryCode.dialCode ?? '';
+                          // Update the max length
+                          bloc.add(PhoneMaxLengthEvent(maxLength));
                         },
                       ),
                     ),
                     // PHONE NUMBER
-                    Expanded(
-                      flex: 2,
-                      child: WwTextFieldPhone(
-                        controller: bloc.phoneSignUpCtr,
-                        hintText: 'Enter Phone',
-                        showValidator: true,
-                      ),
+                    BlocSelector<AuthBloc, AuthState, int>(
+                      selector: (state) => state.phoneMaxLength,
+                      builder: (context, length) {
+                        return Expanded(
+                          flex: 2,
+                          child: WwTextFieldPhone(
+                            controller: bloc.phoneSignUpCtr,
+                            hintText: 'Enter Phone',
+                            showValidator: true,
+                            phoneMaxLength: length,
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),

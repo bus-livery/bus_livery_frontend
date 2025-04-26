@@ -19,62 +19,75 @@ class LoginWithOtpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<AuthBloc>();
+
     return Scaffold(
-      body: Padding(
-        padding: AppSize.swPadding,
-        child: Center(
-          child: Column(
-            spacing: 15.h,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset('assets/images/buss_logo.png', height: 150),
-              Row(
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: WwCountryCode(
-                      onChanged: (v) {
-                        bloc.countryCodeOtpLogin = v.dialCode ?? '';
+      body: Form(
+        key: bloc.loginWithOtpFormKey,
+        child: Padding(
+          padding: AppSize.swPadding,
+          child: Center(
+            child: Column(
+              spacing: 15.h,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/images/buss_logo.png', height: 150),
+                Row(
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      child: WwCountryCode(
+                        onChanged: (countryCode, maxLength) {
+                          bloc.countryCodeOtpLogin = countryCode.dialCode ?? '';
+                          // Update the max length
+                          bloc.add(PhoneMaxLengthEvent(maxLength));
+                        },
+                      ),
+                    ),
+                    BlocSelector<AuthBloc, AuthState, int>(
+                      selector: (state) => state.phoneMaxLength,
+                      builder: (context, length) {
+                        return Expanded(
+                          flex: 2,
+                          child: WwTextFieldPhone(
+                            showValidator: true,
+                            controller: bloc.phoneCtr,
+                            hintText: 'Enter your phone',
+                            phoneMaxLength: length,
+                          ),
+                        );
                       },
                     ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: WwTextFieldPhone(
-                      controller: bloc.phoneCtr,
-                      hintText: 'Enter your phone',
-                    ),
-                  ),
-                ],
-              ),
-              // BUTTON GENERATE OTP-------------------------------
-              _ButtonGenerateOtp(bloc: bloc),
-              // Row(
-              //   children: [
-              //     Flexible(
-              //       child: Divider(
-              //         color:
-              //             Theme.of(context).colorScheme.surfaceContainerHighest,
-              //       ),
-              //     ),
-              //     const Padding(
-              //       padding: EdgeInsets.symmetric(horizontal: 15),
-              //       child: WwText(text: 'Or connect with'),
-              //     ),
-              //     Flexible(
-              //       child: Divider(
-              //         color:
-              //             Theme.of(context).colorScheme.surfaceContainerHighest,
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              // WWButtonPrefixSvg(
-              //   text: 'Continue with Google',
-              //   icon: AppImages.google,
-              //   onPressed: () {},
-              // ),
-            ],
+                  ],
+                ),
+                // BUTTON GENERATE OTP-------------------------------
+                _ButtonGenerateOtp(bloc: bloc),
+                // Row(
+                //   children: [
+                //     Flexible(
+                //       child: Divider(
+                //         color:
+                //             Theme.of(context).colorScheme.surfaceContainerHighest,
+                //       ),
+                //     ),
+                //     const Padding(
+                //       padding: EdgeInsets.symmetric(horizontal: 15),
+                //       child: WwText(text: 'Or connect with'),
+                //     ),
+                //     Flexible(
+                //       child: Divider(
+                //         color:
+                //             Theme.of(context).colorScheme.surfaceContainerHighest,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // WWButtonPrefixSvg(
+                //   text: 'Continue with Google',
+                //   icon: AppImages.google,
+                //   onPressed: () {},
+                // ),
+              ],
+            ),
           ),
         ),
       ),
@@ -89,6 +102,8 @@ class _ButtonGenerateOtp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<AuthBloc>();
+
     return BlocConsumer<AuthBloc, AuthState>(
       buildWhen:
           (p, c) =>
@@ -114,13 +129,17 @@ class _ButtonGenerateOtp extends StatelessWidget {
             loader: state.otpResponse.status == ApiStatus.loading,
             text: 'Get OTP',
             onPressed: () {
-              context.read<AuthBloc>().add(
-                AuthOtpGenerateApi(
-                  isFromLoginScreen: true,
-                  code: bloc.countryCodeOtpLogin,
-                  phone: bloc.phoneCtr.text,
-                ),
-              );
+              if (!(bloc.loginWithOtpFormKey.currentState?.validate() ??
+                  false)) {
+                return;
+              }
+              // context.read<AuthBloc>().add(
+              //   AuthOtpGenerateApi(
+              //     isFromLoginScreen: true,
+              //     code: bloc.countryCodeOtpLogin,
+              //     phone: bloc.phoneCtr.text,
+              //   ),
+              // );
             },
           ),
     );

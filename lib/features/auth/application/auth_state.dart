@@ -2,6 +2,7 @@ part of 'auth_bloc.dart';
 
 // State
 class AuthState {
+  final int phoneMaxLength;
   final bool showLoginPass;
   final bool showSignUpPass;
   final bool showSignupConPass;
@@ -12,6 +13,7 @@ class AuthState {
   final ApiResponse<String> signupResponse;
 
   AuthState({
+    required this.phoneMaxLength,
     required this.showLoginPass,
     required this.showSignUpPass,
     required this.showSignupConPass,
@@ -24,6 +26,7 @@ class AuthState {
 
   factory AuthState.initial() {
     return AuthState(
+      phoneMaxLength: 10,
       showLoginPass: false,
       showSignUpPass: false,
       showSignupConPass: false,
@@ -36,6 +39,7 @@ class AuthState {
   }
 
   AuthState copyWith({
+    int? phoneMaxLength,
     bool? showLoginPass,
     bool? showSignUpPass,
     bool? showSignupConPass,
@@ -48,6 +52,7 @@ class AuthState {
     ApiResponse<String>? signupResponse,
   }) {
     return AuthState(
+      phoneMaxLength: phoneMaxLength ?? this.phoneMaxLength,
       showLoginPass: showLoginPass ?? this.showLoginPass,
       showSignUpPass: showSignUpPass ?? this.showSignUpPass,
       showSignupConPass: showSignupConPass ?? this.showSignupConPass,
