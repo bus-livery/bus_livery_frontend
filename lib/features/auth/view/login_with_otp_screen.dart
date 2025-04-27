@@ -133,13 +133,13 @@ class _ButtonGenerateOtp extends StatelessWidget {
                   false)) {
                 return;
               }
-              // context.read<AuthBloc>().add(
-              //   AuthOtpGenerateApi(
-              //     isFromLoginScreen: true,
-              //     code: bloc.countryCodeOtpLogin,
-              //     phone: bloc.phoneCtr.text,
-              //   ),
-              // );
+              context.read<AuthBloc>().add(
+                AuthOtpGenerateApi(
+                  isFromLoginScreen: true,
+                  code: bloc.countryCodeOtpLogin,
+                  phone: bloc.phoneCtr.text,
+                ),
+              );
             },
           ),
     );
