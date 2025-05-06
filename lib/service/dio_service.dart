@@ -19,8 +19,8 @@ class DioService {
   final Dio dio;
 
   SharedPrefService sharedPS = getIt<SharedPrefService>();
-  static const baseUrl = "http://18.212.92.48/api";
-  // static const baseUrl = "http://localhost:8080/api";
+  // static const baseUrl = "http://18.212.92.48/api";
+  static const baseUrl = "http://localhost:8080/api";
   DioService() : dio = Dio(BaseOptions(baseUrl: baseUrl)) {
     dio.interceptors.add(DioInterceptor());
   }
@@ -167,7 +167,7 @@ class DioInterceptor extends Interceptor {
     await Future.delayed(Duration(seconds: 1));
 
     if (err.response?.statusCode == 401) {
-      getIt<AppRouter>().replaceAll([const LoginRoute()]);
+      getIt<AppRouter>().replaceAll([const GmailWithOtpRoute()]);
       getIt<SharedPrefService>().remove("token");
       successToast('Token expired. Please login again.');
     }

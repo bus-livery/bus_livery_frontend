@@ -17,7 +17,7 @@ class AuthGuard extends AutoRouteGuard {
     if (isAuthenticated) {
       resolver.next(true);
     } else {
-      resolver.redirectUntil(const LoginRoute());
+      resolver.redirectUntil(const GmailWithOtpRoute());
     }
   }
 }

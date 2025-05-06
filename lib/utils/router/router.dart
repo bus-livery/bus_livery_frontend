@@ -8,13 +8,17 @@ import 'package:livery/utils/router/router_names.dart';
 class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
-    AutoRoute(page: LoginRoute.page, path: RouterNames.loginScreen),
-    AutoRoute(page: SignUpRoute.page, path: RouterNames.signUpScreen),
-    AutoRoute(
-      page: LoginWithOtpRoute.page,
-      path: RouterNames.loginWithOtpScreen,
-    ),
+    // AutoRoute(page: LoginRoute.page, path: RouterNames.loginScreen),
+    // AutoRoute(page: SignUpRoute.page, path: RouterNames.signUpScreen),
 
+    // AutoRoute(
+    //   page: LoginWithOtpRoute.page,
+    //   path: RouterNames.loginWithOtpScreen,
+    // ),
+    AutoRoute(
+      page: GmailWithOtpRoute.page,
+      path: RouterNames.gmailWithOtpScreen,
+    ),
     AutoRoute(page: OtpRoute.page, path: RouterNames.otpScreen),
 
     AutoRoute(

@@ -83,7 +83,7 @@ Would you like to add a confirmation button like "I Agree" or "Continue"
                       context,
                       textSub: 'Please login to continue',
                       secondTap: () {
-                        context.router.replaceAll([const LoginRoute()]);
+                        context.router.replaceAll([const GmailWithOtpRoute()]);
                       },
                     );
                   }

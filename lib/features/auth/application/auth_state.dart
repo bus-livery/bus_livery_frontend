@@ -11,6 +11,8 @@ class AuthState {
   final ApiResponse<LoginResModel> loginOtpResponse;
   final ApiResponse<String> loginResponse;
   final ApiResponse<String> signupResponse;
+  final ApiResponse<String> gmailOtpResponse;
+  final ApiResponse<LoginResModel> gmailLoginResponse;
 
   AuthState({
     required this.phoneMaxLength,
@@ -22,6 +24,8 @@ class AuthState {
     required this.loginOtpResponse,
     required this.loginResponse,
     required this.signupResponse,
+    required this.gmailOtpResponse,
+    required this.gmailLoginResponse,
   });
 
   factory AuthState.initial() {
@@ -35,6 +39,8 @@ class AuthState {
       loginOtpResponse: ApiResponse<LoginResModel>(),
       loginResponse: ApiResponse<String>(),
       signupResponse: ApiResponse<String>(),
+      gmailOtpResponse: ApiResponse<String>(),
+      gmailLoginResponse: ApiResponse<LoginResModel>(),
     );
   }
 
@@ -50,6 +56,8 @@ class AuthState {
     ApiResponse<LoginResModel>? loginOtpResponse,
     ApiResponse<String>? loginResponse,
     ApiResponse<String>? signupResponse,
+    ApiResponse<String>? gmailOtpResponse,
+    ApiResponse<LoginResModel>? gmailLoginResponse,
   }) {
     return AuthState(
       phoneMaxLength: phoneMaxLength ?? this.phoneMaxLength,
@@ -61,6 +69,8 @@ class AuthState {
       loginOtpResponse: loginOtpResponse ?? this.loginOtpResponse,
       loginResponse: loginResponse ?? this.loginResponse,
       signupResponse: signupResponse ?? this.signupResponse,
+      gmailOtpResponse: gmailOtpResponse ?? this.gmailOtpResponse,
+      gmailLoginResponse: gmailLoginResponse ?? this.gmailLoginResponse,
     );
   }
 }

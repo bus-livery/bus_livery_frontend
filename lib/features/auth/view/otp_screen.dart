@@ -36,12 +36,12 @@ class OtpScreen extends StatelessWidget {
               ),
               AppSize.sizedBox4h,
               WwText(
-                text: 'Enter the code sent to the phone',
+                text: 'Enter the code sent to the email',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               AppSize.sizedBox2h,
               WwText(
-                text: bloc.phoneCtr.text,
+                text: bloc.gmailEmailCtr.text,
                 style: Theme.of(
                   context,
                 ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
@@ -127,10 +127,11 @@ class _ResendButton extends StatelessWidget {
                   final bloc = context.read<AuthBloc>();
                   bloc.otpTimOut = 60;
                   bloc.add(
-                    AuthOtpGenerateApi(
+                    AuthGmailOtpGenerateApi(
                       isFromLoginScreen: false,
-                      phone: bloc.phoneCtr.text,
-                      code: bloc.countryCodeOtpLogin,
+                      email: bloc.gmailEmailCtr.text,
+                      // phone: bloc.phoneCtr.text,
+                      // code: bloc.countryCodeOtpLogin,
                     ),
                   );
                 },
@@ -166,11 +167,11 @@ class _LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       buildWhen:
-          (p, c) => p.loginOtpResponse.status != c.loginOtpResponse.status,
+          (p, c) => p.gmailLoginResponse.status != c.gmailLoginResponse.status,
       listenWhen:
-          (p, c) => p.loginOtpResponse.status != c.loginOtpResponse.status,
+          (p, c) => p.gmailLoginResponse.status != c.gmailLoginResponse.status,
       listener: (context, state) {
-        var logRes = state.loginOtpResponse;
+        var logRes = state.gmailLoginResponse;
         if (logRes.status == ApiStatus.failure) {
           wwDialogueBox(context, textSub: logRes.errorMessage ?? '');
         }
@@ -185,8 +186,9 @@ class _LoginButton extends StatelessWidget {
               secondTap: () {
                 bloc.add(
                   AuthCreateUserOtpApi(
-                    phone: bloc.phoneCtr.text,
-                    code: bloc.countryCodeOtpLogin,
+                    email: bloc.gmailEmailCtr.text,
+                    // phone: bloc.phoneCtr.text,
+                    // code: bloc.countryCodeOtpLogin,
                   ),
                 );
                 context.router.maybePop();
@@ -205,10 +207,9 @@ class _LoginButton extends StatelessWidget {
             loader: state.loginOtpResponse.status == ApiStatus.loading,
             onPressed: () {
               bloc.add(
-                AuthloginOtpApi(
-                  email: bloc.phoneCtr.text,
+                AuthGmailOtpLoginApi(
+                  email: bloc.gmailEmailCtr.text,
                   otp: bloc.otpCtr.text,
-                  code: bloc.countryCodeOtpLogin,
                 ),
               );
             },

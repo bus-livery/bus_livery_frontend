@@ -32,6 +32,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthloginOtpApi>(_authloginOtpApi);
 
     on<AuthCreateUserOtpApi>(_authCreateUserOtpApi);
+
+    on<AuthGmailOtpGenerateApi>(_authGmailOtpGenerateApi);
+
+    on<AuthGmailOtpLoginApi>(_authGmailOtpLoginApi);
   }
 
   // LOGIN SCREEN
@@ -49,8 +53,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final conPassSignUpCtr = TextEditingController();
   String countryCodeSignUp = '+91';
 
+  final gmailEmailCtr = TextEditingController();
+
   // LOGIN WITH OTP
-  final phoneCtr = TextEditingController();
+  // final phoneCtr = TextEditingController();
   final otpCtr = TextEditingController();
   String countryCodeOtpLogin = '+91';
 
@@ -93,7 +99,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     passSignUpCtr.dispose();
     conPassSignUpCtr.dispose();
 
-    phoneCtr.dispose();
+    // phoneCtr.dispose();
     otpCtr.dispose();
     super.close();
   }
@@ -109,12 +115,78 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     passSignUpCtr.clear();
     conPassSignUpCtr.clear();
 
-    phoneCtr.clear();
+    // phoneCtr.clear();
     otpCtr.clear();
   }
 
   _phoneMaxLengthEvent(PhoneMaxLengthEvent event, emit) {
     emit(state.copyWith(phoneMaxLength: event.length));
+  }
+
+  _authGmailOtpGenerateApi(AuthGmailOtpGenerateApi event, emit) async {
+    emit(
+      state.copyWith(gmailOtpResponse: ApiResponse(status: ApiStatus.loading)),
+    );
+
+    final response = await iAuthService.gmailOtpGenerateApi(email: event.email);
+    return response.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            gmailOtpResponse: ApiResponse(
+              status: ApiStatus.failure,
+              errorMessage: failure,
+            ),
+          ),
+        );
+      },
+      (success) {
+        emit(
+          state.copyWith(
+            gmailOtpResponse: ApiResponse(
+              status: ApiStatus.success,
+              apiData: success,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  _authGmailOtpLoginApi(AuthGmailOtpLoginApi event, emit) async {
+    emit(
+      state.copyWith(
+        gmailLoginResponse: ApiResponse(status: ApiStatus.loading),
+      ),
+    );
+
+    final response = await iAuthService.gmailOtpLoginApi(
+      email: event.email,
+      otp: event.otp,
+    );
+
+    return response.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            gmailLoginResponse: ApiResponse(
+              status: ApiStatus.failure,
+              errorMessage: failure,
+            ),
+          ),
+        );
+      },
+      (success) {
+        emit(
+          state.copyWith(
+            gmailLoginResponse: ApiResponse(
+              status: ApiStatus.success,
+              apiData: success,
+            ),
+          ),
+        );
+      },
+    );
   }
 
   _authPassVisible(AuthPassVisibleEvent event, emit) {
@@ -284,7 +356,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     final response = await iAuthService.userRegisterOtpApi(
-      phone: event.code + event.phone.trim(),
+      email: event.email.trim(),
     );
 
     return response.fold(

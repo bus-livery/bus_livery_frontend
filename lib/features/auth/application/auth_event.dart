@@ -57,7 +57,21 @@ class AuthloginOtpApi extends AuthEvent {
 }
 
 class AuthCreateUserOtpApi extends AuthEvent {
-  final String phone;
-  final String code;
-  AuthCreateUserOtpApi({required this.phone, required this.code});
+  final String email;
+  AuthCreateUserOtpApi({required this.email});
+}
+
+class AuthGmailOtpGenerateApi extends AuthEvent {
+  final String email;
+  final bool isFromLoginScreen;
+  AuthGmailOtpGenerateApi({
+    required this.email,
+    required this.isFromLoginScreen,
+  });
+}
+
+class AuthGmailOtpLoginApi extends AuthEvent {
+  final String email;
+  final String otp;
+  AuthGmailOtpLoginApi({required this.email, required this.otp});
 }

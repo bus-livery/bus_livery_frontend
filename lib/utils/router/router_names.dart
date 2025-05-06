@@ -1,6 +1,7 @@
 abstract class RouterNames {
   // AUTHENTICATION SCREENS
   static const loginWithOtpScreen = '/login_with_otp_screen';
+  static const gmailWithOtpScreen = '/gmail_with_otp_screen';
   static const otpScreen = '/otp_screen';
   static const loginScreen = '/login_Screen';
   static const signUpScreen = '/sign_up_screen';

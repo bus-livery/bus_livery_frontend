@@ -10,8 +10,13 @@ final class AuthEndPoint {
   final login = '/v1/auth/user-login';
   final signUp = '/v1/auth/user-signup';
   final loginOtp = '/v1/auth/user-otp-login';
-  final createOtpUser = '/v1/auth/create-user';
+  final createOtpUser =
+      '/v1/auth/create-user'; // currently used for gmail login
   final otpRegister = '/v1/auth/generate-otp';
+  final gmailOtpLogin =
+      '/v1/auth/gmail-login'; // currently used for gmail login
+  final gmailGenerateOtp =
+      '/v1/auth/generate-gmail-otp'; // currently used for gmail login
 }
 
 final class ProfileEndPoints {

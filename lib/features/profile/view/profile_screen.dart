@@ -233,7 +233,7 @@ During this period, you can reactivate your account by logging in. After 45 days
 ''',
                     secondTap: () {
                       getIt<SharedPrefService>().clear();
-                      context.router.replaceAll([LoginWithOtpRoute()]);
+                      context.router.replaceAll([GmailWithOtpRoute()]);
                     },
                   );
                 },
@@ -243,7 +243,7 @@ During this period, you can reactivate your account by logging in. After 45 days
                 title: WwText(text: 'Sign out'),
                 onTap: () {
                   getIt<SharedPrefService>().clear();
-                  context.router.replaceAll([LoginRoute()]);
+                  context.router.replaceAll([GmailWithOtpRoute()]);
                 },
               ),
             ],

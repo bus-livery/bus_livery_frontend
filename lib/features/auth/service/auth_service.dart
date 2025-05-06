@@ -28,7 +28,14 @@ abstract class IAuthService {
     required Map<String, dynamic> data,
   });
 
-  Future<Either<String, String>> userRegisterOtpApi({required String phone});
+  Future<Either<String, String>> userRegisterOtpApi({required String email});
+
+  Future<Either<String, String>> gmailOtpGenerateApi({required String email});
+
+  Future<Either<String, LoginResModel>> gmailOtpLoginApi({
+    required String email,
+    required String otp,
+  });
 }
 
 @LazySingleton(as: IAuthService)
@@ -79,13 +86,13 @@ class AuthService implements IAuthService {
 
   @override
   Future<Either<String, String>> userRegisterOtpApi({
-    required String phone,
+    required String email,
   }) async {
     try {
       final res = await _dioServices.request(
         EndPoints.auth.createOtpUser,
         method: Method.post,
-        data: {"phone": phone},
+        data: {"email": email},
       );
       return res.fold(
         (l) => Left(l.message),
@@ -129,6 +136,47 @@ class AuthService implements IAuthService {
       return res.fold(
         (l) => Left(l.message),
         (r) async => Right(r.data['message']),
+      );
+    } catch (e) {
+      return Left("$e");
+    }
+  }
+
+  @override
+  Future<Either<String, String>> gmailOtpGenerateApi({
+    required String email,
+  }) async {
+    try {
+      final res = await _dioServices.request(
+        EndPoints.auth.gmailGenerateOtp,
+        method: Method.post,
+        data: {"email": email},
+      );
+      return res.fold(
+        (l) => Left(l.message),
+        (r) async => Right(r.data['message']),
+      );
+    } catch (e) {
+      return Left("$e");
+    }
+  }
+
+  @override
+  Future<Either<String, LoginResModel>> gmailOtpLoginApi({
+    required String email,
+    required String otp,
+  }) async {
+    try {
+      final res = await _dioServices.request(
+        EndPoints.auth.gmailOtpLogin,
+        method: Method.post,
+        data: {"email": email, "otp": otp},
+      );
+      return res.fold(
+        (l) => Left(l.message),
+        (r) async => Right(
+          LoginResModel(message: r.data['message'], statusCode: r.statusCode),
+        ),
       );
     } catch (e) {
       return Left("$e");
