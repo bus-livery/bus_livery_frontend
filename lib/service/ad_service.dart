@@ -28,9 +28,9 @@ class AdService {
   // Initialize ads when app starts
   Future<void> initAds() async {
     await MobileAds.instance.initialize();
-    await loadRewardedAd();
-    await loadInterstitialAd();
     await loadBannerAd();
+    await loadInterstitialAd();
+    await loadRewardedAd();
   }
 
   // Load banner ad
