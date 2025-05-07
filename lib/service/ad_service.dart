@@ -10,7 +10,8 @@ class AdService {
   BannerAd? _bannerAd;
   bool _isRewardedAdReady = false;
   bool _isInterstitialAdReady = false;
-  bool _isFirstDownload = true; // Track if this is the first download
+  DateTime? _lastRewardedAdTime;
+  static const Duration _rewardedAdInterval = Duration(minutes: 5);
 
   // Ad unit IDs - replace with your production IDs before release
   static const String rewardedAdUnitId =
@@ -24,9 +25,6 @@ class AdService {
   static const String bannerAdUnitId =
       // 'ca-app-pub-5333475889663851/6047191107';
       'ca-app-pub-3940256099942544/6300978111'; // Test ID
-
-  // Preference key
-  static const String firstDownloadKey = 'first_download_completed';
 
   // Initialize ads when app starts
   Future<void> initAds() async {
@@ -82,10 +80,15 @@ class AdService {
           onAdLoaded: (ad) {
             _rewardedAd = ad;
             _isRewardedAdReady = true;
+            // Check if enough time has passed since last ad
+            if (_shouldShowRewardedAd()) {
+              showRewardedAd();
+            }
 
             ad.fullScreenContentCallback = FullScreenContentCallback(
               onAdDismissedFullScreenContent: (ad) {
                 _isRewardedAdReady = false;
+                _lastRewardedAdTime = DateTime.now();
                 ad.dispose();
                 loadRewardedAd(); // Load the next ad
               },
@@ -117,6 +120,13 @@ class AdService {
       // Retry after delay
       Future.delayed(const Duration(minutes: 1), loadRewardedAd);
     }
+  }
+
+  // Check if enough time has passed since last rewarded ad
+  bool _shouldShowRewardedAd() {
+    if (_lastRewardedAdTime == null) return true;
+    return DateTime.now().difference(_lastRewardedAdTime!) >=
+        _rewardedAdInterval;
   }
 
   // Load interstitial ad
@@ -160,47 +170,33 @@ class AdService {
     }
   }
 
-  // Check if this is the first download (should show rewarded ad)
-  bool isFirstDownload() {
-    return _isFirstDownload;
-  }
-
-  // Show rewarded ad and return whether user should get reward
-  Future<bool> showRewardedAd() async {
+  // Show rewarded ad
+  Future<void> showRewardedAd() async {
     if (!_isRewardedAdReady || _rewardedAd == null) {
       await loadRewardedAd();
-      if (!_isRewardedAdReady) {
-        // If can't load the ad, mark first download complete anyway
-        if (_isFirstDownload) {}
-        return true; // Let user proceed if ad can't be shown
-      }
+      return;
     }
 
-    bool userRewarded = false;
+    if (!_shouldShowRewardedAd()) {
+      return;
+    }
+
     try {
       await _rewardedAd!.show(
         onUserEarnedReward: (_, reward) {
-          userRewarded = true;
           customPrint('User earned reward: ${reward.amount} ${reward.type}');
         },
       );
     } catch (e) {
       customPrint('Error showing rewarded ad: $e');
-      return true; // Let user proceed if ad fails
     }
 
     _isRewardedAdReady = false;
-
-    // Mark first download as complete after showing rewarded ad
-    if (_isFirstDownload) {
-      _isFirstDownload = false;
-    }
-
+    _lastRewardedAdTime = DateTime.now();
     loadRewardedAd(); // Preload next ad
-    return userRewarded;
   }
 
-  // Show interstitial ad for non-first downloads
+  // Show interstitial ad for downloads
   Future<void> showInterstitialAd() async {
     if (!_isInterstitialAdReady || _interstitialAd == null) {
       await loadInterstitialAd();
