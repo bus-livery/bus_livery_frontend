@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "301384240271",
+    "project_id": "indian-bus-livery",
+    "storage_bucket": "indian-bus-livery.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:301384240271:android:23144aadfddab8468974fa",
+        "android_client_info": {
+          "package_name": "com.bus.mod.livery"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMF8gqtHNHJo3Z0S9pNQL5XN9ksomexy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
