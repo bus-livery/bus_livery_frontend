@@ -27,14 +27,20 @@ class EditProfileScreen extends StatelessWidget {
           spacing: 20,
           children: [
             WWTextField(controller: data?.usernameCtr, title: 'Username'),
+            // IgnorePointer(
+            //   ignoring: true,
+            //   child: WwTextFieldPhone(
+            //     controller: data?.phoneNoCtr,
+            //     title: 'Phone number',
+            //   ),
+            // ),
             IgnorePointer(
               ignoring: true,
-              child: WwTextFieldPhone(
-                controller: data?.phoneNoCtr,
-                title: 'Phone number',
+              child: WWTextFieldEmail(
+                controller: data?.emailCtr,
+                title: 'Email',
               ),
             ),
-            WWTextFieldEmail(controller: data?.emailCtr, title: 'Email'),
             WWTextFieldTextArea(
               controller: data?.descriptionCtr,
               title: 'Description',

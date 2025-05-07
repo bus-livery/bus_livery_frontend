@@ -21,15 +21,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<PhoneMaxLengthEvent>(_phoneMaxLengthEvent);
 
-    on<AuthloginApi>(_authLoginApi);
+    // on<AuthloginApi>(_authLoginApi);
 
-    on<AuthSignUpApi>(_authSignUpApi);
+    // on<AuthSignUpApi>(_authSignUpApi);
 
-    on<AuthPassVisibleEvent>(_authPassVisible);
+    // on<AuthPassVisibleEvent>(_authPassVisible);
 
-    on<AuthOtpGenerateApi>(_authOtpGenerateApi);
+    // on<AuthOtpGenerateApi>(_authOtpGenerateApi);
 
-    on<AuthloginOtpApi>(_authloginOtpApi);
+    // on<AuthloginOtpApi>(_authloginOtpApi);
 
     on<AuthCreateUserOtpApi>(_authCreateUserOtpApi);
 
@@ -40,18 +40,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   // LOGIN SCREEN
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
-  final usernameCtr = TextEditingController();
-  final passwordCtr = TextEditingController();
+  // final usernameCtr = TextEditingController();
+  // final passwordCtr = TextEditingController();
   // SIGN UP SCREEN
 
-  GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
+  // GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> loginWithOtpFormKey = GlobalKey<FormState>();
 
-  final usernameSignupCtr = TextEditingController();
-  final phoneSignUpCtr = TextEditingController();
-  final passSignUpCtr = TextEditingController();
-  final conPassSignUpCtr = TextEditingController();
-  String countryCodeSignUp = '+91';
+  // final usernameSignupCtr = TextEditingController();
+  // final phoneSignUpCtr = TextEditingController();
+  // final passSignUpCtr = TextEditingController();
+  // final conPassSignUpCtr = TextEditingController();
+  // String countryCodeSignUp = '+91';
 
   final gmailEmailCtr = TextEditingController();
 
@@ -90,14 +90,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     customPrint('AUTH BLOC CLOSED');
 
     // LOGIN SCREEN
-    usernameCtr.dispose();
-    passwordCtr.dispose();
+    // usernameCtr.dispose();
+    // passwordCtr.dispose();
 
     // SIGNUP SCREEN
-    usernameSignupCtr.dispose();
-    phoneSignUpCtr.dispose();
-    passSignUpCtr.dispose();
-    conPassSignUpCtr.dispose();
+    // usernameSignupCtr.dispose();
+    // phoneSignUpCtr.dispose();
+    // passSignUpCtr.dispose();
+    // conPassSignUpCtr.dispose();
 
     // phoneCtr.dispose();
     otpCtr.dispose();
@@ -106,14 +106,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void clearCtr() {
     // LOGIN SCREEN
-    usernameCtr.clear();
-    passwordCtr.clear();
+    // usernameCtr.clear();
+    // passwordCtr.clear();
 
     // SIGNUP SCREEN
-    usernameSignupCtr.clear();
-    phoneSignUpCtr.clear();
-    passSignUpCtr.clear();
-    conPassSignUpCtr.clear();
+    // usernameSignupCtr.clear();
+    // phoneSignUpCtr.clear();
+    // passSignUpCtr.clear();
+    // conPassSignUpCtr.clear();
 
     // phoneCtr.clear();
     otpCtr.clear();
@@ -125,7 +125,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   _authGmailOtpGenerateApi(AuthGmailOtpGenerateApi event, emit) async {
     emit(
-      state.copyWith(gmailOtpResponse: ApiResponse(status: ApiStatus.loading)),
+      state.copyWith(
+        isFromLoginScreen: event.isFromLoginScreen,
+        gmailOtpResponse: ApiResponse(status: ApiStatus.loading),
+      ),
     );
 
     final response = await iAuthService.gmailOtpGenerateApi(email: event.email);
@@ -189,170 +192,172 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  _authPassVisible(AuthPassVisibleEvent event, emit) {
-    switch (event.state) {
-      case PassVisibleEnum.loginPass:
-        emit(state.copyWith(showLoginPass: !state.showLoginPass));
-        break;
-      case PassVisibleEnum.signUpPass:
-        emit(state.copyWith(showSignUpPass: !state.showSignUpPass));
-        break;
-      case PassVisibleEnum.signUpPassCon:
-        emit(state.copyWith(showSignupConPass: !state.showSignupConPass));
-        break;
-    }
-  }
+  // _authPassVisible(AuthPassVisibleEvent event, emit) {
+  //   switch (event.state) {
+  //     case PassVisibleEnum.loginPass:
+  //       emit(state.copyWith(showLoginPass: !state.showLoginPass));
+  //       break;
+  //     case PassVisibleEnum.signUpPass:
+  //       emit(state.copyWith(showSignUpPass: !state.showSignUpPass));
+  //       break;
+  //     case PassVisibleEnum.signUpPassCon:
+  //       emit(state.copyWith(showSignupConPass: !state.showSignupConPass));
+  //       break;
+  //   }
+  // }
 
-  _authLoginApi(AuthloginApi event, emit) async {
-    emit(state.copyWith(loginResponse: ApiResponse(status: ApiStatus.loading)));
+  // _authLoginApi(AuthloginApi event, emit) async {
+  //   emit(state.copyWith(loginResponse: ApiResponse(status: ApiStatus.loading)));
 
-    final response = await iAuthService.loginApi(
-      username: event.username.trim(),
-      password: event.password.trim(),
-    );
-    return response.fold(
-      //
-      (failure) {
-        emit(
-          state.copyWith(
-            loginResponse: ApiResponse(
-              status: ApiStatus.failure,
-              errorMessage: failure,
-            ),
-          ),
-        );
-      },
-      //
-      (success) {
-        clearCtr();
-        emit(
-          state.copyWith(
-            loginResponse: ApiResponse(
-              status: ApiStatus.success,
-              apiData: success,
-            ),
-          ),
-        );
-      },
-    );
-  }
+  //   final response = await iAuthService.loginApi(
+  //     username: event.username.trim(),
+  //     password: event.password.trim(),
+  //   );
+  //   return response.fold(
+  //     //
+  //     (failure) {
+  //       emit(
+  //         state.copyWith(
+  //           loginResponse: ApiResponse(
+  //             status: ApiStatus.failure,
+  //             errorMessage: failure,
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //     //
+  //     (success) {
+  //       clearCtr();
+  //       emit(
+  //         state.copyWith(
+  //           loginResponse: ApiResponse(
+  //             status: ApiStatus.success,
+  //             apiData: success,
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
-  _authSignUpApi(AuthSignUpApi event, emit) async {
-    emit(
-      state.copyWith(signupResponse: ApiResponse(status: ApiStatus.loading)),
-    );
+  // _authSignUpApi(AuthSignUpApi event, emit) async {
+  //   emit(
+  //     state.copyWith(signupResponse: ApiResponse(status: ApiStatus.loading)),
+  //   );
 
-    final response = await iAuthService.signUpApi(
-      data: {
-        "username": event.username.trim(),
-        "password": event.password.trim(),
-        "phone": event.code + event.phone.trim(),
-      },
-    );
-    return response.fold(
-      //
-      (failure) {
-        emit(
-          state.copyWith(
-            signupResponse: ApiResponse(
-              status: ApiStatus.failure,
-              errorMessage: failure,
-            ),
-          ),
-        );
-      },
-      //
-      (success) {
-        emit(
-          state.copyWith(
-            signupResponse: ApiResponse(
-              status: ApiStatus.success,
-              apiData: success,
-            ),
-          ),
-        );
-        clearCtr();
-      },
-    );
-  }
+  //   final response = await iAuthService.signUpApi(
+  //     data: {
+  //       "username": event.username.trim(),
+  //       "password": event.password.trim(),
+  //       "phone": event.code + event.phone.trim(),
+  //     },
+  //   );
+  //   return response.fold(
+  //     //
+  //     (failure) {
+  //       emit(
+  //         state.copyWith(
+  //           signupResponse: ApiResponse(
+  //             status: ApiStatus.failure,
+  //             errorMessage: failure,
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //     //
+  //     (success) {
+  //       emit(
+  //         state.copyWith(
+  //           signupResponse: ApiResponse(
+  //             status: ApiStatus.success,
+  //             apiData: success,
+  //           ),
+  //         ),
+  //       );
+  //       clearCtr();
+  //     },
+  //   );
+  // }
 
-  _authOtpGenerateApi(AuthOtpGenerateApi event, emit) async {
-    emit(
-      state.copyWith(
-        isFromLoginScreen: event.isFromLoginScreen,
-        otpResponse: ApiResponse(status: ApiStatus.loading),
-      ),
-    );
+  // _authOtpGenerateApi(AuthOtpGenerateApi event, emit) async {
+  //   emit(
+  //     state.copyWith(
+  //       isFromLoginScreen: event.isFromLoginScreen,
+  //       otpResponse: ApiResponse(status: ApiStatus.loading),
+  //     ),
+  //   );
 
-    final response = await iAuthService.otpGenerate(
-      phone: event.code + event.phone,
-    );
+  //   final response = await iAuthService.otpGenerate(
+  //     phone: event.code + event.phone,
+  //   );
 
-    return response.fold(
-      //
-      (failure) {
-        emit(
-          state.copyWith(
-            otpResponse: ApiResponse(
-              status: ApiStatus.failure,
-              errorMessage: failure,
-            ),
-          ),
-        );
-      },
-      //
-      (success) {
-        emit(
-          state.copyWith(
-            otpResponse: ApiResponse(
-              status: ApiStatus.success,
-              apiData: success,
-            ),
-          ),
-        );
-      },
-    );
-  }
+  //   return response.fold(
+  //     //
+  //     (failure) {
+  //       emit(
+  //         state.copyWith(
+  //           otpResponse: ApiResponse(
+  //             status: ApiStatus.failure,
+  //             errorMessage: failure,
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //     //
+  //     (success) {
+  //       emit(
+  //         state.copyWith(
+  //           otpResponse: ApiResponse(
+  //             status: ApiStatus.success,
+  //             apiData: success,
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
-  _authloginOtpApi(AuthloginOtpApi event, emit) async {
-    emit(
-      state.copyWith(loginOtpResponse: ApiResponse(status: ApiStatus.loading)),
-    );
+  // // _authloginOtpApi(AuthloginOtpApi event, emit) async {
+  // //   emit(
+  // //     state.copyWith(loginOtpResponse: ApiResponse(status: ApiStatus.loading)),
+  // //   );
 
-    final response = await iAuthService.loginOtpApi(
-      email: event.code + event.email.trim(),
-      otp: event.otp,
-    );
-    otpCtr.clear();
-    return response.fold(
-      //
-      (failure) {
-        emit(
-          state.copyWith(
-            loginOtpResponse: ApiResponse(
-              status: ApiStatus.failure,
-              errorMessage: failure,
-            ),
-          ),
-        );
-      },
-      //
-      (success) {
-        emit(
-          state.copyWith(
-            loginOtpResponse: ApiResponse(
-              status: ApiStatus.success,
-              apiData: success,
-            ),
-          ),
-        );
-      },
-    );
-  }
+  // //   final response = await iAuthService.loginOtpApi(
+  // //     email: event.code + event.email.trim(),
+  // //     otp: event.otp,
+  // //   );
+  // //   otpCtr.clear();
+  // //   return response.fold(
+  // //     //
+  // //     (failure) {
+  // //       emit(
+  // //         state.copyWith(
+  // //           loginOtpResponse: ApiResponse(
+  // //             status: ApiStatus.failure,
+  // //             errorMessage: failure,
+  // //           ),
+  // //         ),
+  // //       );
+  // //     },
+  // //     //
+  // //     (success) {
+  // //       emit(
+  // //         state.copyWith(
+  // //           loginOtpResponse: ApiResponse(
+  // //             status: ApiStatus.success,
+  // //             apiData: success,
+  // //           ),
+  // //         ),
+  // //       );
+  // //     },
+  // //   );
+  // // }
 
   _authCreateUserOtpApi(AuthCreateUserOtpApi event, emit) async {
     emit(
-      state.copyWith(loginOtpResponse: ApiResponse(status: ApiStatus.loading)),
+      state.copyWith(
+        gmailLoginResponse: ApiResponse(status: ApiStatus.loading),
+      ),
     );
 
     final response = await iAuthService.userRegisterOtpApi(
@@ -364,7 +369,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (failure) {
         emit(
           state.copyWith(
-            loginOtpResponse: ApiResponse(
+            gmailLoginResponse: ApiResponse(
               status: ApiStatus.failure,
               errorMessage: failure,
             ),
@@ -375,7 +380,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (success) {
         emit(
           state.copyWith(
-            loginOtpResponse: ApiResponse(
+            gmailLoginResponse: ApiResponse(
               status: ApiStatus.success,
               apiData: null,
             ),
