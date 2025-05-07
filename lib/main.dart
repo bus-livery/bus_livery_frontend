@@ -10,6 +10,7 @@ import 'package:livery/features/profile/application/profile_bloc.dart';
 import 'package:livery/features/top_users/application/top_users_bloc.dart';
 import 'package:livery/service/ad_service.dart';
 import 'package:livery/service/shared_pref_service.dart';
+import 'package:livery/service/update_service.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/router/router.dart';
 
@@ -24,6 +25,9 @@ void main() async {
   await getIt<SharedPrefService>().init();
   await getIt<AdService>().initAds(); // Initialize ad service
 
+  // Check for updates in background
+  getIt<UpdateService>().checkForUpdatesInBackground();
+
   await ScreenUtil.ensureScreenSize();
   runApp(MyApp());
 }
@@ -32,18 +36,18 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
 
   final _appRouter = getIt<AppRouter>();
+
   final botToastBuilder = BotToastInit();
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => getIt<AuthBloc>()),
-        BlocProvider(create: (context) => getIt<ProfileBloc>()),
         BlocProvider(create: (context) => getIt<LiveryBloc>()),
-        BlocProvider(create: (context) => getIt<ReportBloc>()),
+        BlocProvider(create: (context) => getIt<ProfileBloc>()),
         BlocProvider(create: (context) => getIt<TopUsersBloc>()),
+        BlocProvider(create: (context) => getIt<ReportBloc>()),
       ],
       child: ScreenUtilInit(
         minTextAdapt: true,
