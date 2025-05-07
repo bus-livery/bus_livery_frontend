@@ -30,6 +30,7 @@ import 'package:livery/features/top_users/service/top_users_service.dart'
 import 'package:livery/service/ad_service.dart' as _i891;
 import 'package:livery/service/dio_service.dart' as _i833;
 import 'package:livery/service/image_picker_service.dart' as _i449;
+import 'package:livery/service/review_service.dart' as _i714;
 import 'package:livery/service/shared_pref_service.dart' as _i552;
 import 'package:livery/service/update_service.dart' as _i741;
 import 'package:livery/utils/router/router.dart' as _i14;
@@ -46,6 +47,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i833.DioService>(() => _i833.DioService());
     gh.lazySingleton<_i741.UpdateService>(() => _i741.UpdateService());
     gh.lazySingleton<_i552.SharedPrefService>(() => _i552.SharedPrefService());
+    gh.lazySingleton<_i714.ReviewService>(() => _i714.ReviewService());
     gh.lazySingleton<_i148.IAuthService>(
       () => _i148.AuthService(
         gh<_i833.DioService>(),

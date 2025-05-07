@@ -8,8 +8,10 @@ class SharedPrefService {
   static const int _cacheExpirationSeconds =
       1800; // Expiration time in seconds (1 hour)
 
-  Future<void> cacheApiData(
-      {required String key, required String value}) async {
+  Future<void> cacheApiData({
+    required String key,
+    required String value,
+  }) async {
     String timeKey = 'time_$key';
     await _preferences?.setString(key, value);
     await _preferences?.setInt(timeKey, DateTime.now().millisecondsSinceEpoch);
@@ -35,6 +37,14 @@ class SharedPrefService {
   // Initialization method to load shared preferences instance
   Future<void> init() async {
     _preferences = await SharedPreferences.getInstance();
+  }
+
+  Future<void> saveInt(String key, int value) async {
+    await _preferences?.setInt(key, value);
+  }
+
+  int? getInt(String key) {
+    return _preferences?.getInt(key);
   }
 
   // Method to save a string value
