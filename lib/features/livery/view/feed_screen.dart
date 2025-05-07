@@ -34,122 +34,138 @@ class FeedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<LiveryBloc>();
+    final adService = getIt<AdService>();
     return Scaffold(
       appBar: AppBar(
         title: Image.asset('assets/images/buss_logo.png', height: 70),
         actions: [gridViewToggle(context), filterOptions(context)],
       ),
-      body: Padding(
-        padding: AppSize.swPadding,
-        child: Column(
-          children: [
-            // Upload progress indicator
-            BlocSelector<LiveryBloc, LiveryState, Map<String, bool>>(
-              selector: (state) => state.uploadsInProgress,
-              builder: (context, uploadsInProgress) {
-                if (uploadsInProgress.isEmpty) {
-                  return const SizedBox.shrink();
-                }
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: AppSize.swPadding,
+              child: Column(
+                children: [
+                  // Upload progress indicator
+                  BlocSelector<LiveryBloc, LiveryState, Map<String, bool>>(
+                    selector: (state) => state.uploadsInProgress,
+                    builder: (context, uploadsInProgress) {
+                      if (uploadsInProgress.isEmpty) {
+                        return const SizedBox.shrink();
+                      }
 
-                return Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.transparent),
-                  ),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            AppColors.primary,
-                          ),
+                      return Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 15,
                         ),
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: WwText(
-                          text: 'Uploading livery design...',
-                          style: TextStyle(
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.w500,
-                          ),
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.transparent),
                         ),
-                      ),
-                      WwText(
-                        text: '${uploadsInProgress.length} in progress',
-                        style: TextStyle(
-                          color: AppColors.primary,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-
-            // Main content
-            Expanded(
-              child: BlocBuilder<LiveryBloc, LiveryState>(
-                buildWhen:
-                    (p, c) =>
-                        p.getAllLiveryRes.status != c.getAllLiveryRes.status ||
-                        p.gridColumns != c.gridColumns,
-                builder: (context, state) {
-                  customPrint('BLOC BUILDER - FeedScreen');
-                  List<LiveryModel>? liveryData =
-                      state.getAllLiveryRes.apiData?.data;
-                  return WWResponseHandler(
-                    data: state.getAllLiveryRes,
-                    apiCall: () async {
-                      context.read<LiveryBloc>().add(GetAllLiveryApiEvent());
-                    },
-                    isEmpty: liveryData?.isEmpty ?? true,
-                    child:
-                        state.gridColumns == 1
-                            ? ListView.separated(
-                              separatorBuilder:
-                                  (context, index) => AppSize.sizedBox1h,
-                              itemCount: liveryData?.length ?? 0,
-                              physics: AlwaysScrollableScrollPhysics(),
-                              itemBuilder: (BuildContext context, index) {
-                                return PostWidget(
-                                  index: index,
-                                  bloc: bloc,
-                                  data: liveryData![index],
-                                );
-                              },
-                            )
-                            : GridView.builder(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: state.gridColumns,
-                                    childAspectRatio: 0.75,
-                                    crossAxisSpacing: 10,
-                                    mainAxisSpacing: 10,
-                                  ),
-                              itemCount: liveryData?.length ?? 0,
-                              physics: AlwaysScrollableScrollPhysics(),
-                              itemBuilder: (BuildContext context, index) {
-                                return GridItemWidget(
-                                  index: index,
-                                  bloc: bloc,
-                                  data: liveryData![index],
-                                );
-                              },
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  AppColors.primary,
+                                ),
+                              ),
                             ),
-                  );
-                },
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: WwText(
+                                text: 'Uploading livery design...',
+                                style: TextStyle(
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            WwText(
+                              text: '${uploadsInProgress.length} in progress',
+                              style: TextStyle(
+                                color: AppColors.primary,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+
+                  // Main content
+                  Expanded(
+                    child: BlocBuilder<LiveryBloc, LiveryState>(
+                      buildWhen:
+                          (p, c) =>
+                              p.getAllLiveryRes.status !=
+                                  c.getAllLiveryRes.status ||
+                              p.gridColumns != c.gridColumns,
+                      builder: (context, state) {
+                        customPrint('BLOC BUILDER - FeedScreen');
+                        List<LiveryModel>? liveryData =
+                            state.getAllLiveryRes.apiData?.data;
+                        return WWResponseHandler(
+                          data: state.getAllLiveryRes,
+                          apiCall: () async {
+                            context.read<LiveryBloc>().add(
+                              GetAllLiveryApiEvent(),
+                            );
+                          },
+                          isEmpty: liveryData?.isEmpty ?? true,
+                          child:
+                              state.gridColumns == 1
+                                  ? ListView.separated(
+                                    separatorBuilder:
+                                        (context, index) => AppSize.sizedBox1h,
+                                    itemCount: liveryData?.length ?? 0,
+                                    physics: AlwaysScrollableScrollPhysics(),
+                                    itemBuilder: (BuildContext context, index) {
+                                      return PostWidget(
+                                        index: index,
+                                        bloc: bloc,
+                                        data: liveryData![index],
+                                      );
+                                    },
+                                  )
+                                  : GridView.builder(
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: state.gridColumns,
+                                          childAspectRatio: 0.75,
+                                          crossAxisSpacing: 10,
+                                          mainAxisSpacing: 10,
+                                        ),
+                                    itemCount: liveryData?.length ?? 0,
+                                    physics: AlwaysScrollableScrollPhysics(),
+                                    itemBuilder: (BuildContext context, index) {
+                                      return GridItemWidget(
+                                        index: index,
+                                        bloc: bloc,
+                                        data: liveryData![index],
+                                      );
+                                    },
+                                  ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+          // Banner Ad
+          if (adService.getBannerAdWidget() != null)
+            SizedBox(child: adService.getBannerAdWidget()),
+        ],
       ),
     );
   }

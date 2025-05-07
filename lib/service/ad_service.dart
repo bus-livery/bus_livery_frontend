@@ -1,11 +1,13 @@
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:injectable/injectable.dart';
 import 'package:livery/utils/custom_print.dart';
+import 'package:flutter/widgets.dart';
 
 @singleton
 class AdService {
   RewardedAd? _rewardedAd;
   InterstitialAd? _interstitialAd;
+  BannerAd? _bannerAd;
   bool _isRewardedAdReady = false;
   bool _isInterstitialAdReady = false;
   bool _isFirstDownload = true; // Track if this is the first download
@@ -19,6 +21,10 @@ class AdService {
       // 'ca-app-pub-5333475889663851/6047191107';
       'ca-app-pub-3940256099942544/1033173712'; // Test ID
 
+  static const String bannerAdUnitId =
+      // 'ca-app-pub-5333475889663851/6047191107';
+      'ca-app-pub-3940256099942544/6300978111'; // Test ID
+
   // Preference key
   static const String firstDownloadKey = 'first_download_completed';
 
@@ -27,6 +33,41 @@ class AdService {
     await MobileAds.instance.initialize();
     await loadRewardedAd();
     await loadInterstitialAd();
+    await loadBannerAd();
+  }
+
+  // Load banner ad
+  Future<void> loadBannerAd() async {
+    _bannerAd = BannerAd(
+      adUnitId: bannerAdUnitId,
+      size: AdSize.banner,
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          customPrint('Banner ad loaded');
+        },
+        onAdFailedToLoad: (ad, error) {
+          customPrint('Banner ad failed to load: ${error.message}');
+          ad.dispose();
+          _bannerAd = null;
+          // Retry after delay
+          Future.delayed(const Duration(minutes: 1), loadBannerAd);
+        },
+      ),
+    );
+
+    await _bannerAd?.load();
+  }
+
+  // Get banner ad widget
+  Widget? getBannerAdWidget() {
+    if (_bannerAd == null) return null;
+    return Container(
+      alignment: Alignment.center,
+      width: _bannerAd!.size.width.toDouble(),
+      height: _bannerAd!.size.height.toDouble(),
+      child: AdWidget(ad: _bannerAd!),
+    );
   }
 
   // Load rewarded video ad
@@ -179,7 +220,9 @@ class AdService {
   void dispose() {
     _rewardedAd?.dispose();
     _interstitialAd?.dispose();
+    _bannerAd?.dispose();
     _rewardedAd = null;
     _interstitialAd = null;
+    _bannerAd = null;
   }
 }
