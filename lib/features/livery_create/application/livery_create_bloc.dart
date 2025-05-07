@@ -13,8 +13,10 @@ import 'package:livery/features/livery_create/model/livery_req_model/livery_req_
 import 'package:livery/features/livery_create/service/livery_create_service.dart';
 import 'package:livery/main.dart';
 import 'package:livery/service/image_picker_service.dart';
+import 'package:livery/service/review_service.dart';
 import 'package:livery/utils/bloc_life_cycle.dart';
 import 'package:livery/utils/custom_print.dart';
+import 'package:livery/utils/di/injection.dart';
 
 part 'livery_create_event.dart';
 part 'livery_create_state.dart';
@@ -152,6 +154,8 @@ class LiveryCreateBloc extends Bloc<LiveryCreateEvent, LiveryCreateState>
         smKey.currentState!.context.read<LiveryBloc>().add(
           InsetNewLiveryEvent(newData: success),
         );
+
+        getIt<ReviewService>().requestReviewIfAppropriate();
       },
     );
   }
