@@ -3,7 +3,6 @@ import 'package:injectable/injectable.dart';
 import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/di/injection.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 @lazySingleton
 class ReviewService {
@@ -24,10 +23,10 @@ class ReviewService {
 
   // Request review if enough time has passed since the last request
   Future<void> requestReviewIfAppropriate() async {
-    final _prefs = getIt<SharedPrefService>();
+    final prefs = getIt<SharedPrefService>();
     try {
       // Check if enough time has passed since last review request
-      final lastReviewRequest = _prefs.getInt(_lastReviewRequestKey) ?? 0;
+      final lastReviewRequest = prefs.getInt(_lastReviewRequestKey) ?? 0;
       final now = DateTime.now().millisecondsSinceEpoch;
       final daysSinceLastRequest =
           (now - lastReviewRequest) / (1000 * 60 * 60 * 24);
@@ -36,7 +35,7 @@ class ReviewService {
         if (await isAvailableForReview()) {
           await _inAppReview.requestReview();
           // Save the current timestamp
-          await _prefs.saveInt(_lastReviewRequestKey, now);
+          await prefs.saveInt(_lastReviewRequestKey, now);
         }
       }
     } catch (e) {
