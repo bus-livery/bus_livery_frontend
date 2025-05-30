@@ -12,6 +12,8 @@ class AdService {
   bool _isInterstitialAdReady = false;
   DateTime? _lastRewardedAdTime;
   static const Duration _rewardedAdInterval = Duration(minutes: 5);
+  bool _isBannerAdReady = false;
+  bool _hasShownDownloadAd = false;
 
   // Ad unit IDs - replace with your production IDs before release
   static const String rewardedAdUnitId =
@@ -35,30 +37,54 @@ class AdService {
 
   // Load banner ad
   Future<void> loadBannerAd() async {
-    _bannerAd = BannerAd(
-      adUnitId: bannerAdUnitId,
-      size: AdSize.banner,
-      request: const AdRequest(),
-      listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          customPrint('Banner ad loaded');
-        },
-        onAdFailedToLoad: (ad, error) {
-          customPrint('Banner ad failed to load: ${error.message}');
-          ad.dispose();
-          _bannerAd = null;
-          // Retry after delay
-          Future.delayed(const Duration(minutes: 1), loadBannerAd);
-        },
-      ),
-    );
+    try {
+      _bannerAd = BannerAd(
+        adUnitId: bannerAdUnitId,
+        size: AdSize.banner,
+        request: const AdRequest(),
+        listener: BannerAdListener(
+          onAdLoaded: (ad) {
+            customPrint('Banner ad loaded successfully');
+            _isBannerAdReady = true;
+          },
+          onAdFailedToLoad: (ad, error) {
+            customPrint('Banner ad failed to load: ${error.message}');
+            customPrint('Error code: ${error.code}');
+            customPrint('Error domain: ${error.domain}');
+            _isBannerAdReady = false;
+            ad.dispose();
+            _bannerAd = null;
+            // Retry after delay
+            Future.delayed(const Duration(minutes: 1), loadBannerAd);
+          },
+          onAdOpened: (ad) {
+            customPrint('Banner ad opened');
+          },
+          onAdClosed: (ad) {
+            customPrint('Banner ad closed');
+          },
+          onAdImpression: (ad) {
+            customPrint('Banner ad impression recorded');
+          },
+        ),
+      );
 
-    await _bannerAd?.load();
+      await _bannerAd?.load();
+    } catch (e) {
+      customPrint('Exception while loading banner ad: $e');
+      _isBannerAdReady = false;
+      Future.delayed(const Duration(minutes: 1), loadBannerAd);
+    }
   }
 
   // Get banner ad widget
   Widget? getBannerAdWidget() {
-    if (_bannerAd == null) return null;
+    if (_bannerAd == null || !_isBannerAdReady) {
+      // Try to reload the ad if it's not ready
+      loadBannerAd();
+      return null;
+    }
+
     return Container(
       alignment: Alignment.center,
       width: _bannerAd!.size.width.toDouble(),
@@ -197,6 +223,10 @@ class AdService {
 
   // Show interstitial ad for downloads
   Future<void> showInterstitialAd() async {
+    if (_hasShownDownloadAd) {
+      return;
+    }
+
     if (!_isInterstitialAdReady || _interstitialAd == null) {
       await loadInterstitialAd();
       if (!_isInterstitialAdReady) return;
@@ -204,12 +234,13 @@ class AdService {
 
     try {
       await _interstitialAd!.show();
+      _hasShownDownloadAd = true;
     } catch (e) {
       customPrint('Error showing interstitial ad: $e');
     }
 
     _isInterstitialAdReady = false;
-    loadInterstitialAd(); // Preload next ad
+    loadInterstitialAd();
   }
 
   void dispose() {
