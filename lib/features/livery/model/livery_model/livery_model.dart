@@ -21,6 +21,7 @@ class LiveryModel with _$LiveryModel {
     ProfileModel? user,
     @JsonKey(name: 'livery_image') LiveryImageModel? postImage,
     @JsonKey(name: 'approval_status') String? approvalStatus,
+    @JsonKey(name: 'post') LiveryModel? post,
   }) = _LiveryModel;
 
   factory LiveryModel.fromJson(Map<String, dynamic> json) =>

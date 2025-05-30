@@ -43,6 +43,8 @@ mixin _$LiveryModel {
   LiveryImageModel? get postImage => throw _privateConstructorUsedError;
   @JsonKey(name: 'approval_status')
   String? get approvalStatus => throw _privateConstructorUsedError;
+  @JsonKey(name: 'post')
+  LiveryModel? get post => throw _privateConstructorUsedError;
 
   /// Serializes this LiveryModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -74,10 +76,12 @@ abstract class $LiveryModelCopyWith<$Res> {
     ProfileModel? user,
     @JsonKey(name: 'livery_image') LiveryImageModel? postImage,
     @JsonKey(name: 'approval_status') String? approvalStatus,
+    @JsonKey(name: 'post') LiveryModel? post,
   });
 
   $ProfileModelCopyWith<$Res>? get user;
   $LiveryImageModelCopyWith<$Res>? get postImage;
+  $LiveryModelCopyWith<$Res>? get post;
 }
 
 /// @nodoc
@@ -107,6 +111,7 @@ class _$LiveryModelCopyWithImpl<$Res, $Val extends LiveryModel>
     Object? user = freezed,
     Object? postImage = freezed,
     Object? approvalStatus = freezed,
+    Object? post = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -170,6 +175,11 @@ class _$LiveryModelCopyWithImpl<$Res, $Val extends LiveryModel>
                     ? _value.approvalStatus
                     : approvalStatus // ignore: cast_nullable_to_non_nullable
                         as String?,
+            post:
+                freezed == post
+                    ? _value.post
+                    : post // ignore: cast_nullable_to_non_nullable
+                        as LiveryModel?,
           )
           as $Val,
     );
@@ -202,6 +212,20 @@ class _$LiveryModelCopyWithImpl<$Res, $Val extends LiveryModel>
       return _then(_value.copyWith(postImage: value) as $Val);
     });
   }
+
+  /// Create a copy of LiveryModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $LiveryModelCopyWith<$Res>? get post {
+    if (_value.post == null) {
+      return null;
+    }
+
+    return $LiveryModelCopyWith<$Res>(_value.post!, (value) {
+      return _then(_value.copyWith(post: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -226,12 +250,15 @@ abstract class _$$LiveryModelImplCopyWith<$Res>
     ProfileModel? user,
     @JsonKey(name: 'livery_image') LiveryImageModel? postImage,
     @JsonKey(name: 'approval_status') String? approvalStatus,
+    @JsonKey(name: 'post') LiveryModel? post,
   });
 
   @override
   $ProfileModelCopyWith<$Res>? get user;
   @override
   $LiveryImageModelCopyWith<$Res>? get postImage;
+  @override
+  $LiveryModelCopyWith<$Res>? get post;
 }
 
 /// @nodoc
@@ -260,6 +287,7 @@ class __$$LiveryModelImplCopyWithImpl<$Res>
     Object? user = freezed,
     Object? postImage = freezed,
     Object? approvalStatus = freezed,
+    Object? post = freezed,
   }) {
     return _then(
       _$LiveryModelImpl(
@@ -323,6 +351,11 @@ class __$$LiveryModelImplCopyWithImpl<$Res>
                 ? _value.approvalStatus
                 : approvalStatus // ignore: cast_nullable_to_non_nullable
                     as String?,
+        post:
+            freezed == post
+                ? _value.post
+                : post // ignore: cast_nullable_to_non_nullable
+                    as LiveryModel?,
       ),
     );
   }
@@ -344,6 +377,7 @@ class _$LiveryModelImpl implements _LiveryModel {
     this.user,
     @JsonKey(name: 'livery_image') this.postImage,
     @JsonKey(name: 'approval_status') this.approvalStatus,
+    @JsonKey(name: 'post') this.post,
   });
 
   factory _$LiveryModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -383,10 +417,13 @@ class _$LiveryModelImpl implements _LiveryModel {
   @override
   @JsonKey(name: 'approval_status')
   final String? approvalStatus;
+  @override
+  @JsonKey(name: 'post')
+  final LiveryModel? post;
 
   @override
   String toString() {
-    return 'LiveryModel(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, busType: $busType, busModel: $busModel, liveryName: $liveryName, description: $description, downloadCount: $downloadCount, user: $user, postImage: $postImage, approvalStatus: $approvalStatus)';
+    return 'LiveryModel(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, busType: $busType, busModel: $busModel, liveryName: $liveryName, description: $description, downloadCount: $downloadCount, user: $user, postImage: $postImage, approvalStatus: $approvalStatus, post: $post)';
   }
 
   @override
@@ -413,7 +450,8 @@ class _$LiveryModelImpl implements _LiveryModel {
             (identical(other.postImage, postImage) ||
                 other.postImage == postImage) &&
             (identical(other.approvalStatus, approvalStatus) ||
-                other.approvalStatus == approvalStatus));
+                other.approvalStatus == approvalStatus) &&
+            (identical(other.post, post) || other.post == post));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -432,6 +470,7 @@ class _$LiveryModelImpl implements _LiveryModel {
     user,
     postImage,
     approvalStatus,
+    post,
   );
 
   /// Create a copy of LiveryModel
@@ -462,6 +501,7 @@ abstract class _LiveryModel implements LiveryModel {
     final ProfileModel? user,
     @JsonKey(name: 'livery_image') final LiveryImageModel? postImage,
     @JsonKey(name: 'approval_status') final String? approvalStatus,
+    @JsonKey(name: 'post') final LiveryModel? post,
   }) = _$LiveryModelImpl;
 
   factory _LiveryModel.fromJson(Map<String, dynamic> json) =
@@ -501,6 +541,9 @@ abstract class _LiveryModel implements LiveryModel {
   @override
   @JsonKey(name: 'approval_status')
   String? get approvalStatus;
+  @override
+  @JsonKey(name: 'post')
+  LiveryModel? get post;
 
   /// Create a copy of LiveryModel
   /// with the given fields replaced by the non-null parameter values.

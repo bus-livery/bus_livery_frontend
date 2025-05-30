@@ -1,6 +1,7 @@
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:injectable/injectable.dart';
 import 'package:livery/utils/custom_print.dart';
+import 'package:livery/utils/router/router_guard.dart';
 import 'package:flutter/widgets.dart';
 
 @singleton
@@ -32,7 +33,11 @@ class AdService {
     await MobileAds.instance.initialize();
     await loadBannerAd();
     await loadInterstitialAd();
-    await loadRewardedAd();
+    Future.delayed(const Duration(seconds: 60), () {
+      if (isAuthenticated()) {
+        loadRewardedAd();
+      }
+    });
   }
 
   // Load banner ad

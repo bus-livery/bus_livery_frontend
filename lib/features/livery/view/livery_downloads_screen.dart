@@ -55,7 +55,7 @@ class LiveryDownloadsScreen extends StatelessWidget
                   return PostWidget(
                     index: index,
                     bloc: bloc,
-                    data: liveryData[index],
+                    data: liveryData[index].post ?? LiveryModel(),
                   );
                 },
               ),
