@@ -64,6 +64,7 @@ class OtpScreen extends StatelessWidget {
               // LOGIN BUTTON----------------------------
               _LoginButton(bloc: bloc),
               AppSize.sizedBox6h,
+              // RESEND OTP ---------------------------
               BlocBuilder<AuthBloc, AuthState>(
                 builder: (context, state) {
                   return StreamBuilder<int>(
@@ -91,6 +92,13 @@ class OtpScreen extends StatelessWidget {
                     },
                   );
                 },
+              ),
+              AppSize.sizedBox6h,
+              WwText(
+                textAlign: TextAlign.center,
+                text:
+                    'Please check your Spam or Junk folder — sometimes emails land there by mistake.',
+                style: TextStyle(fontSize: 14),
               ),
             ],
           ),
