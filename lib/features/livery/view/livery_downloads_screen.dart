@@ -5,7 +5,7 @@ import 'package:livery/Cwidgets/ww_app_bar.dart';
 import 'package:livery/Cwidgets/ww_error_handler.dart';
 import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
-import 'package:livery/features/livery/view/feed_screen.dart';
+import 'package:livery/features/livery/widget/livery_list_view.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/custom_print.dart';
 
@@ -52,7 +52,7 @@ class LiveryDownloadsScreen extends StatelessWidget
                 itemCount: liveryData.length,
                 physics: AlwaysScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, index) {
-                  return PostWidget(
+                  return LiveryListView(
                     index: index,
                     bloc: bloc,
                     data: liveryData[index].post ?? LiveryModel(),

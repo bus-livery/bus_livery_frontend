@@ -12,10 +12,12 @@ import 'package:livery/Cwidgets/ww_dashed_border.dart';
 import 'package:livery/Cwidgets/ww_popup_error_success.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/Cwidgets/ww_textfield/ww_text_field.dart';
+import 'package:livery/features/advertisement/advertisement_bloc.dart';
 import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/livery_create/application/livery_create_bloc.dart';
 import 'package:livery/features/livery_create/widget/bus_type_dropdown.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
+import 'package:livery/utils/app_colors.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/extensions.dart';
@@ -41,6 +43,7 @@ class LiveryCreateScreen extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<LiveryCreateBloc>();
+    final adsBloc = context.read<AdvertisementBloc>();
 
     return Scaffold(
       appBar: WwAppBar(title: 'Create Livery'),
@@ -72,6 +75,26 @@ class LiveryCreateScreen extends StatelessWidget implements AutoRouteWrapper {
                     return null;
                   },
                 ),
+                //
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.check_circle, color: Colors.red),
+                    AppSize.sizedBox2w,
+                    WwText(
+                      text: 'View Ad for post livery',
+                      style: normalText(),
+                    ),
+                    AppSize.sizedBox2w,
+                    WWButton(
+                      text: 'Click Here',
+                      onPressed: () {
+                        adsBloc.add(ShowRewardVideoAdEvent());
+                      },
+                    ),
+                  ],
+                ),
+                //
                 _BusTypeChoose(
                   bloc: bloc,
                   data: data,

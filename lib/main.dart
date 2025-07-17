@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:livery/Cfeature/report/application/report_bloc.dart';
+import 'package:livery/features/advertisement/advertisement_bloc.dart';
 import 'package:livery/features/auth/application/auth_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/profile/application/profile_bloc.dart';
 import 'package:livery/features/top_users/application/top_users_bloc.dart';
-import 'package:livery/service/ad_service.dart';
 import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/service/update_service.dart';
 import 'package:livery/utils/di/injection.dart';
@@ -24,7 +24,6 @@ void main() async {
 
   // Initialize services
   await getIt<SharedPrefService>().init();
-  await getIt<AdService>().initAds(); // Initialize ad service
 
   // Check for updates in background
   getIt<UpdateService>().checkForUpdatesInBackground();
@@ -51,6 +50,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => getIt<ProfileBloc>()),
         BlocProvider(create: (context) => getIt<TopUsersBloc>()),
         BlocProvider(create: (context) => getIt<ReportBloc>()),
+        BlocProvider(
+          create: (context) => getIt<AdvertisementBloc>(),
+          lazy: false,
+        ),
       ],
       child: ScreenUtilInit(
         minTextAdapt: true,

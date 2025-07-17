@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
 
 void customPrint(dynamic content, {String? name}) {
   if (name != null) {
-    debugPrint("= = = = = = = = = = = = = = = = = = = = = = = = = =");
-    debugPrint(name);
+    log("= = = = = = = = = = = = = = = = = = = = = = = = = =");
+    log(name);
   }
-  debugPrint("= = = = = = = = = = = = = = = = = = = = = = = = = =");
-  debugPrint("$content");
-  debugPrint("= = = = = = = = = = = = = = = = = = = = = = = = = =");
+  log("= = = = = = = = = = = = = = = = = = = = = = = = = =");
+  log("$content");
+  log("= = = = = = = = = = = = = = = = = = = = = = = = = =");
 }

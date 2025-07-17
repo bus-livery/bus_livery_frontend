@@ -15,7 +15,7 @@ import 'package:livery/Cwidgets/ww_error_handler.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
-import 'package:livery/features/livery/view/feed_screen.dart';
+import 'package:livery/features/livery/widget/livery_list_view.dart';
 import 'package:livery/features/profile/application/profile_bloc.dart';
 import 'package:livery/features/profile/model/profile_model.dart';
 import 'package:livery/features/profile/profile_styles.dart';
@@ -232,7 +232,7 @@ class _ProfileGallery extends StatelessWidget {
                       context: context,
                       builder: (BuildContext context) {
                         return Dialog(
-                          child: PostWidget(
+                          child: LiveryListView(
                             index: i,
                             bloc: context.read<LiveryBloc>(),
                             data: data,

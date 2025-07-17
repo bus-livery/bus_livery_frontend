@@ -13,6 +13,7 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:livery/Cfeature/report/application/report_bloc.dart' as _i473;
 import 'package:livery/Cfeature/report/service/report_service.dart' as _i67;
+import 'package:livery/features/advertisement/advertisement_bloc.dart' as _i47;
 import 'package:livery/features/auth/application/auth_bloc.dart' as _i632;
 import 'package:livery/features/auth/service/auth_service.dart' as _i148;
 import 'package:livery/features/livery/application/livery_bloc.dart' as _i366;
@@ -42,6 +43,7 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.factory<_i47.AdvertisementBloc>(() => _i47.AdvertisementBloc());
     gh.singleton<_i891.AdService>(() => _i891.AdService());
     gh.lazySingleton<_i14.AppRouter>(() => _i14.AppRouter());
     gh.lazySingleton<_i833.DioService>(() => _i833.DioService());
