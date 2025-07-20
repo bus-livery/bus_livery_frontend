@@ -95,10 +95,7 @@ class LiveryListView extends StatelessWidget {
         customPrint('BLOC BUILDER - postDownload');
         return IconButton(
           onPressed: () async {
-            final adService = getIt<AdService>();
             await downloadAndSaveImageWithDio(bloc, data);
-            // Show interstitial ad after downloading
-            await adService.showInterstitialAd();
           },
           icon: Row(
             children: [

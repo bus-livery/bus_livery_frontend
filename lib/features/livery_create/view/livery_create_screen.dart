@@ -17,7 +17,6 @@ import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/livery_create/application/livery_create_bloc.dart';
 import 'package:livery/features/livery_create/widget/bus_type_dropdown.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
-import 'package:livery/utils/app_colors.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/extensions.dart';

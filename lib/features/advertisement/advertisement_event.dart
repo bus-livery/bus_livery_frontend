@@ -20,4 +20,12 @@ class StoreRewardVideoAd extends AdvertisementEvent {
 
 class LoadBannerAdEvent extends AdvertisementEvent {}
 
-class ShowBannerAdEvent extends AdvertisementEvent {}
+// INTERSTITIAL AD
+
+class InterstitialAdEvent extends AdvertisementEvent {}
+
+class StoreInterstitialAdEvent extends AdvertisementEvent {
+  final bool adViewed;
+
+  StoreInterstitialAdEvent({required this.adViewed});
+}

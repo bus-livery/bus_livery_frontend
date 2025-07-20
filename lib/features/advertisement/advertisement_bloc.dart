@@ -7,6 +7,8 @@ import 'package:livery/service/ad_service.dart';
 import 'package:livery/utils/bloc_life_cycle.dart';
 import 'package:bloc/bloc.dart';
 import 'package:livery/utils/custom_print.dart';
+import 'package:livery/utils/router/router_guard.dart';
+import 'package:livery/utils/toast.dart';
 
 part 'advertisement_event.dart';
 part 'advertisement_state.dart';
@@ -33,7 +35,11 @@ class AdvertisementBloc extends Bloc<AdvertisementEvent, AdvertisementState>
 
     on<LoadBannerAdEvent>(_loadBannerAdEvent);
 
-    on<ShowBannerAdEvent>(_showBannerAdEvent);
+    // INTERTITIAL AD
+
+    on<InterstitialAdEvent>(_interstitialAdEvent);
+
+    on<StoreInterstitialAdEvent>(_storeInterstitialAdEvent);
   }
 
   @override
@@ -42,10 +48,16 @@ class AdvertisementBloc extends Bloc<AdvertisementEvent, AdvertisementState>
 
     WidgetsBinding.instance.addPostFrameCallback((v) async {
       await MobileAds.instance.initialize(); // Initialize ad service
-      add(LoadRewardVideoAdEvent());
-      add(LoadBannerAdEvent());
+
+      if (isAuthenticated()) {
+        add(LoadRewardVideoAdEvent());
+        add(LoadBannerAdEvent());
+        add(InterstitialAdEvent());
+      }
     });
   }
+
+  // REWARD VIDEO AD EVENTS
 
   void _storeRewardVideoAd(StoreRewardVideoAd event, emit) async {
     emit(
@@ -135,6 +147,8 @@ class AdvertisementBloc extends Bloc<AdvertisementEvent, AdvertisementState>
     add(LoadRewardVideoAdEvent()); // Preload next ad
   }
 
+  // SHOW BANNER AD EVENT
+
   void _loadBannerAdEvent(LoadBannerAdEvent event, emit) async {
     if (state.isBannerAdReady) return;
 
@@ -183,5 +197,73 @@ class AdvertisementBloc extends Bloc<AdvertisementEvent, AdvertisementState>
     }
   }
 
-  void _showBannerAdEvent(ShowBannerAdEvent event, emit) {}
+  // INTERTITIAL AD
+
+  void _storeInterstitialAdEvent(StoreInterstitialAdEvent event, emit) {
+    emit(state.copyWith(isInterstitialAdViewed: event.adViewed));
+  }
+
+  void _interstitialAdEvent(InterstitialAdEvent event, emit) async {
+    if (state.isInterstitialAdReady || state.isInterstitialAdViewed) return;
+
+    try {
+      await InterstitialAd.load(
+        adUnitId: AdService.interstitialAdUnitId,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) async {
+            customPrint('loadInterstitialAd  loaded successfully');
+            failureToast('The ad will play in 5 seconds.');
+            await Future.delayed(const Duration(seconds: 5));
+            ad.show();
+
+            add(StoreInterstitialAdEvent(adViewed: true));
+
+            ad.fullScreenContentCallback = FullScreenContentCallback(
+              onAdDismissedFullScreenContent: (ad) {
+                ad.dispose();
+
+                add(InterstitialAdEvent()); // Load the next ad
+              },
+              onAdFailedToShowFullScreenContent: (ad, error) {
+                customPrint('Interstitial ad failed to show: ${error.message}');
+                ad.dispose();
+                add(InterstitialAdEvent()); // Try loading another ad
+              },
+            );
+          },
+          onAdFailedToLoad: (error) async {
+            customPrint('Failed to load interstitial ad: ${error.message}');
+            // Retry after delay
+            await Future.delayed(const Duration(minutes: 1));
+            add(InterstitialAdEvent());
+          },
+        ),
+      );
+    } catch (e) {
+      customPrint('Exception while loading interstitial ad: $e');
+    }
+  }
 }
+
+
+  // Future<void> showInterstitialAd() async {
+  //   if (_hasShownDownloadAd) {
+  //     return;
+  //   }
+
+  //   if (!_isInterstitialAdReady || _interstitialAd == null) {
+  //     await loadInterstitialAd();
+  //     if (!_isInterstitialAdReady) return;
+  //   }
+
+  //   try {
+  //     await _interstitialAd!.show();
+  //     _hasShownDownloadAd = true;
+  //   } catch (e) {
+  //     customPrint('Error showing interstitial ad: $e');
+  //   }
+
+  //   _isInterstitialAdReady = false;
+  //   loadInterstitialAd();
+  // }
