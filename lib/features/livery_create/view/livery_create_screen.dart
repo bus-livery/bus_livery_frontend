@@ -22,6 +22,7 @@ import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/extensions.dart';
 import 'package:livery/utils/styles.dart';
+import 'package:livery/utils/toast.dart';
 
 @RoutePage()
 class LiveryCreateScreen extends StatelessWidget implements AutoRouteWrapper {
@@ -76,23 +77,38 @@ class LiveryCreateScreen extends StatelessWidget implements AutoRouteWrapper {
                   },
                 ),
                 //
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.check_circle, color: Colors.red),
-                    AppSize.sizedBox2w,
-                    WwText(
-                      text: 'View Ad for post livery',
-                      style: normalText(),
-                    ),
-                    AppSize.sizedBox2w,
-                    WWButton(
-                      text: 'Click Here',
-                      onPressed: () {
-                        adsBloc.add(ShowRewardVideoAdEvent());
-                      },
-                    ),
-                  ],
+                BlocSelector<AdvertisementBloc, AdvertisementState, bool>(
+                  selector: (state) {
+                    return state.isRewardVideoAdViewed;
+                  },
+                  builder: (context, adViewed) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.check_circle,
+                          color: adViewed ? Colors.green : Colors.red,
+                        ),
+                        AppSize.sizedBox2w,
+                        WwText(
+                          text:
+                              adViewed
+                                  ? 'Ready to post your livery!'
+                                  : 'View an ad to post a livery.',
+                          style: normalText(),
+                        ),
+                        AppSize.sizedBox2w,
+                        WWButton(
+                          text: adViewed ? 'Ad Viewed' : 'Click Here',
+                          onPressed: () {
+                            if (!adViewed) {
+                              adsBloc.add(ShowRewardVideoAdEvent());
+                            }
+                          },
+                        ),
+                      ],
+                    );
+                  },
                 ),
                 //
                 _BusTypeChoose(
@@ -253,6 +269,19 @@ class _SubmitButton extends StatelessWidget {
                     return;
                   }
 
+                  if (state.storeImage?.apiData?.imageUint8List == null) {
+                    failureToast('Kindly select a livery to continue.');
+                    return;
+                  }
+
+                  final adBloc = context.read<AdvertisementBloc>();
+                  if (!adBloc.state.isRewardVideoAdViewed) {
+                    failureToast(
+                      'Please watch a video ad to post your livery.',
+                    );
+                    return;
+                  }
+
                   // Generate a unique upload ID
                   final uploadId =
                       DateTime.now().millisecondsSinceEpoch.toString();
@@ -267,6 +296,11 @@ class _SubmitButton extends StatelessWidget {
 
                   // Show a temporary toast
                   showSuccessToast(message: 'Your livery is uploading...');
+
+                  // RESETING REWARD VIDEO AD
+                  context.read<AdvertisementBloc>().add(
+                    StoreRewardVideoAd(isRewardViewed: false),
+                  );
 
                   bloc.add(
                     CreateLiveryApiEvent(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:injectable/injectable.dart';
@@ -25,6 +27,8 @@ class AdvertisementBloc extends Bloc<AdvertisementEvent, AdvertisementState>
 
     on<ShowRewardVideoAdEvent>(_showRewardVideoAd);
 
+    on<StoreRewardVideoAd>(_storeRewardVideoAd);
+
     // BANNER AD
 
     on<LoadBannerAdEvent>(_loadBannerAdEvent);
@@ -43,6 +47,16 @@ class AdvertisementBloc extends Bloc<AdvertisementEvent, AdvertisementState>
     });
   }
 
+  void _storeRewardVideoAd(StoreRewardVideoAd event, emit) async {
+    emit(
+      state.copyWith(
+        isRewardVideoAdViewed: event.isRewardViewed,
+        isRewardedAdReady: event.rewardReady,
+        rewardedAd: event.ad,
+      ),
+    );
+  }
+
   void _loadRewardVideoAd(LoadRewardVideoAdEvent event, emit) async {
     if (state.isRewardedAdReady) return;
 
@@ -51,36 +65,36 @@ class AdvertisementBloc extends Bloc<AdvertisementEvent, AdvertisementState>
         adUnitId: AdService.rewardedAdUnitId,
         request: const AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
-          onAdLoaded: (ad) {
+          onAdLoaded: (ad) async {
             customPrint('RewardVideo ad loaded successfully');
 
-            emit(state.copyWith(isRewardedAdReady: true, rewardedAd: ad));
+            add(StoreRewardVideoAd(rewardReady: true, ad: ad));
 
             ad.fullScreenContentCallback = FullScreenContentCallback(
               onAdDismissedFullScreenContent: (ad) {
-                emit(state.copyWith(isRewardedAdReady: false));
+                add(StoreRewardVideoAd(rewardReady: false, ad: ad));
 
                 ad.dispose();
                 add(LoadRewardVideoAdEvent()); // Load the next ad
               },
               onAdFailedToShowFullScreenContent: (ad, error) {
-                customPrint('Ad failed to show: ${error.message}');
-                emit(state.copyWith(isRewardedAdReady: false));
+                customPrint('RewardVideoAd failed to show: ${error.message}');
+                add(StoreRewardVideoAd(rewardReady: false, ad: ad));
 
                 ad.dispose();
                 add(LoadRewardVideoAdEvent()); // Try loading another ad
               },
               onAdShowedFullScreenContent: (ad) {
-                customPrint('Ad showed fullscreen content.');
+                customPrint('RewardVideoAd showed fullscreen content.');
               },
               onAdImpression: (ad) {
-                customPrint('Ad impression recorded.');
+                customPrint('RewardVideoAd impression recorded.');
               },
             );
           },
           onAdFailedToLoad: (error) async {
             customPrint('Failed to load rewarded ad: ${error.message}');
-            emit(state.copyWith(isRewardedAdReady: false));
+            add(StoreRewardVideoAd(rewardReady: false, ad: null));
 
             // Retry after delay
             await Future.delayed(const Duration(minutes: 1));
@@ -99,6 +113,8 @@ class AdvertisementBloc extends Bloc<AdvertisementEvent, AdvertisementState>
   }
 
   void _showRewardVideoAd(ShowRewardVideoAdEvent event, emit) async {
+    log('${state.rewardedAd == null} : ${state.isRewardedAdReady}');
+
     if (!state.isRewardedAdReady || state.rewardedAd == null) {
       add(LoadRewardVideoAdEvent());
       return;
@@ -107,6 +123,7 @@ class AdvertisementBloc extends Bloc<AdvertisementEvent, AdvertisementState>
     try {
       await state.rewardedAd!.show(
         onUserEarnedReward: (_, reward) {
+          add(StoreRewardVideoAd(isRewardViewed: true));
           customPrint('User earned reward: ${reward.amount} ${reward.type}');
         },
       );

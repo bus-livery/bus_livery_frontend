@@ -2,6 +2,7 @@ part of 'advertisement_bloc.dart';
 
 class AdvertisementState {
   // REWARD VIDEO AD
+  final bool isRewardVideoAdViewed;
   final RewardedAd? rewardedAd;
   final bool isRewardedAdReady;
   // BANNER AD
@@ -10,6 +11,7 @@ class AdvertisementState {
 
   AdvertisementState({
     // REWARD VIDEO AD
+    required this.isRewardVideoAdViewed,
     required this.rewardedAd,
     required this.isRewardedAdReady,
     // BANNER AD
@@ -20,6 +22,7 @@ class AdvertisementState {
   factory AdvertisementState.initail() {
     return AdvertisementState(
       // REWARD VIDEO AD
+      isRewardVideoAdViewed: false,
       rewardedAd: null,
       isRewardedAdReady: false,
 
@@ -31,6 +34,8 @@ class AdvertisementState {
 
   AdvertisementState copyWith({
     // REWARD VIDEO AD
+    final bool? isRewardVideoAdViewed,
+
     RewardedAd? rewardedAd,
     bool? isRewardedAdReady,
     // BANNER AD
@@ -39,6 +44,8 @@ class AdvertisementState {
   }) {
     return AdvertisementState(
       // REWARD VIDEO AD
+      isRewardVideoAdViewed:
+          isRewardVideoAdViewed ?? this.isRewardVideoAdViewed,
       rewardedAd: rewardedAd ?? this.rewardedAd,
       isRewardedAdReady: isRewardedAdReady ?? this.isRewardedAdReady,
 
