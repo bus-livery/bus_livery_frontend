@@ -110,6 +110,8 @@ class DioInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     String? token = getIt<SharedPrefService>().getString("token");
 
+    log(token ?? '');
+
     // Determine content type based on data type
     final isFormData = options.data is FormData;
     final contentType = isFormData ? 'multipart/form-data' : 'application/json';

@@ -15,6 +15,9 @@ _$LiveryDateModelImpl _$$LiveryDateModelImplFromJson(
           .toList(),
   message: json['message'] as String?,
   totalCount: (json['total_count'] as num?)?.toInt(),
+  perPage: (json['per_page'] as num?)?.toInt(),
+  totalPages: (json['total_pages'] as num?)?.toInt(),
+  currentPages: (json['current_page'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$$LiveryDateModelImplToJson(
@@ -23,4 +26,7 @@ Map<String, dynamic> _$$LiveryDateModelImplToJson(
   'data': instance.data,
   'message': instance.message,
   'total_count': instance.totalCount,
+  'per_page': instance.perPage,
+  'total_pages': instance.totalPages,
+  'current_page': instance.currentPages,
 };

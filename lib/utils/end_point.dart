@@ -30,7 +30,7 @@ final class ProfileEndPoints {
 
 final class LiveryEndPoints {
   final createLivery = '/v1/livery/create';
-  final getAllLivery = '/v1/noAuth/livery/fetch-all';
+  final getAllLivery = '/v2/noAuth/livery/fetch-all';
   final getMyLivery = '/v1/livery/fetch-my';
   final getOthersLivery = '/v1/livery/fetch-other';
   final getSingleLivery = '/v1/livery/fetch-single';

@@ -11,6 +11,9 @@ class LiveryDateModel with _$LiveryDateModel {
     List<LiveryModel>? data,
     String? message,
     @JsonKey(name: 'total_count') int? totalCount,
+    @JsonKey(name: 'per_page') int? perPage,
+    @JsonKey(name: 'total_pages') int? totalPages,
+    @JsonKey(name: 'current_page') int? currentPages,
   }) = _LiveryDateModel;
 
   factory LiveryDateModel.fromJson(Map<String, dynamic> json) =>

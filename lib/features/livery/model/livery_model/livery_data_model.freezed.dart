@@ -25,6 +25,12 @@ mixin _$LiveryDateModel {
   String? get message => throw _privateConstructorUsedError;
   @JsonKey(name: 'total_count')
   int? get totalCount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'per_page')
+  int? get perPage => throw _privateConstructorUsedError;
+  @JsonKey(name: 'total_pages')
+  int? get totalPages => throw _privateConstructorUsedError;
+  @JsonKey(name: 'current_page')
+  int? get currentPages => throw _privateConstructorUsedError;
 
   /// Serializes this LiveryDateModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,6 +53,9 @@ abstract class $LiveryDateModelCopyWith<$Res> {
     List<LiveryModel>? data,
     String? message,
     @JsonKey(name: 'total_count') int? totalCount,
+    @JsonKey(name: 'per_page') int? perPage,
+    @JsonKey(name: 'total_pages') int? totalPages,
+    @JsonKey(name: 'current_page') int? currentPages,
   });
 }
 
@@ -68,6 +77,9 @@ class _$LiveryDateModelCopyWithImpl<$Res, $Val extends LiveryDateModel>
     Object? data = freezed,
     Object? message = freezed,
     Object? totalCount = freezed,
+    Object? perPage = freezed,
+    Object? totalPages = freezed,
+    Object? currentPages = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -85,6 +97,21 @@ class _$LiveryDateModelCopyWithImpl<$Res, $Val extends LiveryDateModel>
                 freezed == totalCount
                     ? _value.totalCount
                     : totalCount // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            perPage:
+                freezed == perPage
+                    ? _value.perPage
+                    : perPage // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            totalPages:
+                freezed == totalPages
+                    ? _value.totalPages
+                    : totalPages // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            currentPages:
+                freezed == currentPages
+                    ? _value.currentPages
+                    : currentPages // ignore: cast_nullable_to_non_nullable
                         as int?,
           )
           as $Val,
@@ -105,6 +132,9 @@ abstract class _$$LiveryDateModelImplCopyWith<$Res>
     List<LiveryModel>? data,
     String? message,
     @JsonKey(name: 'total_count') int? totalCount,
+    @JsonKey(name: 'per_page') int? perPage,
+    @JsonKey(name: 'total_pages') int? totalPages,
+    @JsonKey(name: 'current_page') int? currentPages,
   });
 }
 
@@ -125,6 +155,9 @@ class __$$LiveryDateModelImplCopyWithImpl<$Res>
     Object? data = freezed,
     Object? message = freezed,
     Object? totalCount = freezed,
+    Object? perPage = freezed,
+    Object? totalPages = freezed,
+    Object? currentPages = freezed,
   }) {
     return _then(
       _$LiveryDateModelImpl(
@@ -143,6 +176,21 @@ class __$$LiveryDateModelImplCopyWithImpl<$Res>
                 ? _value.totalCount
                 : totalCount // ignore: cast_nullable_to_non_nullable
                     as int?,
+        perPage:
+            freezed == perPage
+                ? _value.perPage
+                : perPage // ignore: cast_nullable_to_non_nullable
+                    as int?,
+        totalPages:
+            freezed == totalPages
+                ? _value.totalPages
+                : totalPages // ignore: cast_nullable_to_non_nullable
+                    as int?,
+        currentPages:
+            freezed == currentPages
+                ? _value.currentPages
+                : currentPages // ignore: cast_nullable_to_non_nullable
+                    as int?,
       ),
     );
   }
@@ -155,6 +203,9 @@ class _$LiveryDateModelImpl implements _LiveryDateModel {
     final List<LiveryModel>? data,
     this.message,
     @JsonKey(name: 'total_count') this.totalCount,
+    @JsonKey(name: 'per_page') this.perPage,
+    @JsonKey(name: 'total_pages') this.totalPages,
+    @JsonKey(name: 'current_page') this.currentPages,
   }) : _data = data;
 
   factory _$LiveryDateModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -175,10 +226,19 @@ class _$LiveryDateModelImpl implements _LiveryDateModel {
   @override
   @JsonKey(name: 'total_count')
   final int? totalCount;
+  @override
+  @JsonKey(name: 'per_page')
+  final int? perPage;
+  @override
+  @JsonKey(name: 'total_pages')
+  final int? totalPages;
+  @override
+  @JsonKey(name: 'current_page')
+  final int? currentPages;
 
   @override
   String toString() {
-    return 'LiveryDateModel(data: $data, message: $message, totalCount: $totalCount)';
+    return 'LiveryDateModel(data: $data, message: $message, totalCount: $totalCount, perPage: $perPage, totalPages: $totalPages, currentPages: $currentPages)';
   }
 
   @override
@@ -189,7 +249,12 @@ class _$LiveryDateModelImpl implements _LiveryDateModel {
             const DeepCollectionEquality().equals(other._data, _data) &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.totalCount, totalCount) ||
-                other.totalCount == totalCount));
+                other.totalCount == totalCount) &&
+            (identical(other.perPage, perPage) || other.perPage == perPage) &&
+            (identical(other.totalPages, totalPages) ||
+                other.totalPages == totalPages) &&
+            (identical(other.currentPages, currentPages) ||
+                other.currentPages == currentPages));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -199,6 +264,9 @@ class _$LiveryDateModelImpl implements _LiveryDateModel {
     const DeepCollectionEquality().hash(_data),
     message,
     totalCount,
+    perPage,
+    totalPages,
+    currentPages,
   );
 
   /// Create a copy of LiveryDateModel
@@ -223,6 +291,9 @@ abstract class _LiveryDateModel implements LiveryDateModel {
     final List<LiveryModel>? data,
     final String? message,
     @JsonKey(name: 'total_count') final int? totalCount,
+    @JsonKey(name: 'per_page') final int? perPage,
+    @JsonKey(name: 'total_pages') final int? totalPages,
+    @JsonKey(name: 'current_page') final int? currentPages,
   }) = _$LiveryDateModelImpl;
 
   factory _LiveryDateModel.fromJson(Map<String, dynamic> json) =
@@ -235,6 +306,15 @@ abstract class _LiveryDateModel implements LiveryDateModel {
   @override
   @JsonKey(name: 'total_count')
   int? get totalCount;
+  @override
+  @JsonKey(name: 'per_page')
+  int? get perPage;
+  @override
+  @JsonKey(name: 'total_pages')
+  int? get totalPages;
+  @override
+  @JsonKey(name: 'current_page')
+  int? get currentPages;
 
   /// Create a copy of LiveryDateModel
   /// with the given fields replaced by the non-null parameter values.

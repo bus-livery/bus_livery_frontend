@@ -35,9 +35,10 @@ class CompleteUploadEvent extends LiveryEvent {
 // API EVENTS
 
 class GetAllLiveryApiEvent extends LiveryEvent {
+  final int? pageCount;
   final bool? mostDownload;
 
-  GetAllLiveryApiEvent({this.mostDownload});
+  GetAllLiveryApiEvent({this.pageCount, this.mostDownload});
 }
 
 class GetSinglelLiveryApiEvent extends LiveryEvent {}

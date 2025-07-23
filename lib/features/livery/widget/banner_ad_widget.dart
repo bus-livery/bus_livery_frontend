@@ -15,11 +15,13 @@ class BannerAdWidget extends StatelessWidget {
       builder: (context, bannerAd) {
         return bannerAd == null
             ? const SizedBox()
-            : Container(
+            : Align(
               alignment: Alignment.center,
-              width: bannerAd.size.width.toDouble(),
-              height: bannerAd.size.height.toDouble(),
-              child: AdWidget(ad: bannerAd),
+              child: SizedBox(
+                width: bannerAd.size.width.toDouble(),
+                height: bannerAd.size.height.toDouble(),
+                child: AdWidget(ad: bannerAd),
+              ),
             );
       },
     );

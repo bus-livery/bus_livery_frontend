@@ -8,6 +8,7 @@ import 'package:livery/utils/end_point.dart';
 
 abstract class ILiveryService {
   Future<Either<String, LiveryDateModel>> getAllLiveryServiceApi({
+    int? pageCount,
     bool? downloads,
   });
 
@@ -28,6 +29,7 @@ class LiveryService implements ILiveryService {
 
   @override
   Future<Either<String, LiveryDateModel>> getAllLiveryServiceApi({
+    int? pageCount,
     bool? downloads,
   }) async {
     try {
@@ -37,6 +39,7 @@ class LiveryService implements ILiveryService {
         queryParam: {
           "approval_status": "approved",
           "most_downloaded": downloads ?? false,
+          "page": pageCount ?? 1,
         },
       );
       return res.fold(

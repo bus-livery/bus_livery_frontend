@@ -35,7 +35,7 @@ class FeedScreen extends StatelessWidget {
               child: BlocBuilder<LiveryBloc, LiveryState>(
                 buildWhen:
                     (p, c) =>
-                        p.getAllLiveryRes.status != c.getAllLiveryRes.status ||
+                        p.getAllLiveryRes != c.getAllLiveryRes ||
                         p.gridColumns != c.gridColumns,
                 builder: (context, state) {
                   customPrint('BLOC BUILDER - FeedScreen');
@@ -49,8 +49,18 @@ class FeedScreen extends StatelessWidget {
                     isEmpty: liveryData?.isEmpty ?? true,
                     child:
                         state.gridColumns == 1
-                            ? FeedListView(liveryData: liveryData, bloc: bloc)
-                            : FeedGridView(liveryData: liveryData, bloc: bloc),
+                            ? FeedListView(
+                              liveryData: liveryData,
+                              bloc: bloc,
+                              isPaginationLoading:
+                                  state.getAllLiveryRes.paginationLoading,
+                            )
+                            : FeedGridView(
+                              liveryData: liveryData,
+                              bloc: bloc,
+                              isPaginationLoading:
+                                  state.getAllLiveryRes.paginationLoading,
+                            ),
                   );
                 },
               ),
@@ -63,23 +73,36 @@ class FeedScreen extends StatelessWidget {
 }
 
 class FeedGridView extends StatelessWidget {
-  const FeedGridView({super.key, required this.liveryData, required this.bloc});
+  const FeedGridView({
+    super.key,
+    required this.liveryData,
+    required this.bloc,
+    required this.isPaginationLoading,
+  });
 
   final List<LiveryModel>? liveryData;
   final LiveryBloc bloc;
+  final bool isPaginationLoading;
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      controller: bloc.listViewController,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 0.75,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
       ),
-      itemCount: liveryData?.length ?? 0,
+      itemCount: (liveryData?.length ?? 0) + (isPaginationLoading ? 1 : 0),
       physics: AlwaysScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, index) {
+        if (index == (liveryData?.length ?? 0)) {
+          return const Padding(
+            padding: EdgeInsets.all(16),
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
         return LiveryGridView(
           index: index,
           bloc: bloc,
@@ -91,21 +114,34 @@ class FeedGridView extends StatelessWidget {
 }
 
 class FeedListView extends StatelessWidget {
-  const FeedListView({super.key, required this.liveryData, required this.bloc});
+  const FeedListView({
+    super.key,
+    required this.liveryData,
+    required this.bloc,
+    required this.isPaginationLoading,
+  });
 
   final List<LiveryModel>? liveryData;
   final LiveryBloc bloc;
+  final bool isPaginationLoading;
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      controller: bloc.listViewController,
       separatorBuilder: (context, index) {
         if (index != 0) return AppSize.sizedBox1h;
         return BannerAdWidget();
       },
-      itemCount: liveryData?.length ?? 0,
+      itemCount: (liveryData?.length ?? 0) + (isPaginationLoading ? 1 : 0),
       physics: AlwaysScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, index) {
+        if (index == (liveryData?.length ?? 0)) {
+          return const Padding(
+            padding: EdgeInsets.all(16),
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
         return LiveryListView(
           index: index,
           bloc: bloc,

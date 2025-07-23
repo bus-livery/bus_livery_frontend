@@ -19,11 +19,33 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
   final ILiveryService liverService;
   final AppRouter router;
 
+  ScrollController listViewController = ScrollController();
+
   @override
   void initstate() {
-    WidgetsBinding.instance.addPostFrameCallback(
-      (v) => add(GetAllLiveryApiEvent()),
-    );
+    WidgetsBinding.instance.addPostFrameCallback((v) {
+      add(GetAllLiveryApiEvent());
+
+      listViewController.addListener(() {
+        double pixels = listViewController.position.pixels;
+        double maxScrollExtent = listViewController.position.maxScrollExtent;
+
+        if ((pixels / maxScrollExtent) > 0.8) {
+          var data = state.getAllLiveryRes;
+          if (data.apiData?.data?.isNotEmpty ?? false) {
+            if (data.paginationLoading == false) {
+              if (data.apiData?.currentPages != data.apiData?.totalPages) {
+                add(
+                  GetAllLiveryApiEvent(
+                    pageCount: state.getAllLiveryRes.pageCount + 1,
+                  ),
+                );
+              }
+            }
+          }
+        }
+      });
+    });
   }
 
   @override
@@ -116,11 +138,18 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
 
   _getAllLiveryApiEvent(GetAllLiveryApiEvent event, emit) async {
     emit(
-      state.copyWith(getAllLiveryRes: ApiResponse(status: ApiStatus.loading)),
+      state.copyWith(
+        getAllLiveryRes: state.getAllLiveryRes.copyWith(
+          status:
+              event.pageCount == null ? ApiStatus.loading : ApiStatus.success,
+          paginationLoading: event.pageCount != null,
+        ),
+      ),
     );
 
     final response = await liverService.getAllLiveryServiceApi(
       downloads: event.mostDownload,
+      pageCount: event.pageCount,
     );
 
     response.fold(
@@ -128,20 +157,35 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
       (failure) {
         emit(
           state.copyWith(
-            getAllLiveryRes: ApiResponse(
+            getAllLiveryRes: state.getAllLiveryRes.copyWith(
               status: ApiStatus.failure,
-              errorMessage: failure,
             ),
           ),
         );
       },
       //
       (success) {
+        final isFirstPage = event.pageCount == null || event.pageCount == 1;
+
+        // Safely fetch previous data if not the first page
+        List<LiveryModel> currentData = [];
+        if (!isFirstPage && state.getAllLiveryRes.apiData?.data != null) {
+          currentData = List.from(state.getAllLiveryRes.apiData!.data!);
+        }
+
+        // List<LiveryModel> listUpdated = [...currentData, ...?success.data];
+
+        currentData.addAll(success.data ?? []);
+
+        final updatedData = success.copyWith(data: currentData);
+
         emit(
           state.copyWith(
             getAllLiveryRes: ApiResponse(
               status: ApiStatus.success,
-              apiData: success,
+              apiData: updatedData,
+              pageCount: event.pageCount ?? 1,
+              paginationLoading: false,
             ),
           ),
         );
