@@ -36,6 +36,8 @@ abstract class IAuthService {
     required String email,
     required String otp,
   });
+
+  Future<Either<String, LoginResModel>> googleLoginApi({required String email});
 }
 
 @LazySingleton(as: IAuthService)
@@ -171,6 +173,28 @@ class AuthService implements IAuthService {
         EndPoints.auth.gmailOtpLogin,
         method: Method.post,
         data: {"email": email, "otp": otp},
+      );
+      return res.fold(
+        (l) => Left(l.message),
+        (r) async => Right(
+          LoginResModel(message: r.data['message'], statusCode: r.statusCode),
+        ),
+      );
+    } catch (e) {
+      return Left("$e");
+    }
+  }
+
+  // google sign in
+  @override
+  Future<Either<String, LoginResModel>> googleLoginApi({
+    required String email,
+  }) async {
+    try {
+      final res = await _dioServices.request(
+        EndPoints.auth.googleLogin,
+        method: Method.post,
+        data: {"email": email},
       );
       return res.fold(
         (l) => Left(l.message),

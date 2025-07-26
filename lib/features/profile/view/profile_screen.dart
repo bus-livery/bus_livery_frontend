@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:livery/Cmodel/enum.dart';
 import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box.dart';
 import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box2_buttons.dart';
@@ -13,6 +14,7 @@ import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/features/profile/application/profile_bloc.dart';
 import 'package:livery/features/profile/model/profile_model.dart';
+import 'package:livery/service/google_signIn_service.dart';
 import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/custom_print.dart';
@@ -244,6 +246,7 @@ During this period, you can reactivate your account by logging in. After 45 days
                 onTap: () {
                   getIt<SharedPrefService>().clear();
                   context.router.replaceAll([GmailWithOtpRoute()]);
+                  getIt<GoogleAuthService>().disconnect();
                 },
               ),
             ],

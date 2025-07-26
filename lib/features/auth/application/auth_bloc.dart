@@ -36,6 +36,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthGmailOtpGenerateApi>(_authGmailOtpGenerateApi);
 
     on<AuthGmailOtpLoginApi>(_authGmailOtpLoginApi);
+
+    on<GoogleLoginApi>(_googleLoginApi);
   }
 
   // LOGIN SCREEN
@@ -183,6 +185,39 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(
           state.copyWith(
             gmailLoginResponse: ApiResponse(
+              status: ApiStatus.success,
+              apiData: success,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  _googleLoginApi(GoogleLoginApi event, emit) async {
+    emit(
+      state.copyWith(
+        googleLoginResponse: ApiResponse(status: ApiStatus.loading),
+      ),
+    );
+
+    final response = await iAuthService.googleLoginApi(email: event.email);
+
+    return response.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            googleLoginResponse: ApiResponse(
+              status: ApiStatus.failure,
+              errorMessage: failure,
+            ),
+          ),
+        );
+      },
+      (success) {
+        emit(
+          state.copyWith(
+            googleLoginResponse: ApiResponse(
               status: ApiStatus.success,
               apiData: success,
             ),

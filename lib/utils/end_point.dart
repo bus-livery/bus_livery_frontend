@@ -17,6 +17,7 @@ final class AuthEndPoint {
       '/v1/auth/gmail-login'; // currently used for gmail login
   final gmailGenerateOtp =
       '/v1/auth/generate-gmail-otp'; // currently used for gmail login
+  final googleLogin = '/v1/auth/google-login';
 }
 
 final class ProfileEndPoints {

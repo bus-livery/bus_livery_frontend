@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/profile/application/profile_bloc.dart';
 import 'package:livery/features/top_users/application/top_users_bloc.dart';
+import 'package:livery/service/google_signIn_service.dart';
 import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/service/update_service.dart';
 import 'package:livery/utils/di/injection.dart';
@@ -24,6 +25,9 @@ void main() async {
 
   // Initialize services
   await getIt<SharedPrefService>().init();
+
+  // Initialize google auth
+  await getIt<GoogleAuthService>().initialize();
 
   // Check for updates in background
   getIt<UpdateService>().checkForUpdatesInBackground();

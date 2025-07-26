@@ -75,3 +75,8 @@ class AuthGmailOtpLoginApi extends AuthEvent {
   final String otp;
   AuthGmailOtpLoginApi({required this.email, required this.otp});
 }
+
+class GoogleLoginApi extends AuthEvent {
+  final String email;
+  GoogleLoginApi({required this.email});
+}
