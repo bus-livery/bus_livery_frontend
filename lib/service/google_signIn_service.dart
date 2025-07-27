@@ -25,7 +25,7 @@ class GoogleAuthService {
   /// Authenticate the user
   Future<GoogleSignInAccount?> authenticate() async {
     try {
-      return await _googleSignIn.authenticate();
+      return await _googleSignIn.attemptLightweightAuthentication();
     } catch (e) {
       log("Google SignIn error: $e");
       return null;

@@ -9,6 +9,7 @@ import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box.dart';
 import 'package:livery/Cwidgets/ww_buttons.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
 import 'package:livery/Cwidgets/ww_textfield/ww_text_field.dart';
+import 'package:livery/features/advertisement/advertisement_bloc.dart';
 import 'package:livery/features/auth/application/auth_bloc.dart';
 import 'package:livery/service/google_signIn_service.dart';
 import 'package:livery/utils/app_images.dart';
@@ -84,6 +85,10 @@ class GmailWithOtpScreen extends StatelessWidget {
                     if (logRes.status == ApiStatus.success) {
                       successToast(logRes.apiData?.message ?? '');
                       context.router.replaceAll([MainRoute()]);
+                      final bloc = context.read<AdvertisementBloc>();
+                      bloc.add(LoadRewardVideoAdEvent());
+                      bloc.add(LoadBannerAdEvent());
+                      bloc.add(InterstitialAdEvent());
                       return;
                     }
 
