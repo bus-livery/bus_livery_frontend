@@ -185,7 +185,7 @@ class AdvertisementBloc extends Bloc<AdvertisementEvent, AdvertisementState>
           },
         ),
       );
-
+      // load the ad with banner ad
       await bannerAd?.load();
       emit(state.copyWith(bannerAd: bannerAd));
     } catch (e) {
@@ -204,6 +204,7 @@ class AdvertisementBloc extends Bloc<AdvertisementEvent, AdvertisementState>
   }
 
   void _interstitialAdEvent(InterstitialAdEvent event, emit) async {
+    log('${state.isInterstitialAdReady} : ${state.isInterstitialAdViewed}');
     if (state.isInterstitialAdReady || state.isInterstitialAdViewed) return;
 
     try {

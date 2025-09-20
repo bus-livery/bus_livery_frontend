@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livery/Cmodel/enum.dart';
 import 'package:livery/Cwidgets/ww_livery_status_display.dart';
 import 'package:livery/Cwidgets/ww_text.dart';
+import 'package:livery/features/advertisement/advertisement_bloc.dart';
 import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/livery/livery_styles.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
@@ -93,6 +94,11 @@ class LiveryListView extends StatelessWidget {
         customPrint('BLOC BUILDER - postDownload');
         return IconButton(
           onPressed: () async {
+            context.read<AdvertisementBloc>().add(
+              StoreInterstitialAdEvent(adViewed: false),
+            );
+
+            context.read<AdvertisementBloc>().add(InterstitialAdEvent());
             await downloadAndSaveImageWithDio(bloc, data);
           },
           icon: Row(
