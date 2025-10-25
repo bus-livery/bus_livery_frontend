@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 
@@ -46,7 +47,7 @@ class GoogleAuthService {
     try {
       await _googleSignIn.disconnect();
     } catch (e) {
-      print("Disconnect error: $e");
+      debugPrint("Disconnect error: $e");
     }
   }
 
