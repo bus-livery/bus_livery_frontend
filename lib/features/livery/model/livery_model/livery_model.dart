@@ -7,7 +7,7 @@ part 'livery_model.freezed.dart';
 part 'livery_model.g.dart';
 
 @freezed
-class LiveryModel with _$LiveryModel {
+abstract class LiveryModel with _$LiveryModel {
   factory LiveryModel({
     @JsonKey(name: 'ID') int? id,
     @JsonKey(name: 'CreatedAt') DateTime? createdAt,

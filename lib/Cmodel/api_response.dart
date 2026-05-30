@@ -4,7 +4,7 @@ import 'package:livery/Cmodel/enum.dart';
 part 'api_response.freezed.dart';
 
 @Freezed()
-class ApiResponse<T> with _$ApiResponse<T> {
+abstract class ApiResponse<T> with _$ApiResponse<T> {
   factory ApiResponse({
     dynamic key,
     T? apiData,

@@ -6,41 +6,33 @@ part of 'livery_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$LiveryModelImpl _$$LiveryModelImplFromJson(Map<String, dynamic> json) =>
-    _$LiveryModelImpl(
-      id: (json['ID'] as num?)?.toInt(),
-      createdAt:
-          json['CreatedAt'] == null
-              ? null
-              : DateTime.parse(json['CreatedAt'] as String),
-      updatedAt:
-          json['UpdatedAt'] == null
-              ? null
-              : DateTime.parse(json['UpdatedAt'] as String),
-      deletedAt: json['DeletedAt'],
-      busType: json['bus_type'] as String?,
-      busModel: json['bus_model'] as String?,
-      liveryName: json['livery_name'] as String?,
-      description: json['description'] as String?,
-      downloadCount: (json['download_count'] as num?)?.toInt(),
-      user:
-          json['user'] == null
-              ? null
-              : ProfileModel.fromJson(json['user'] as Map<String, dynamic>),
-      postImage:
-          json['livery_image'] == null
-              ? null
-              : LiveryImageModel.fromJson(
-                json['livery_image'] as Map<String, dynamic>,
-              ),
-      approvalStatus: json['approval_status'] as String?,
-      post:
-          json['post'] == null
-              ? null
-              : LiveryModel.fromJson(json['post'] as Map<String, dynamic>),
-    );
+_LiveryModel _$LiveryModelFromJson(Map<String, dynamic> json) => _LiveryModel(
+  id: (json['ID'] as num?)?.toInt(),
+  createdAt: json['CreatedAt'] == null
+      ? null
+      : DateTime.parse(json['CreatedAt'] as String),
+  updatedAt: json['UpdatedAt'] == null
+      ? null
+      : DateTime.parse(json['UpdatedAt'] as String),
+  deletedAt: json['DeletedAt'],
+  busType: json['bus_type'] as String?,
+  busModel: json['bus_model'] as String?,
+  liveryName: json['livery_name'] as String?,
+  description: json['description'] as String?,
+  downloadCount: (json['download_count'] as num?)?.toInt(),
+  user: json['user'] == null
+      ? null
+      : ProfileModel.fromJson(json['user'] as Map<String, dynamic>),
+  postImage: json['livery_image'] == null
+      ? null
+      : LiveryImageModel.fromJson(json['livery_image'] as Map<String, dynamic>),
+  approvalStatus: json['approval_status'] as String?,
+  post: json['post'] == null
+      ? null
+      : LiveryModel.fromJson(json['post'] as Map<String, dynamic>),
+);
 
-Map<String, dynamic> _$$LiveryModelImplToJson(_$LiveryModelImpl instance) =>
+Map<String, dynamic> _$LiveryModelToJson(_LiveryModel instance) =>
     <String, dynamic>{
       'ID': instance.id,
       'CreatedAt': instance.createdAt?.toIso8601String(),

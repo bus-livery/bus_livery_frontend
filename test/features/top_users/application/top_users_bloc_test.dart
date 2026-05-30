@@ -10,6 +10,7 @@ import 'package:mocktail/mocktail.dart';
 class MockTopUsersService extends Mock implements TopUsersService {}
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   late TopUsersBloc topUsersBloc;
   late MockTopUsersService mockTopUsersService;
 
