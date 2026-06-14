@@ -4,7 +4,7 @@ part 'download_count_model.freezed.dart';
 part 'download_count_model.g.dart';
 
 @freezed
-class DownloadCountModel with _$DownloadCountModel {
+abstract class DownloadCountModel with _$DownloadCountModel {
   factory DownloadCountModel({
     String? message,
     @JsonKey(name: 'livery_id') String? liveryId,

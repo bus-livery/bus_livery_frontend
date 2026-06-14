@@ -6,7 +6,7 @@ part 'image_picker_model.freezed.dart';
 part 'image_picker_model.g.dart';
 
 @freezed
-class ImagePickerModel with _$ImagePickerModel {
+abstract class ImagePickerModel with _$ImagePickerModel {
   factory ImagePickerModel({
     String? imageUrl,
     String? fileName,

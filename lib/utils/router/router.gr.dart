@@ -98,6 +98,16 @@ class LiveryCreateRouteArgs {
   String toString() {
     return 'LiveryCreateRouteArgs{key: $key, data: $data}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! LiveryCreateRouteArgs) return false;
+    return key == other.key && data == other.data;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ data.hashCode;
 }
 
 /// generated route for
@@ -172,6 +182,16 @@ class OtherProfileRouteArgs {
   String toString() {
     return 'OtherProfileRouteArgs{key: $key, profileData: $profileData}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! OtherProfileRouteArgs) return false;
+    return key == other.key && profileData == other.profileData;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ profileData.hashCode;
 }
 
 /// generated route for
@@ -241,4 +261,14 @@ class WebContentRouteArgs {
   String toString() {
     return 'WebContentRouteArgs{key: $key, contentType: $contentType}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! WebContentRouteArgs) return false;
+    return key == other.key && contentType == other.contentType;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ contentType.hashCode;
 }

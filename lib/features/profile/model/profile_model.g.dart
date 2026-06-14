@@ -6,17 +6,15 @@ part of 'profile_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ProfileModelImpl _$$ProfileModelImplFromJson(Map<String, dynamic> json) =>
-    _$ProfileModelImpl(
+_ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) =>
+    _ProfileModel(
       id: (json['ID'] as num?)?.toInt(),
-      createdAt:
-          json['CreatedAt'] == null
-              ? null
-              : DateTime.parse(json['CreatedAt'] as String),
-      updatedAt:
-          json['UpdatedAt'] == null
-              ? null
-              : DateTime.parse(json['UpdatedAt'] as String),
+      createdAt: json['CreatedAt'] == null
+          ? null
+          : DateTime.parse(json['CreatedAt'] as String),
+      updatedAt: json['UpdatedAt'] == null
+          ? null
+          : DateTime.parse(json['UpdatedAt'] as String),
       deletedAt: json['DeletedAt'],
       username: json['username'] as String?,
       dp: json['dp'] as String?,
@@ -32,7 +30,7 @@ _$ProfileModelImpl _$$ProfileModelImplFromJson(Map<String, dynamic> json) =>
       totalLivery: (json['total_livery'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$ProfileModelImplToJson(_$ProfileModelImpl instance) =>
+Map<String, dynamic> _$ProfileModelToJson(_ProfileModel instance) =>
     <String, dynamic>{
       'ID': instance.id,
       'CreatedAt': instance.createdAt?.toIso8601String(),

@@ -4,7 +4,7 @@ part 'post_image_model.freezed.dart';
 part 'post_image_model.g.dart';
 
 @freezed
-class LiveryImageModel with _$LiveryImageModel {
+abstract class LiveryImageModel with _$LiveryImageModel {
   factory LiveryImageModel({
     @JsonKey(name: 'ID') int? id,
     @JsonKey(name: 'CreatedAt') DateTime? createdAt,

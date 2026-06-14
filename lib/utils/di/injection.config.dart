@@ -1,5 +1,5 @@
-// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format width=80
 
 // **************************************************************************
 // InjectableConfigGenerator
@@ -46,12 +46,12 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     gh.factory<_i47.AdvertisementBloc>(() => _i47.AdvertisementBloc());
     gh.singleton<_i891.AdService>(() => _i891.AdService());
-    gh.lazySingleton<_i14.AppRouter>(() => _i14.AppRouter());
     gh.lazySingleton<_i833.DioService>(() => _i833.DioService());
-    gh.lazySingleton<_i741.UpdateService>(() => _i741.UpdateService());
     gh.lazySingleton<_i364.GoogleAuthService>(() => _i364.GoogleAuthService());
-    gh.lazySingleton<_i552.SharedPrefService>(() => _i552.SharedPrefService());
     gh.lazySingleton<_i714.ReviewService>(() => _i714.ReviewService());
+    gh.lazySingleton<_i552.SharedPrefService>(() => _i552.SharedPrefService());
+    gh.lazySingleton<_i741.UpdateService>(() => _i741.UpdateService());
+    gh.lazySingleton<_i14.AppRouter>(() => _i14.AppRouter());
     gh.lazySingleton<_i148.IAuthService>(
       () => _i148.AuthService(
         gh<_i833.DioService>(),

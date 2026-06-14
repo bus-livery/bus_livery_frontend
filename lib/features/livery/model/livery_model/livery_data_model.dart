@@ -6,7 +6,7 @@ part 'livery_data_model.freezed.dart';
 part 'livery_data_model.g.dart';
 
 @freezed
-class LiveryDateModel with _$LiveryDateModel {
+abstract class LiveryDateModel with _$LiveryDateModel {
   factory LiveryDateModel({
     List<LiveryModel>? data,
     String? message,

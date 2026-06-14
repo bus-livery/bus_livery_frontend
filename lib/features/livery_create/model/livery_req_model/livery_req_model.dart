@@ -4,7 +4,7 @@ part 'livery_req_model.freezed.dart';
 part 'livery_req_model.g.dart';
 
 @freezed
-class LiveryReqModel with _$LiveryReqModel {
+abstract class LiveryReqModel with _$LiveryReqModel {
   factory LiveryReqModel({
     @JsonKey(name: 'bus_type') String? busType,
     @JsonKey(name: 'bus_model') String? busModel,

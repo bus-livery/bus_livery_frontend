@@ -139,3 +139,5 @@
 //     expect(find.text('Sign up failed'), findsOneWidget);
 //   });
 // }
+
+void main() {}
