@@ -22,6 +22,8 @@ import 'package:livery/features/profile/profile_styles.dart';
 import 'package:livery/utils/app_colors.dart';
 import 'package:livery/utils/app_size.dart';
 import 'package:livery/utils/custom_print.dart';
+import 'package:livery/features/horn/application/horn_bloc.dart';
+import 'package:livery/features/horn/widget/horn_list_item.dart';
 import 'package:livery/utils/styles.dart';
 
 @RoutePage()
@@ -70,17 +72,82 @@ class OtherProfileScreen extends StatelessWidget implements AutoRouteWrapper {
 
       body: Padding(
         padding: AppSize.swPadding,
-        child: Column(
-          spacing: 20,
-          children: [
-            _ProfileDetail(bloc: bloc, profileData: profileData),
+        child: DefaultTabController(
+          length: 2,
+          child: Column(
+            spacing: 20,
+            children: [
+              _ProfileDetail(bloc: bloc, profileData: profileData),
 
-            Flexible(
-              child: _ProfileGallery(bloc: bloc, profileData: profileData),
-            ),
-          ],
+              TabBar(
+                dividerColor: Colors.transparent,
+                indicatorColor: Theme.of(context).colorScheme.primary,
+                labelColor: Theme.of(context).colorScheme.primary,
+                unselectedLabelColor: Theme.of(context).colorScheme.onSurfaceVariant,
+                tabs: const [
+                  Tab(icon: Icon(Icons.grid_on)),
+                  Tab(icon: Icon(Icons.music_note)),
+                ],
+              ),
+
+              Flexible(
+                child: TabBarView(
+                  children: [
+                    _ProfileGallery(bloc: bloc, profileData: profileData),
+                    _OtherProfileHorns(profileData: profileData),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+class _OtherProfileHorns extends StatefulWidget {
+  final ProfileModel? profileData;
+  const _OtherProfileHorns({required this.profileData});
+
+  @override
+  State<_OtherProfileHorns> createState() => _OtherProfileHornsState();
+}
+
+class _OtherProfileHornsState extends State<_OtherProfileHorns> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<HornBloc>().add(
+            FetchOthersHornsApiEvent(userId: widget.profileData?.id ?? 0),
+          );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final hornBloc = context.read<HornBloc>();
+    return BlocBuilder<HornBloc, HornState>(
+      buildWhen: (p, c) => p.getOthersHornsRes != c.getOthersHornsRes,
+      builder: (context, state) {
+        final horns = state.getOthersHornsRes.apiData ?? [];
+        return WWResponseHandler(
+          data: state.getOthersHornsRes,
+          isEmpty: horns.isEmpty,
+          apiCall: () async => hornBloc.add(
+            FetchOthersHornsApiEvent(userId: widget.profileData?.id ?? 0),
+          ),
+          child: ListView.separated(
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            itemCount: horns.length,
+            separatorBuilder: (context, index) => AppSize.sizedBox2h,
+            itemBuilder: (context, index) {
+              return HornListItem(horn: horns[index]);
+            },
+          ),
+        );
+      },
     );
   }
 }

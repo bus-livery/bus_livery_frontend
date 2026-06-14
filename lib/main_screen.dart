@@ -3,10 +3,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box2_buttons.dart';
 import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box_violation.dart';
+import 'package:livery/features/horn/view/horn_feed_screen.dart';
 import 'package:livery/features/livery/view/feed_screen.dart';
 import 'package:livery/features/profile/view/profile_screen.dart';
 import 'package:livery/features/top_users/view/top_users_screen.dart';
 import 'package:livery/service/shared_pref_service.dart';
+import 'package:livery/utils/app_colors.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/router/router.gr.dart';
 import 'package:livery/utils/router/router_names.dart';
@@ -24,6 +26,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _tabs = [
     const Center(child: FeedScreen()),
+    const Center(child: HornFeedScreen()),
     const Center(child: TopUsersScreen()),
     const Center(child: ProfileScreen()),
   ];
@@ -76,18 +79,17 @@ Would you like to add a confirmation button like "I Agree" or "Continue"
       },
       child: Material(
         child: InkWell(
-          onTap:
-              sharedPS.getString('token') == null
-                  ? () {
-                    wwDialogueBox2Button(
-                      context,
-                      textSub: 'Please login to continue',
-                      secondTap: () {
-                        context.router.replaceAll([const GmailWithOtpRoute()]);
-                      },
-                    );
-                  }
-                  : null,
+          onTap: sharedPS.getString('token') == null
+              ? () {
+                  wwDialogueBox2Button(
+                    context,
+                    textSub: 'Please login to continue',
+                    secondTap: () {
+                      context.router.replaceAll([const GmailWithOtpRoute()]);
+                    },
+                  );
+                }
+              : null,
           child: IgnorePointer(
             ignoring: sharedPS.getString('token') == null,
             child: Scaffold(
@@ -98,10 +100,16 @@ Would you like to add a confirmation button like "I Agree" or "Continue"
               floatingActionButton: FloatingActionButton(
                 child: const Icon(Icons.add),
                 onPressed: () {
-                  context.router.pushPath(RouterNames.liveryCreateScreen);
+                  if (_currentIndex == 1) {
+                    context.router.pushPath(RouterNames.hornCreateScreen);
+                  } else {
+                    context.router.pushPath(RouterNames.liveryCreateScreen);
+                  }
                 },
               ),
               bottomNavigationBar: BottomNavigationBar(
+                unselectedItemColor: AppColors.primary,
+                selectedItemColor: AppColors.primary,
                 currentIndex: _currentIndex,
                 onTap: (index) {
                   setState(() {
@@ -114,6 +122,10 @@ Would you like to add a confirmation button like "I Agree" or "Continue"
                   BottomNavigationBarItem(
                     icon: Icon(Icons.home),
                     label: 'Feed',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.music_note),
+                    label: 'Horn',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.people),
@@ -149,18 +161,19 @@ class PageTransitionAnimation extends StatelessWidget {
     return PageTransitionSwitcher(
       duration: const Duration(milliseconds: 300),
       reverse: _currentIndex == 0,
-      transitionBuilder: (
-        Widget child,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-      ) {
-        return SharedAxisTransition(
-          animation: animation,
-          secondaryAnimation: secondaryAnimation,
-          transitionType: SharedAxisTransitionType.scaled,
-          child: child,
-        );
-      },
+      transitionBuilder:
+          (
+            Widget child,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) {
+            return SharedAxisTransition(
+              animation: animation,
+              secondaryAnimation: secondaryAnimation,
+              transitionType: SharedAxisTransitionType.scaled,
+              child: child,
+            );
+          },
       child: _tabs[_currentIndex],
     );
   }

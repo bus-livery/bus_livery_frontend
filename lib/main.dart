@@ -7,6 +7,7 @@ import 'package:livery/Cfeature/report/application/report_bloc.dart';
 import 'package:livery/features/advertisement/advertisement_bloc.dart';
 import 'package:livery/features/auth/application/auth_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:livery/features/horn/application/horn_bloc.dart';
 import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/profile/application/profile_bloc.dart';
 import 'package:livery/features/top_users/application/top_users_bloc.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => getIt<AuthBloc>()),
         BlocProvider(create: (context) => getIt<LiveryBloc>()),
         BlocProvider(create: (context) => getIt<ProfileBloc>()),
+        BlocProvider(create: (context) => getIt<HornBloc>()),
         BlocProvider(create: (context) => getIt<TopUsersBloc>()),
         BlocProvider(create: (context) => getIt<ReportBloc>()),
         BlocProvider(

@@ -40,6 +40,11 @@ class AppRouter extends RootStackRouter {
       path: RouterNames.liveryCreateScreen,
     ),
 
+    AutoRoute(
+      page: HornCreateRoute.page,
+      path: RouterNames.hornCreateScreen,
+    ),
+
     AutoRoute(page: ProfileListRoute.page, path: RouterNames.profileListScreen),
 
     AutoRoute(

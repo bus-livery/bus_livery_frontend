@@ -20,6 +20,8 @@ import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/router/router.gr.dart';
 import 'package:livery/utils/router/router_names.dart';
+import 'package:livery/features/horn/application/horn_bloc.dart';
+import 'package:livery/features/horn/widget/horn_list_item.dart';
 import 'package:livery/features/profile/view/web_content_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -32,140 +34,153 @@ class ProfileScreen extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: AppSize.swPadding,
-          child: Column(
-            children: [
-              CircleAvatar(
-                radius: 30.r,
-                backgroundImage: const NetworkImage(
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz68b1g8MSxSUqvFtuo44MvagkdFGoG7Z7DQ&s',
+          child: DefaultTabController(
+            length: 2,
+            child: Column(
+              children: [
+                CircleAvatar(
+                  radius: 30.r,
+                  backgroundImage: const NetworkImage(
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz68b1g8MSxSUqvFtuo44MvagkdFGoG7Z7DQ&s',
+                  ),
                 ),
-              ),
-              AppSize.sizedBox2h,
-              BlocConsumer<ProfileBloc, ProfileState>(
-                listenWhen:
-                    (p, c) => p.getProfileRes.status != c.getProfileRes.status,
-                buildWhen:
-                    (p, c) => p.getProfileRes.status != c.getProfileRes.status,
-                listener: (context, state) {
-                  final res = state.getProfileRes;
-                  if (res.status == ApiStatus.success) {
-                    violationPop(context, count: res.apiData?.violationCount);
-                  }
-                },
-                builder: (context, state) {
-                  customPrint('BLOC BUILDER - PROFILE SCREEN');
-                  ProfileModel? data = state.getProfileRes.apiData;
-                  return Column(
-                    spacing: 05,
-                    children: [
-                      WwText(
-                        text: data?.username ?? '',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      if ((data?.violationCount ?? 0) > 0)
-                        InkWell(
-                          onTap: () {
-                            violationPop(context, count: data?.violationCount);
-                          },
-                          child: WwText(
-                            text: 'Account Warning',
-                            style: TextStyle(
-                              color: Colors.red[400],
-                              fontWeight: FontWeight.bold,
+                AppSize.sizedBox2h,
+                BlocConsumer<ProfileBloc, ProfileState>(
+                  listenWhen:
+                      (p, c) => p.getProfileRes.status != c.getProfileRes.status,
+                  buildWhen:
+                      (p, c) => p.getProfileRes.status != c.getProfileRes.status,
+                  listener: (context, state) {
+                    final res = state.getProfileRes;
+                    if (res.status == ApiStatus.success) {
+                      violationPop(context, count: res.apiData?.violationCount);
+                    }
+                  },
+                  builder: (context, state) {
+                    customPrint('BLOC BUILDER - PROFILE SCREEN');
+                    ProfileModel? data = state.getProfileRes.apiData;
+                    return Column(
+                      spacing: 05,
+                      children: [
+                        WwText(
+                          text: data?.username ?? '',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        if ((data?.violationCount ?? 0) > 0)
+                          InkWell(
+                            onTap: () {
+                              violationPop(context, count: data?.violationCount);
+                            },
+                            child: WwText(
+                              text: 'Account Warning',
+                              style: TextStyle(
+                                color: Colors.red[400],
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                    ],
-                  );
-                },
-              ),
-              AppSize.sizedBox2h,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 100,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        BlocSelector<ProfileBloc, ProfileState, int?>(
-                          selector: (state) {
-                            return state.getProfileRes.apiData?.totalLivery;
-                          },
-                          builder: (context, state) {
-                            return WwText(
-                              text: state?.toString() ?? '0',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            );
-                          },
-                        ),
-                        const WwText(text: 'Posts'),
                       ],
-                    ),
-                  ),
-                  // AppSize.sizedBox2w,
-                  SizedBox(
-                    height: 30,
-                    child: VerticalDivider(
-                      color:
-                          Theme.of(context).colorScheme.surfaceContainerHighest,
-                    ),
-                  ),
-                  // AppSize.sizedBox2w,
-                  SizedBox(
-                    width: 100,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        BlocSelector<ProfileBloc, ProfileState, int>(
-                          selector:
-                              (state) =>
-                                  state.getProfileRes.apiData?.likeCount ?? 0,
-                          builder: (context, likeCount) {
-                            return WwText(
-                              text: likeCount.toString(),
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            );
-                          },
-                        ),
-                        const WwText(text: 'Likes'),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              AppSize.sizedBox2h,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  WWButton(
-                    expandFlex: 1,
-                    text: 'Edit Profile',
-                    onPressed: () {
-                      context.router.pushPath(RouterNames.editProfileScreen);
-                    },
-                  ),
-                  AppSize.sizedBox2w,
-                  WWButton(
-                    expandFlex: 1,
-                    text: 'More',
-                    onPressed: () {
-                      _profileModeOptions(context);
-                    },
-                  ),
-                ],
-              ),
-              AppSize.sizedBox2h,
-              Align(
-                alignment: Alignment.topLeft,
-                child: WwText(
-                  text: 'Posts',
-                  style: Theme.of(context).textTheme.bodyLarge,
+                    );
+                  },
                 ),
-              ),
-              AppSize.sizedBox2h,
-              Flexible(child: _ProfileGallery(bloc: bloc)),
-            ],
+                AppSize.sizedBox2h,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          BlocSelector<ProfileBloc, ProfileState, int?>(
+                            selector: (state) {
+                              return state.getProfileRes.apiData?.totalLivery;
+                            },
+                            builder: (context, state) {
+                              return WwText(
+                                text: state?.toString() ?? '0',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              );
+                            },
+                          ),
+                          const WwText(text: 'Posts'),
+                        ],
+                      ),
+                    ),
+                    // AppSize.sizedBox2w,
+                    SizedBox(
+                      height: 30,
+                      child: VerticalDivider(
+                        color:
+                            Theme.of(context).colorScheme.surfaceContainerHighest,
+                      ),
+                    ),
+                    // AppSize.sizedBox2w,
+                    SizedBox(
+                      width: 100,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          BlocSelector<ProfileBloc, ProfileState, int>(
+                            selector:
+                                (state) =>
+                                    state.getProfileRes.apiData?.likeCount ?? 0,
+                            builder: (context, likeCount) {
+                              return WwText(
+                                text: likeCount.toString(),
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              );
+                            },
+                          ),
+                          const WwText(text: 'Likes'),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                AppSize.sizedBox2h,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    WWButton(
+                      expandFlex: 1,
+                      text: 'Edit Profile',
+                      onPressed: () {
+                        context.router.pushPath(RouterNames.editProfileScreen);
+                      },
+                    ),
+                    AppSize.sizedBox2w,
+                    WWButton(
+                      expandFlex: 1,
+                      text: 'More',
+                      onPressed: () {
+                        _profileModeOptions(context);
+                      },
+                    ),
+                  ],
+                ),
+                AppSize.sizedBox2h,
+                TabBar(
+                  dividerColor: Colors.transparent,
+                  indicatorColor: Theme.of(context).colorScheme.primary,
+                  labelColor: Theme.of(context).colorScheme.primary,
+                  unselectedLabelColor: Theme.of(context).colorScheme.onSurfaceVariant,
+                  tabs: const [
+                    Tab(icon: Icon(Icons.grid_on)),
+                    Tab(icon: Icon(Icons.music_note)),
+                  ],
+                ),
+                AppSize.sizedBox2h,
+                Flexible(
+                  child: TabBarView(
+                    children: [
+                      _ProfileGallery(bloc: bloc),
+                      const _ProfileHorns(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -249,6 +264,47 @@ During this period, you can reactivate your account by logging in. After 45 days
                 },
               ),
             ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _ProfileHorns extends StatefulWidget {
+  const _ProfileHorns();
+
+  @override
+  State<_ProfileHorns> createState() => _ProfileHornsState();
+}
+
+class _ProfileHornsState extends State<_ProfileHorns> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<HornBloc>().add(FetchMyHornsApiEvent());
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final hornBloc = context.read<HornBloc>();
+    return BlocBuilder<HornBloc, HornState>(
+      buildWhen: (p, c) => p.getMyHornsRes != c.getMyHornsRes,
+      builder: (context, state) {
+        final horns = state.getMyHornsRes.apiData ?? [];
+        return WWResponseHandler(
+          data: state.getMyHornsRes,
+          isEmpty: horns.isEmpty,
+          apiCall: () async => hornBloc.add(FetchMyHornsApiEvent()),
+          child: ListView.separated(
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            itemCount: horns.length,
+            separatorBuilder: (context, index) => AppSize.sizedBox2h,
+            itemBuilder: (context, index) {
+              return HornListItem(horn: horns[index]);
+            },
           ),
         );
       },

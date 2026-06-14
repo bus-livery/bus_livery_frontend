@@ -16,6 +16,8 @@ import 'package:livery/Cfeature/report/service/report_service.dart' as _i67;
 import 'package:livery/features/advertisement/advertisement_bloc.dart' as _i47;
 import 'package:livery/features/auth/application/auth_bloc.dart' as _i632;
 import 'package:livery/features/auth/service/auth_service.dart' as _i148;
+import 'package:livery/features/horn/application/horn_bloc.dart' as _i740;
+import 'package:livery/features/horn/service/horn_service.dart' as _i557;
 import 'package:livery/features/livery/application/livery_bloc.dart' as _i366;
 import 'package:livery/features/livery/service/livery_service.dart' as _i1027;
 import 'package:livery/features/livery_create/application/livery_create_bloc.dart'
@@ -73,6 +75,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i154.ILiveryCreateService>(
       () => _i154.LiveryCreateService(gh<_i833.DioService>()),
     );
+    gh.lazySingleton<_i557.IHornService>(
+      () => _i557.HornService(gh<_i833.DioService>()),
+    );
     gh.lazySingleton<_i923.IProfileService>(
       () => _i923.ProfileService(gh<_i833.DioService>()),
     );
@@ -94,6 +99,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i154.ILiveryCreateService>(),
         gh<_i449.ImagePickerService>(),
       ),
+    );
+    gh.factory<_i740.HornBloc>(
+      () => _i740.HornBloc(gh<_i557.IHornService>(), gh<_i14.AppRouter>()),
     );
     return this;
   }

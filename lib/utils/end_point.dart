@@ -4,6 +4,7 @@ final class EndPoints {
   static LiveryEndPoints livery = LiveryEndPoints();
   static BusTypeEndPoint busTypes = BusTypeEndPoint();
   static ReportEndPoint report = ReportEndPoint();
+  static HornEndPoints horn = HornEndPoints();
 }
 
 final class AuthEndPoint {
@@ -48,4 +49,11 @@ final class BusTypeEndPoint {
 final class ReportEndPoint {
   final reportContent = '/v1/report/content';
   final getReportReasons = '/v1/report/reasons';
+}
+
+final class HornEndPoints {
+  final createHorn = '/v1/horn/create';
+  final getAllHorns = '/v1/noAuth/horn/fetch-all';
+  final getMyHorns = '/v1/horn/fetch-my';
+  final getOthersHorns = '/v1/horn/fetch-other';
 }
