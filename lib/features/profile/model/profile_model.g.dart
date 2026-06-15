@@ -28,6 +28,7 @@ _ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) =>
       likeCount: (json['like_count'] as num?)?.toInt(),
       profileLiked: json['profile_liked'] as bool?,
       totalLivery: (json['total_livery'] as num?)?.toInt(),
+      points: (json['points'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ProfileModelToJson(_ProfileModel instance) =>
@@ -48,4 +49,5 @@ Map<String, dynamic> _$ProfileModelToJson(_ProfileModel instance) =>
       'like_count': instance.likeCount,
       'profile_liked': instance.profileLiked,
       'total_livery': instance.totalLivery,
+      'points': instance.points,
     };

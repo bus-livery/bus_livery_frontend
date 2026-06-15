@@ -9,6 +9,9 @@ class ProfileState {
   final ApiResponse<List<LiveryModel>> getMyLiveryRes;
   final ApiResponse<List<LiveryModel>> getOthersLiveryRes;
   final ApiResponse<ProfileLikeModel>? profileLikeRes;
+  final ApiResponse<int> watchAdRes;
+  final ApiResponse<LeaderboardModel> leaderboardRes;
+  final ApiResponse<AdLimitStatusModel> adLimitStatusRes;
 
   ProfileState({
     required this.getProfileRes,
@@ -18,6 +21,9 @@ class ProfileState {
     required this.getMyLiveryRes,
     required this.getOthersLiveryRes,
     required this.profileLikeRes,
+    required this.watchAdRes,
+    required this.leaderboardRes,
+    required this.adLimitStatusRes,
   });
 
   factory ProfileState.initail() {
@@ -29,6 +35,9 @@ class ProfileState {
       getMyLiveryRes: ApiResponse<List<LiveryModel>>(),
       getOthersLiveryRes: ApiResponse<List<LiveryModel>>(),
       profileLikeRes: ApiResponse<ProfileLikeModel>(),
+      watchAdRes: ApiResponse<int>(),
+      leaderboardRes: ApiResponse<LeaderboardModel>(),
+      adLimitStatusRes: ApiResponse<AdLimitStatusModel>(),
     );
   }
 
@@ -40,6 +49,9 @@ class ProfileState {
     ApiResponse<List<LiveryModel>>? getMyLiveryRes,
     ApiResponse<List<LiveryModel>>? getOthersLiveryRes,
     ApiResponse<ProfileLikeModel>? profileLikeRes,
+    ApiResponse<int>? watchAdRes,
+    ApiResponse<LeaderboardModel>? leaderboardRes,
+    ApiResponse<AdLimitStatusModel>? adLimitStatusRes,
   }) {
     return ProfileState(
       getProfileRes: getProfileRes ?? this.getProfileRes,
@@ -49,6 +61,9 @@ class ProfileState {
       getMyLiveryRes: getMyLiveryRes ?? this.getMyLiveryRes,
       getOthersLiveryRes: getOthersLiveryRes ?? this.getOthersLiveryRes,
       profileLikeRes: profileLikeRes ?? this.profileLikeRes,
+      watchAdRes: watchAdRes ?? this.watchAdRes,
+      leaderboardRes: leaderboardRes ?? this.leaderboardRes,
+      adLimitStatusRes: adLimitStatusRes ?? this.adLimitStatusRes,
     );
   }
 }

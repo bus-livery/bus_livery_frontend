@@ -11,6 +11,7 @@ import 'package:livery/features/horn/service/horn_service.dart';
 import 'package:livery/utils/bloc_life_cycle.dart';
 import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/router/router.dart';
+import 'package:livery/utils/toast.dart';
 import 'package:livery/Cwidgets/ww_popup_error_success.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -231,6 +232,24 @@ class HornBloc extends Bloc<HornEvent, HornState> with BlocLifeCycle {
     emit(state.copyWith(downloadsInProgress: updatedDownloads));
 
     try {
+      final downloadRes = await hornService.incrementHornDownloadCountApi(hornId: hornId);
+      bool isSuccess = false;
+      String errorMsg = '';
+      downloadRes.fold(
+        (l) {
+          isSuccess = false;
+          errorMsg = l;
+        },
+        (r) {
+          isSuccess = true;
+        },
+      );
+
+      if (!isSuccess) {
+        failureToast(errorMsg);
+        return;
+      }
+
       final status = await Permission.storage.request();
       if (!status.isGranted) {
         // Request storage permission

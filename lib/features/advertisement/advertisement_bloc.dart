@@ -8,7 +8,6 @@ import 'package:livery/utils/bloc_life_cycle.dart';
 import 'package:bloc/bloc.dart';
 import 'package:livery/utils/custom_print.dart';
 import 'package:livery/utils/router/router_guard.dart';
-import 'package:livery/utils/toast.dart';
 
 part 'advertisement_event.dart';
 part 'advertisement_state.dart';
@@ -214,8 +213,6 @@ class AdvertisementBloc extends Bloc<AdvertisementEvent, AdvertisementState>
         adLoadCallback: InterstitialAdLoadCallback(
           onAdLoaded: (ad) async {
             customPrint('loadInterstitialAd  loaded successfully');
-            failureToast('The ad will play in 5 seconds.');
-            await Future.delayed(const Duration(seconds: 5));
             ad.show();
 
             add(StoreInterstitialAdEvent(adViewed: true));

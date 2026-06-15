@@ -8,12 +8,45 @@ import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/utils/custom_print.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'package:livery/utils/toast.dart';
+
 Future<void> downloadAndSaveImageWithDio(
   LiveryBloc bloc,
   LiveryModel data,
 ) async {
   try {
-    bloc.add(DownloadLiveryApiEvent(liveryId: data.id));
+    final apiResponse = await bloc.liverService.downloadCountServiceApi(
+      data.id,
+    );
+
+    bool isSuccess = false;
+    String? errorMsg;
+    int? newDownloadCount;
+
+    apiResponse.fold(
+      (failure) {
+        isSuccess = false;
+        errorMsg = failure;
+      },
+      (success) {
+        isSuccess = true;
+        newDownloadCount = success.downloadCount;
+      },
+    );
+
+    if (!isSuccess) {
+      failureToast(errorMsg ?? "Failed to initiate download");
+      return;
+    }
+
+    if (newDownloadCount != null && data.id != null) {
+      bloc.add(
+        UpdateLiveryDownloadCountEvent(
+          liveryId: data.id!,
+          downloadCount: newDownloadCount!,
+        ),
+      );
+    }
 
     final imageUrl = data.postImage?.liveryImageOriginal;
 

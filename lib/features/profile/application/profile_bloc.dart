@@ -6,6 +6,8 @@ import 'package:livery/Cmodel/enum.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/features/profile/model/profile_like_mode/profile_like_model.dart';
 import 'package:livery/features/profile/model/profile_model.dart';
+import 'package:livery/features/profile/model/leaderboard_model.dart';
+import 'package:livery/features/profile/model/ad_limit_status_model.dart';
 import 'package:livery/features/profile/service/profile_service.dart';
 import 'package:livery/utils/bloc_life_cycle.dart';
 import 'package:livery/utils/custom_print.dart';
@@ -36,6 +38,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> with BlocLifeCycle {
     on<GetOthersLiveryApiEvent>(_getOthersLiveryApiEvent);
 
     on<LikeProfileApiEvent>(_likeProfileApiEvent);
+
+    on<WatchAdPointsEvent>(_watchAdPointsEvent);
+
+    on<GetLeaderboardEvent>(_getLeaderboardEvent);
+
+    on<CheckAdLimitEvent>(_checkAdLimit);
   }
 
   @override
@@ -297,4 +305,93 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> with BlocLifeCycle {
       },
     );
   }
+
+  _watchAdPointsEvent(WatchAdPointsEvent event, emit) async {
+    emit(state.copyWith(watchAdRes: ApiResponse(status: ApiStatus.loading)));
+
+    final response = await iProfileService.watchAdApi(adType: event.adType);
+
+    return response.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            watchAdRes: ApiResponse(
+              status: ApiStatus.failure,
+              errorMessage: failure,
+            ),
+          ),
+        );
+      },
+      (success) {
+        emit(
+          state.copyWith(
+            watchAdRes: ApiResponse(
+              status: ApiStatus.success,
+              apiData: success,
+            ),
+          ),
+        );
+        add(ProfileGetMyApiEvent());
+      },
+    );
+  }
+
+  _getLeaderboardEvent(GetLeaderboardEvent event, emit) async {
+    emit(state.copyWith(leaderboardRes: ApiResponse(status: ApiStatus.loading)));
+
+    final response = await iProfileService.getLeaderboardApi();
+
+    return response.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            leaderboardRes: ApiResponse(
+              status: ApiStatus.failure,
+              errorMessage: failure,
+            ),
+          ),
+        );
+      },
+      (success) {
+        emit(
+          state.copyWith(
+            leaderboardRes: ApiResponse(
+              status: ApiStatus.success,
+              apiData: success,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  _checkAdLimit(CheckAdLimitEvent event, emit) async {
+    emit(state.copyWith(adLimitStatusRes: ApiResponse(status: ApiStatus.loading)));
+
+    final response = await iProfileService.getAdLimitStatusApi();
+
+    return response.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            adLimitStatusRes: ApiResponse(
+              status: ApiStatus.failure,
+              errorMessage: failure,
+            ),
+          ),
+        );
+      },
+      (success) {
+        emit(
+          state.copyWith(
+            adLimitStatusRes: ApiResponse(
+              status: ApiStatus.success,
+              apiData: success,
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
+

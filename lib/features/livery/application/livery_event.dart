@@ -55,4 +55,15 @@ class DownloadLiveryApiEvent extends LiveryEvent {
   DownloadLiveryApiEvent({required this.liveryId});
 }
 
+class UpdateLiveryDownloadCountEvent extends LiveryEvent {
+  final int liveryId;
+  final int downloadCount;
+
+  UpdateLiveryDownloadCountEvent({
+    required this.liveryId,
+    required this.downloadCount,
+  });
+}
+
 class GetAllDownloadedLiveryApiEvent extends LiveryEvent {}
+

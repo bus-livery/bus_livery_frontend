@@ -28,6 +28,9 @@ final class ProfileEndPoints {
   final updateMy = '/v1/profile/update';
   final likeProfile = '/v1/profile/like-dislike';
   final topLiked = '/v1/profile/top-liked';
+  final watchAd = '/v1/profile/watch-ad';
+  final leaderboard = '/v1/profile/leaderboard';
+  final adLimitStatus = '/v1/profile/ad-limit-status';
 }
 
 final class LiveryEndPoints {
@@ -56,4 +59,5 @@ final class HornEndPoints {
   final getAllHorns = '/v1/noAuth/horn/fetch-all';
   final getMyHorns = '/v1/horn/fetch-my';
   final getOthersHorns = '/v1/horn/fetch-other';
+  final downloadCount = '/v1/horn/download-count';
 }

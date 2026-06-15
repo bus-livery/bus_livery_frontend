@@ -18,6 +18,10 @@ abstract class IHornService {
   });
 
   Future<Either<String, HornModel>> createHornServiceApi(FormData data);
+
+  Future<Either<String, void>> incrementHornDownloadCountApi({
+    required int hornId,
+  });
 }
 
 @LazySingleton(as: IHornService)
@@ -104,6 +108,25 @@ class HornService implements IHornService {
       return res.fold(
         (l) => Left(l.message),
         (r) async => Right(HornModel.fromJson(r.data as Map<String, dynamic>)),
+      );
+    } catch (e) {
+      return Left("$e");
+    }
+  }
+
+  @override
+  Future<Either<String, void>> incrementHornDownloadCountApi({
+    required int hornId,
+  }) async {
+    try {
+      final res = await _dioServices.request(
+        EndPoints.horn.downloadCount,
+        method: Method.patch,
+        queryParam: {'id': hornId},
+      );
+      return res.fold(
+        (l) => Left(l.message),
+        (r) => const Right(null),
       );
     } catch (e) {
       return Left("$e");

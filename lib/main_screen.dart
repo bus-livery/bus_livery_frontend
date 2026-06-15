@@ -1,14 +1,15 @@
 import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box2_buttons.dart';
 import 'package:livery/Cwidgets/pop_up_dialogue/ww_dialogue_box_violation.dart';
 import 'package:livery/features/horn/view/horn_feed_screen.dart';
 import 'package:livery/features/livery/view/feed_screen.dart';
+import 'package:livery/features/profile/view/points_screen.dart';
 import 'package:livery/features/profile/view/profile_screen.dart';
 import 'package:livery/features/top_users/view/top_users_screen.dart';
 import 'package:livery/service/shared_pref_service.dart';
-import 'package:livery/utils/app_colors.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/router/router.gr.dart';
 import 'package:livery/utils/router/router_names.dart';
@@ -27,6 +28,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _tabs = [
     const Center(child: FeedScreen()),
     const Center(child: HornFeedScreen()),
+    const Center(child: PointsScreen()),
     const Center(child: TopUsersScreen()),
     const Center(child: ProfileScreen()),
   ];
@@ -66,6 +68,7 @@ Would you like to add a confirmation button like "I Agree" or "Continue"
   @override
   Widget build(BuildContext context) {
     final sharedPS = getIt<SharedPrefService>();
+    final theme = Theme.of(context);
 
     return WillPopScope(
       onWillPop: () async {
@@ -97,6 +100,7 @@ Would you like to add a confirmation button like "I Agree" or "Continue"
                 currentIndex: _currentIndex,
                 tabs: _tabs,
               ),
+              floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
               floatingActionButton: FloatingActionButton(
                 child: const Icon(Icons.add),
                 onPressed: () {
@@ -107,10 +111,12 @@ Would you like to add a confirmation button like "I Agree" or "Continue"
                   }
                 },
               ),
-              bottomNavigationBar: BottomNavigationBar(
-                unselectedItemColor: AppColors.primary,
-                selectedItemColor: AppColors.primary,
-                currentIndex: _currentIndex,
+              bottomNavigationBar: ConvexAppBar(
+                style: TabStyle.fixedCircle,
+                backgroundColor: theme.colorScheme.surface,
+                color: theme.colorScheme.onSurfaceVariant,
+                activeColor: theme.colorScheme.primary,
+                initialActiveIndex: _currentIndex,
                 onTap: (index) {
                   setState(() {
                     if (_currentIndex != index) {
@@ -119,21 +125,25 @@ Would you like to add a confirmation button like "I Agree" or "Continue"
                   });
                 },
                 items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: 'Feed',
+                  TabItem(
+                    icon: Icons.home,
+                    title: 'Feed',
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.music_note),
-                    label: 'Horn',
+                  TabItem(
+                    icon: Icons.music_note,
+                    title: 'Horn',
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.people),
-                    label: 'Top Users',
+                  TabItem(
+                    icon: Icons.stars,
+                    title: 'Rewards',
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.person),
-                    label: 'Profile',
+                  TabItem(
+                    icon: Icons.people,
+                    title: 'Top Users',
+                  ),
+                  TabItem(
+                    icon: Icons.person,
+                    title: 'Profile',
                   ),
                 ],
               ),

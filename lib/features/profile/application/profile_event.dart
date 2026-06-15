@@ -31,3 +31,15 @@ class LikeProfileApiEvent extends ProfileEvent {
 
   LikeProfileApiEvent({required this.userId});
 }
+
+class WatchAdPointsEvent extends ProfileEvent {
+  final String adType;
+
+  WatchAdPointsEvent({required this.adType});
+}
+
+class GetLeaderboardEvent extends ProfileEvent {}
+
+class CheckAdLimitEvent extends ProfileEvent {}
+
+

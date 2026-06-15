@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
+import 'package:livery/features/profile/model/leaderboard_model.dart';
+import 'package:livery/features/profile/model/ad_limit_status_model.dart';
 import 'package:livery/features/profile/model/profile_like_mode/profile_like_model.dart';
 import 'package:livery/features/profile/model/profile_model.dart';
 import 'package:livery/service/dio_service.dart';
@@ -26,6 +28,12 @@ abstract class IProfileService {
   Future<Either<String, ProfileLikeModel>> likeProfileApi({
     required int userId,
   });
+
+  Future<Either<String, int>> watchAdApi({required String adType});
+
+  Future<Either<String, LeaderboardModel>> getLeaderboardApi();
+
+  Future<Either<String, AdLimitStatusModel>> getAdLimitStatusApi();
 }
 
 @LazySingleton(as: IProfileService)
@@ -162,6 +170,57 @@ class ProfileService implements IProfileService {
         (l) => Left(l.message),
         (r) async =>
             Right(ProfileLikeModel.fromJson(r.data as Map<String, dynamic>)),
+      );
+    } catch (e) {
+      return Left("$e");
+    }
+  }
+
+  @override
+  Future<Either<String, int>> watchAdApi({required String adType}) async {
+    try {
+      final res = await _dioServices.request(
+        EndPoints.profile.watchAd,
+        method: Method.post,
+        data: {"ad_type": adType},
+      );
+      return res.fold(
+        (l) => Left(l.message),
+        (r) async => Right(r.data['points'] as int),
+      );
+    } catch (e) {
+      return Left("$e");
+    }
+  }
+
+  @override
+  Future<Either<String, LeaderboardModel>> getLeaderboardApi() async {
+    try {
+      final res = await _dioServices.request(
+        EndPoints.profile.leaderboard,
+        method: Method.get,
+      );
+      return res.fold(
+        (l) => Left(l.message),
+        (r) async =>
+            Right(LeaderboardModel.fromJson(r.data as Map<String, dynamic>)),
+      );
+    } catch (e) {
+      return Left("$e");
+    }
+  }
+
+  @override
+  Future<Either<String, AdLimitStatusModel>> getAdLimitStatusApi() async {
+    try {
+      final res = await _dioServices.request(
+        EndPoints.profile.adLimitStatus,
+        method: Method.get,
+      );
+      return res.fold(
+        (l) => Left(l.message),
+        (r) async =>
+            Right(AdLimitStatusModel.fromJson(r.data as Map<String, dynamic>)),
       );
     } catch (e) {
       return Left("$e");

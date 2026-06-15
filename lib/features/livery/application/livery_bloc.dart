@@ -80,6 +80,8 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
 
     on<DownloadLiveryApiEvent>(_downloadLiveryApiEvent);
 
+    on<UpdateLiveryDownloadCountEvent>(_updateLiveryDownloadCount);
+
     on<GetAllDownloadedLiveryApiEvent>(_getAllDownloadedLiveryApiEvent);
   }
 
@@ -289,11 +291,11 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
         var liveryData = liveryDataApi.apiData;
         var liveryList = liveryData?.data?.toList() ?? [];
 
-        int? index = liveryList.indexWhere(
+        int index = liveryList.indexWhere(
           (element) => element.id == event.liveryId,
         );
 
-        if (index != 1) {
+        if (index != -1) {
           liveryList[index] = liveryList[index].copyWith(
             downloadCount: success.downloadCount,
           );
@@ -351,6 +353,31 @@ class LiveryBloc extends Bloc<LiveryEvent, LiveryState> with BlocLifeCycle {
           ),
         );
       },
+    );
+  }
+
+  _updateLiveryDownloadCount(UpdateLiveryDownloadCountEvent event, emit) {
+    var liveryDataApi = state.getAllLiveryRes;
+    var liveryData = liveryDataApi.apiData;
+    var liveryList = liveryData?.data?.toList() ?? [];
+
+    int index = liveryList.indexWhere(
+      (element) => element.id == event.liveryId,
+    );
+
+    if (index != -1) {
+      liveryList[index] = liveryList[index].copyWith(
+        downloadCount: event.downloadCount,
+      );
+
+      liveryData = liveryData?.copyWith(data: liveryList);
+      liveryDataApi = liveryDataApi.copyWith(apiData: liveryData);
+    }
+
+    emit(
+      state.copyWith(
+        getAllLiveryRes: liveryDataApi,
+      ),
     );
   }
 }
