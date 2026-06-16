@@ -10,6 +10,7 @@ import 'package:livery/features/horn/model/horn_model.dart';
 import 'package:livery/features/horn/service/horn_service.dart';
 import 'package:livery/utils/bloc_life_cycle.dart';
 import 'package:livery/utils/custom_print.dart';
+import 'package:livery/main_screen.dart';
 import 'package:livery/utils/router/router.dart';
 import 'package:livery/utils/toast.dart';
 import 'package:livery/Cwidgets/ww_popup_error_success.dart';
@@ -247,6 +248,9 @@ class HornBloc extends Bloc<HornEvent, HornState> with BlocLifeCycle {
 
       if (!isSuccess) {
         failureToast(errorMsg);
+        if (errorMsg == "Insufficient points") {
+          MainScreenState.activeState?.setSelectedIndex(2);
+        }
         return;
       }
 

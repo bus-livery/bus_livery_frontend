@@ -8,6 +8,7 @@ import 'package:livery/features/livery/model/livery_model/livery_model.dart';
 import 'package:livery/utils/custom_print.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'package:livery/main_screen.dart';
 import 'package:livery/utils/toast.dart';
 
 Future<void> downloadAndSaveImageWithDio(
@@ -36,6 +37,9 @@ Future<void> downloadAndSaveImageWithDio(
 
     if (!isSuccess) {
       failureToast(errorMsg ?? "Failed to initiate download");
+      if (errorMsg == "Insufficient points") {
+        MainScreenState.activeState?.setSelectedIndex(2);
+      }
       return;
     }
 

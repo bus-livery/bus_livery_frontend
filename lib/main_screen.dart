@@ -19,10 +19,11 @@ class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<MainScreen> createState() => MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class MainScreenState extends State<MainScreen> {
+  static MainScreenState? activeState;
   int _currentIndex = 0;
 
   final List<Widget> _tabs = [
@@ -33,8 +34,15 @@ class _MainScreenState extends State<MainScreen> {
     const Center(child: ProfileScreen()),
   ];
 
+  void setSelectedIndex(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
   @override
   void initState() {
+    activeState = this;
     WidgetsBinding.instance.addPostFrameCallback((v) async {
       SharedPrefService sharedPS = getIt<SharedPrefService>();
       if (sharedPS.getString('app_opened') == null &&
@@ -63,6 +71,14 @@ Would you like to add a confirmation button like "I Agree" or "Continue"
     });
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (activeState == this) {
+      activeState = null;
+    }
+    super.dispose();
   }
 
   @override
