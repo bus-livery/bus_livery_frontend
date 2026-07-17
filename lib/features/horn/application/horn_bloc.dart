@@ -14,6 +14,7 @@ import 'package:livery/main_screen.dart';
 import 'package:livery/utils/router/router.dart';
 import 'package:livery/utils/toast.dart';
 import 'package:livery/Cwidgets/ww_popup_error_success.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -254,9 +255,18 @@ class HornBloc extends Bloc<HornEvent, HornState> with BlocLifeCycle {
         return;
       }
 
-      final status = await Permission.storage.request();
-      if (!status.isGranted) {
-        // Request storage permission
+      bool isAndroidSdk29OrHigher = false;
+      if (Platform.isAndroid) {
+        final deviceInfo = DeviceInfoPlugin();
+        final androidInfo = await deviceInfo.androidInfo;
+        isAndroidSdk29OrHigher = androidInfo.version.sdkInt >= 29;
+      }
+
+      if (Platform.isAndroid && !isAndroidSdk29OrHigher) {
+        final status = await Permission.storage.request();
+        if (!status.isGranted) {
+          // Request storage permission
+        }
       }
 
       final response = await Dio().get<List<int>>(
@@ -266,9 +276,13 @@ class HornBloc extends Bloc<HornEvent, HornState> with BlocLifeCycle {
 
       Directory? directory;
       if (Platform.isAndroid) {
-        directory = Directory('/storage/emulated/0/Download');
-        if (!await directory.exists()) {
+        if (isAndroidSdk29OrHigher) {
           directory = await getExternalStorageDirectory();
+        } else {
+          directory = Directory('/storage/emulated/0/Download');
+          if (!await directory.exists()) {
+            directory = await getExternalStorageDirectory();
+          }
         }
       } else {
         directory = await getDownloadsDirectory();

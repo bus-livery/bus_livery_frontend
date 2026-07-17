@@ -19,9 +19,10 @@ class DioService {
   final Dio dio;
 
   SharedPrefService sharedPS = getIt<SharedPrefService>();
-  static const baseUrl = "http://18.212.92.48/api";
+  // static const baseUrl = "http://18.212.92.48/api";
   // static const baseUrl = "http://192.168.17.74:8080/api";
   // static const baseUrl = "http://localhost:8080/api";
+  static const baseUrl = "https://bus-livery-backend-e2tq.onrender.com/api";
 
   DioService() : dio = Dio(BaseOptions(baseUrl: baseUrl)) {
     dio.interceptors.add(DioInterceptor());

@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:livery/Cwidgets/ww_popup_error_success.dart';
@@ -58,10 +60,24 @@ Future<void> downloadAndSaveImageWithDio(
       throw Exception("Image URL is empty");
     }
 
-    final status = await Permission.photos.request(); // For Android 13+
-    final storageStatus = await Permission.storage.request();
+    bool hasPermission = true;
+    if (Platform.isAndroid) {
+      final deviceInfo = DeviceInfoPlugin();
+      final androidInfo = await deviceInfo.androidInfo;
+      final sdkInt = androidInfo.version.sdkInt;
 
-    if (!status.isGranted && !storageStatus.isGranted) {
+      if (sdkInt < 29) {
+        final storageStatus = await Permission.storage.request();
+        hasPermission = storageStatus.isGranted;
+      } else {
+        hasPermission = true;
+      }
+    } else if (Platform.isIOS) {
+      final status = await Permission.photos.request();
+      hasPermission = status.isGranted;
+    }
+
+    if (!hasPermission) {
       throw Exception("Permission denied");
     }
 
