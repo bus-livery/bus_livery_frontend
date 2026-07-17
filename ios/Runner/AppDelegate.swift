@@ -1,5 +1,6 @@
 import Flutter
 import UIKit
+import workmanager
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
@@ -27,6 +28,7 @@ import UIKit
       
       
       
+    WorkmanagerPlugin.registerPeriodicTask(withIdentifier: "render-keep-alive-task")
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }

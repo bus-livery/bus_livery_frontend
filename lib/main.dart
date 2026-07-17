@@ -16,6 +16,7 @@ import 'package:livery/service/shared_pref_service.dart';
 import 'package:livery/service/update_service.dart';
 import 'package:livery/utils/di/injection.dart';
 import 'package:livery/utils/router/router.dart';
+import 'package:livery/service/background_ping_service.dart';
 
 final GlobalKey<ScaffoldMessengerState> smKey =
     GlobalKey<ScaffoldMessengerState>();
@@ -26,6 +27,9 @@ void main() async {
 
   // Initialize services
   await getIt<SharedPrefService>().init();
+
+  // Initialize background ping service to keep Render server alive
+  BackgroundPingService.initialize();
 
   // Initialize google auth
   await getIt<GoogleAuthService>().initialize();
