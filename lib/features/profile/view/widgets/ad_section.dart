@@ -66,7 +66,7 @@ class AdSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   WwText(
-                    text: "Watch Interstitial Ad",
+                    text: "Watch Quick Ad",
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
@@ -175,7 +175,7 @@ class AdSection extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       WwText(
-                        text: "Watch Rewarded Ad",
+                        text: "Watch & Earn More",
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,

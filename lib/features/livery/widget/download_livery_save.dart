@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 import 'package:livery/Cwidgets/ww_popup_error_success.dart';
 import 'package:livery/features/livery/application/livery_bloc.dart';
 import 'package:livery/features/livery/model/livery_model/livery_model.dart';
@@ -86,7 +86,7 @@ Future<void> downloadAndSaveImageWithDio(
       options: Options(responseType: ResponseType.bytes),
     );
 
-    final result = await ImageGallerySaver.saveImage(
+    final result = await ImageGallerySaverPlus.saveImage(
       Uint8List.fromList(response.data!),
       quality: 100,
       name: "livery_${DateTime.now().millisecondsSinceEpoch}",
